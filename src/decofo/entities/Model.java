@@ -20,7 +20,11 @@ public class Model {
 
 	@Basic(optional = false)
 	private String nom;
+	
+	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER)
 	private List<Person> responsables;
+	
+	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER)
 	private List<Element> elements;
 
 	//the Model entity contructors
