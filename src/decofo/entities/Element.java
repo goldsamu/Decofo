@@ -55,7 +55,7 @@ public class Element {
 	inverseJoinColumns = { @JoinColumn(name = "code") })
 	private List<Element> children;
 
-	@ManyToMany(mappedBy = "children")
+	@ManyToMany(mappedBy = "children", fetch = FetchType.LAZY)
 	private List<Element> fathers;
 	
 
