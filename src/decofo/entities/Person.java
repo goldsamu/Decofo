@@ -5,8 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.PostUpdate;
+import javax.persistence.PreUpdate;
+import javax.persistence.Transient;
+import javax.persistence.Version;
 
 @Entity
 public class Person implements Serializable
@@ -15,22 +26,44 @@ public class Person implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Basic(optional=false)
+	@Basic(optional = false)
 	private String name;
 
-	@Basic(optional=false)
+	@Basic(optional = false)
 	private String status;
 
-	@Basic(optional=false)
+	@Basic(optional = false)
 	private String email;
 
-	@Basic(optional=false)
+	@Basic(optional = false)
 	private boolean admin;
 
-	@Basic(optional=false)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "Model", joinColumns = { @JoinColumn(name = "id") },
+			inverseJoinColumns = { @JoinColumn(name = "code") })
 	private List<Model> models;
+	
+	@Version()
+	private long version = 0;
+
+	@Transient
+	public static long updateCounter = 0;
+
+	@PreUpdate
+	public void beforeUpdate()
+	{
+		System.err.println("PreUpdate of " + this);
+	}
+
+	@PostUpdate
+	public void afterUpdate()
+	{
+		System.err.println("PostUpdate of " + this);
+		updateCounter++;
+	}
 
 	public Person()
 	{
@@ -113,6 +146,22 @@ public class Person implements Serializable
 	public void setModels(List<Model> models)
 	{
 		this.models = models;
+	}
+	
+	public long getVersion()
+	{
+		return version;
+	}
+
+	public void setVersion(long version)
+	{
+		this.version = version;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "id = " + id + " name = " + name + " status = " + status + " email = " + email;
 	}
 
 }
