@@ -42,7 +42,7 @@ public class Person implements Serializable
 	private boolean admin;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	@JoinTable(name = "Responsibles", joinColumns = { @JoinColumn(name = "id") },
+	@JoinTable(name = "Responsibles_Models", joinColumns = { @JoinColumn(name = "id") },
 			inverseJoinColumns = { @JoinColumn(name = "code") })
 	private List<Model> models;
 	
