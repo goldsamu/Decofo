@@ -10,7 +10,7 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 
-public class Site implements Serializable {
+public class Nature implements Serializable {
 	
 
 	private static final long serialVersionUID = 1L;
@@ -40,7 +40,7 @@ public class Site implements Serializable {
 		updateCounter++;
 	}
 
-	public Site(String code, String name) {
+	public Nature(String code, String name) {
 		super();
 		this.code = code;
 		this.name = name;
