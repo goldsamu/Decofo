@@ -1,6 +1,7 @@
 package decofo.entities;
 
 
+import java.io.Serializable;
 import java.util.*;
 
 import javax.persistence.*;
@@ -10,7 +11,10 @@ import javax.persistence.*;
  * @author mahdi hassan djilal
  */
 @Entity
-public class Model {
+public class Model implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * the Model entity attributs
 	 */
