@@ -24,22 +24,6 @@ public class Nature implements Serializable {
 	@Version()
 	private long version = 0;
 
-	@Transient
-	public static long updateCounter = 0;
-
-	@PreUpdate
-	public void beforeUpdate()
-	{
-		System.err.println("PreUpdate of " + this);
-	}
-
-	@PostUpdate
-	public void afterUpdate()
-	{
-		System.err.println("PostUpdate of " + this);
-		updateCounter++;
-	}
-
 	public Nature(String code, String name) {
 		super();
 		this.code = code;
