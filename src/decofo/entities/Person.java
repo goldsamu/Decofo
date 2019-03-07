@@ -20,148 +20,108 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 @Entity
-public class Person implements Serializable
-{
+public class Person implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id()
+    
+    private String id;
+    
+    @Basic(optional = false)
+    private String login;
 
-	@Basic(optional = false)
-	private String name;
+    @Basic(optional = false)
+    private String name;
 
-	@Basic(optional = false)
-	private String status;
+    @Basic(optional = false)
+    private String status;
 
-	@Basic(optional = false)
-	private String email;
+    @Basic(optional = false)
+    private String email;
 
-	@Basic(optional = false)
-	private boolean admin;
+    @Basic(optional = false)
+    private boolean admin;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	@JoinTable(name = "Responsibles_Models", joinColumns = { @JoinColumn(name = "id") },
-			inverseJoinColumns = { @JoinColumn(name = "code") })
-	private List<Model> models;
-	
-	@Version()
-	private long version = 0;
+    /*@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @JoinTable(name = "Responsibles_Models", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
+	    @JoinColumn(name = "code") })*/
+    //private List<Model> models;
 
-	@Transient
-	public static long updateCounter = 0;
+    @Version()
+    private long version = 0;
 
-	@PreUpdate
-	public void beforeUpdate()
-	{
-		System.err.println("PreUpdate of " + this);
-	}
+    public Person() {
+	//this.models = new ArrayList<Model>();
+    }
+    
+    public String getId() {
+	return id;
+    }
 
-	@PostUpdate
-	public void afterUpdate()
-	{
-		System.err.println("PostUpdate of " + this);
-		updateCounter++;
-	}
+    public void setId(String id) {
+	this.id = id;
+    }
 
-	public Person()
-	{
-		this.models = new ArrayList<Model>();
-	}
+    public String getLogin() {
+        return login;
+    }
 
-	public Person(String name, String status, String email, boolean admin)
-	{
-		this.name = name;
-		this.status = status;
-		this.email = email;
-		this.admin = admin;
-		this.models = new ArrayList<Model>();
-	}
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-	public Person(String name, String status, String email, boolean admin, List<Model> models)
-	{
-		this.name = name;
-		this.status = status;
-		this.email = email;
-		this.admin = admin;
-		this.models = models;
-	}
+    public String getName() {
+	return name;
+    }
 
-	public Long getId()
-	{
-		return id;
-	}
+    public void setName(String name) {
+	this.name = name;
+    }
 
-	public void setId(Long id)
-	{
-		this.id = id;
-	}
+    public String getStatus() {
+	return status;
+    }
 
-	public String getName()
-	{
-		return name;
-	}
+    public void setStatus(String status) {
+	this.status = status;
+    }
 
-	public void setName(String name)
-	{
-		this.name = name;
-	}
+    public String getEmail() {
+	return email;
+    }
 
-	public String getStatus()
-	{
-		return status;
-	}
+    public void setEmail(String email) {
+	this.email = email;
+    }
 
-	public void setStatus(String status)
-	{
-		this.status = status;
-	}
+    public boolean isAdmin() {
+	return admin;
+    }
 
-	public String getEmail()
-	{
-		return email;
-	}
+    public void setAdmin(boolean admin) {
+	this.admin = admin;
+    }
 
-	public void setEmail(String email)
-	{
-		this.email = email;
-	}
+    /*public List<Model> getModels() {
+	return models;
+    }
 
-	public boolean isAdmin()
-	{
-		return admin;
-	}
+    public void setModels(List<Model> models) {
+	this.models = models;
+    }*/
 
-	public void setAdmin(boolean admin)
-	{
-		this.admin = admin;
-	}
+    public long getVersion() {
+	return version;
+    }
 
-	public List<Model> getModels()
-	{
-		return models;
-	}
+    public void setVersion(long version) {
+	this.version = version;
+    }
 
-	public void setModels(List<Model> models)
-	{
-		this.models = models;
-	}
-	
-	public long getVersion()
-	{
-		return version;
-	}
-
-	public void setVersion(long version)
-	{
-		this.version = version;
-	}
-	
-	@Override
-	public String toString()
-	{
-		return "id = " + id + " name = " + name + " status = " + status + " email = " + email;
-	}
+    @Override
+    public String toString() {
+	return "admin : " + admin + " email : " + email + " login : " + login + "name : " + name + "status : " + status + version + id ;
+    }
 
 }
