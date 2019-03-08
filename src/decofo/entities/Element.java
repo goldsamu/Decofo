@@ -1,5 +1,6 @@
 package decofo.entities;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -17,16 +18,20 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 
-
 @Entity
-public class Element {
+public class Element implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "code", nullable = false)
 	private String code;
 
 	@Basic(optional = false)
-	@Column(nullable = false)
-	//@ManyToOne()
+	@ManyToOne(cascade={CascadeType.ALL}) // Juste pour le test 
 	private Nature nature;
 
 	@Basic(optional = false)
@@ -46,16 +51,24 @@ public class Element {
 	@MapKeyColumn(name = "SITE_ID")
 	private Map<Site, Integer> sites;
 
-	/*@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.LAZY)
-	@JoinTable(name = "father-child", joinColumns = { @JoinColumn(name = "code") }, inverseJoinColumns = {
-			@JoinColumn(name = "code") })
+	@JoinTable(name = "father-child", 
+			   joinColumns = {@JoinColumn(name = "father", referencedColumnName = "code", nullable = false)}, 
+			   inverseJoinColumns = {@JoinColumn(name = "child", referencedColumnName = "code", nullable=false)})
+	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Element> children;
 
-	@ManyToMany(mappedBy = "children", fetch = FetchType.LAZY)
+	@ManyToMany(mappedBy = "children",fetch = FetchType.LAZY)
 	private List<Element> fathers;
-*/
+
 	public Element() {
 		super();
+	}
+
+	public Element(String code, Nature nature, String name) {
+		super();
+		this.code = code;
+		this.nature = nature;
+		this.name = name;
 	}
 
 	public String getCode() {
@@ -146,7 +159,7 @@ public class Element {
 		this.sites = sites;
 	}
 
-	/*public List<Element> getChildren() {
+	public List<Element> getChildren() {
 		return children;
 	}
 
@@ -161,5 +174,4 @@ public class Element {
 	public void setFathers(List<Element> fathers) {
 		this.fathers = fathers;
 	}
-*/
 }

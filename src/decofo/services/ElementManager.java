@@ -11,22 +11,22 @@ import decofo.entities.Element;
 public class ElementManager {
 
 	@PersistenceContext(unitName = "myTestDatabaseUnit")
-    protected EntityManager em;
+    private EntityManager em;
 
-	protected  Element createElement(Element e) {
+	public  Element createElement(Element e) {
 		em.persist(em.contains(e) ? e : em.merge(e));
 	    return e;
 	}
 	
-	protected  Element findElement(String code) {
+	public  Element findElement(String code) {
 	    return em.find(Element.class, code);
 	}
 
-	protected Element updateElement(Element e) {
+	public Element updateElement(Element e) {
 	    return em.merge(e);
 	}
 
-	protected void removeElement(Element e) {
+	public void removeElement(Element e) {
 	    em.remove(em.contains(e) ? e : em.merge(e));
 	}
 
