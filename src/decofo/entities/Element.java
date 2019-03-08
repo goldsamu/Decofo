@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 
 
@@ -25,6 +26,7 @@ public class Element {
 
 	@Basic(optional = false)
 	@Column(nullable = false)
+	@ManyToOne()
 	private Nature nature;
 
 	@Basic(optional = false)
