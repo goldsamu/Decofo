@@ -30,6 +30,10 @@ public class PersonManager {
 	Person p = em.find(Person.class, person.getId());
 
 	if (p == null) {
+<<<<<<< HEAD
+=======
+	    user.setAdmin(false);
+>>>>>>> sam
 	    this.user = createPerson(person);
 	} else {
 	    this.user = p;

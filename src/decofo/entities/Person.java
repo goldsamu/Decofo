@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,7 @@ public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id()
+<<<<<<< HEAD
     
     private String id;
     
@@ -38,6 +40,25 @@ public class Person implements Serializable {
     private String status;
 
     @Basic(optional = false)
+=======
+    @Column(name = "id", length = 15, nullable = false)
+    private String id;
+    
+    @Basic(optional = false)
+    @Column(name = "login", length = 25, nullable = false)
+    private String login;
+
+    @Basic(optional = false)
+    @Column(name = "name", length = 50, nullable = false)
+    private String name;
+
+    @Basic(optional = false)
+    @Column(name = "status", length = 25, nullable = false)
+    private String status;
+
+    @Basic(optional = false)
+    @Column(name = "email", length = 75, nullable = false)
+>>>>>>> sam
     private String email;
 
     @Basic(optional = false)

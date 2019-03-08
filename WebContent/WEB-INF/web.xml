@@ -14,6 +14,22 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+<<<<<<< HEAD
+=======
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>/faces/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+
+>>>>>>> sam
 	<!-- Paramétrage du projet -->
 	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
@@ -22,12 +38,37 @@
 	</context-param>
 
 	<!-- Paramétrage Service d'authentification -->
+<<<<<<< HEAD
 	<!-- <context-param>
+=======
+	<context-param>
+>>>>>>> sam
 		<param-name>configurationStrategy</param-name>
 		<param-value>WEB_XML</param-value>
 	</context-param>
 
 	<filter>
+<<<<<<< HEAD
+=======
+		<filter-name>CAS Single Sign Out Filter</filter-name>
+		<filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
+		<init-param>
+			<param-name>casServerUrlPrefix</param-name>
+			<param-value>https://ident.univ-amu.fr/cas/logout</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>CAS Single Sign Out Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<listener>
+		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+	</listener>
+
+	<filter>
+>>>>>>> sam
 		<filter-name>CAS Authentication Filter</filter-name>
 		<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
 		<init-param>
@@ -40,11 +81,19 @@
 		</init-param>
 		<init-param>
 			<param-name>ignorePattern</param-name>
+<<<<<<< HEAD
 			<param-value>home</param-value>
 		</init-param>
 		<init-param>
 			<param-name>ignoreUrlPatternType</param-name>
 			<param-value>CONTAINS</param-value>
+=======
+			<param-value>(.+Decofo\/$)|(.+home.xhtml)|(.+index.jsp)</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ignoreUrlPatternType</param-name>
+			<param-value>REGEX</param-value>
+>>>>>>> sam
 		</init-param>
 	</filter>
 	<filter-mapping>
@@ -77,6 +126,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+<<<<<<< HEAD
 
 
 	<filter>
@@ -97,6 +147,8 @@
 		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
 	</listener>
 
+=======
+>>>>>>> sam
 	<filter>
 		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
 		<filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
@@ -105,5 +157,8 @@
 		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+<<<<<<< HEAD
 	 -->
+=======
+>>>>>>> sam
 </web-app>
