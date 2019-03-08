@@ -1,5 +1,8 @@
 package decofo.services;
 
-public class ModelManager {
+import javax.ejb.Stateless;
 
+@Stateless
+public class ModelManager {
+	
 }
