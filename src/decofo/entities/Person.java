@@ -29,12 +29,12 @@ public class Person implements Serializable
 	@Basic(optional=false)
 	private boolean admin;
 
-	@Basic(optional=false)
-	private List<Model> models;
+	/*@Basic(optional=false)
+	private List<Model> models;*/
 
 	public Person()
 	{
-		this.models = new ArrayList<Model>();
+		//this.models = new ArrayList<Model>();
 	}
 
 	public Person(String name, String status, String email, boolean admin)
@@ -43,7 +43,7 @@ public class Person implements Serializable
 		this.status = status;
 		this.email = email;
 		this.admin = admin;
-		this.models = new ArrayList<Model>();
+		//this.models = new ArrayList<Model>();
 	}
 
 	public Person(String name, String status, String email, boolean admin, List<Model> models)
@@ -52,7 +52,7 @@ public class Person implements Serializable
 		this.status = status;
 		this.email = email;
 		this.admin = admin;
-		this.models = models;
+		//this.models = models;
 	}
 
 	public Long getId()
@@ -105,7 +105,7 @@ public class Person implements Serializable
 		this.admin = admin;
 	}
 
-	public List<Model> getModels()
+	/*public List<Model> getModels()
 	{
 		return models;
 	}
@@ -113,6 +113,6 @@ public class Person implements Serializable
 	public void setModels(List<Model> models)
 	{
 		this.models = models;
-	}
+	}*/
 
 }

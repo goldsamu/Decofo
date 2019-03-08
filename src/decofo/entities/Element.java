@@ -26,7 +26,7 @@ public class Element {
 
 	@Basic(optional = false)
 	@Column(nullable = false)
-	@ManyToOne()
+	//@ManyToOne()
 	private Nature nature;
 
 	@Basic(optional = false)
@@ -46,14 +46,14 @@ public class Element {
 	@MapKeyColumn(name = "SITE_ID")
 	private Map<Site, Integer> sites;
 
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.LAZY)
+	/*@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.LAZY)
 	@JoinTable(name = "father-child", joinColumns = { @JoinColumn(name = "code") }, inverseJoinColumns = {
 			@JoinColumn(name = "code") })
 	private List<Element> children;
 
 	@ManyToMany(mappedBy = "children", fetch = FetchType.LAZY)
 	private List<Element> fathers;
-
+*/
 	public Element() {
 		super();
 	}
@@ -146,7 +146,7 @@ public class Element {
 		this.sites = sites;
 	}
 
-	public List<Element> getChildren() {
+	/*public List<Element> getChildren() {
 		return children;
 	}
 
@@ -161,5 +161,5 @@ public class Element {
 	public void setFathers(List<Element> fathers) {
 		this.fathers = fathers;
 	}
-
+*/
 }
