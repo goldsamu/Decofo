@@ -21,6 +21,9 @@ public class Nature implements Serializable {
 	@Basic(optional = false)
 	private String name ; 
 	
+	@Basic(optional = false)
+	private String nodeType ; 
+	
 	@Version()
 	private long version = 0;
 
