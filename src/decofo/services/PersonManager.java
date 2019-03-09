@@ -27,7 +27,7 @@ public class PersonManager {
     }
 
     public void check(Person person) {
-	Person p = em.find(Person.class, person.getId());
+	Person p = em.find(Person.class, person.getLogin());
 
 	if (p == null) {
 	    user.setAdmin(false);
@@ -48,7 +48,7 @@ public class PersonManager {
     }
 
     public void removePerson(Person person) {
-	Person p = em.find(Person.class, person.getId());
+	Person p = em.find(Person.class, person.getLogin());
 
 	if (p != null)
 	    em.remove(p);

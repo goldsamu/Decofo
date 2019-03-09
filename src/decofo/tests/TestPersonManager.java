@@ -12,7 +12,6 @@ import org.junit.Test;
 import decofo.entities.Person;
 import decofo.services.PersonManager;
 
-
 public class TestPersonManager {
     static EJBContainer container;
     static PersonManager pm;
@@ -33,45 +32,55 @@ public class TestPersonManager {
     public void testInject() {
 	Assert.assertNotNull(pm);
     }
-    
+
     @Test(expected = EJBException.class)
-    public void testCreatePerson()
-    {
-	Person p = new Person() ;
-	p.setId("CreatePersonId");
+    public void testCreatePerson() {
+	Person p = new Person();
 	p.setName("CreatePersonNom");
 	p.setEmail("CreatePersonMail");
 	p.setAdmin(false);
 	p.setStatus("CreatePersonStatus");
 	p.setLogin("CreatePersonLogin");
-	
+
 	pm.createPerson(p);
 	pm.check(p);
-	
+
 	Assert.assertEquals(pm.getUser().getLogin(), p.getLogin());
-	
+
 	pm.createPerson(p);
 
 	pm.removePerson(p);
     }
-    
+
     @Test
-    public void testCheck()
-    {
-	Person p = new Person() ;
-	p.setId("CheckId");
+    public void testCheck() {
+	Person p = new Person();
 	p.setName("CheckNom");
 	p.setEmail("CheckMail");
 	p.setAdmin(false);
 	p.setStatus("CheckStatus");
 	p.setLogin("CheckLogin");
-	
+
 	pm.check(p);
-	
+
 	Assert.assertEquals(pm.getUser().getLogin(), p.getLogin());
 
 	pm.removePerson(p);
     }
-    
-    
+
+    @Test
+    public void testLogout() {
+	Person p = new Person();
+	p.setName("LogoutNom");
+	p.setEmail("LogoutMail");
+	p.setAdmin(false);
+	p.setStatus("LogoutStatus");
+	p.setLogin("LogoutLogin");
+
+	pm.check(p);
+
+	Assert.assertEquals(pm.getUser().getLogin(), p.getLogin());
+
+	pm.removePerson(p);
+    }
 }

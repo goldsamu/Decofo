@@ -27,7 +27,6 @@ public class PersonController {
 	final Map<String, Object> attributes = principal.getAttributes();
 	if (attributes != null) {
 	    Person user = new Person();
-	    user.setId(attributes.get("uid").toString());
 	    user.setLogin(attributes.get("uid").toString());
 	    user.setStatus(attributes.get("eduPersonPrimaryAffiliation").toString());
 	    user.setEmail(attributes.get("mail").toString());

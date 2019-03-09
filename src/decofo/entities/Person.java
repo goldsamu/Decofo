@@ -26,10 +26,6 @@ public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id()
-    @Column(name = "id", length = 15, nullable = false)
-    private String id;
-    
-    @Basic(optional = false)
     @Column(name = "login", length = 25, nullable = false)
     private String login;
 
@@ -48,32 +44,30 @@ public class Person implements Serializable {
     @Basic(optional = false)
     private boolean admin;
 
-    /*@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    @JoinTable(name = "Responsibles_Models", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
-	    @JoinColumn(name = "code") })*/
-    //private List<Model> models;
+    /*
+     * @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE,
+     * CascadeType.PERSIST })
+     * 
+     * @JoinTable(name = "Responsibles_Models", joinColumns = { @JoinColumn(name =
+     * "id") }, inverseJoinColumns = {
+     * 
+     * @JoinColumn(name = "code") })
+     */
+    // private List<Model> models;
 
     @Version()
     private long version = 0;
 
     public Person() {
-	//this.models = new ArrayList<Model>();
-    }
-    
-    public String getId() {
-	return id;
-    }
-
-    public void setId(String id) {
-	this.id = id;
+	// this.models = new ArrayList<Model>();
     }
 
     public String getLogin() {
-        return login;
+	return login;
     }
 
     public void setLogin(String login) {
-        this.login = login;
+	this.login = login;
     }
 
     public String getName() {
@@ -108,13 +102,11 @@ public class Person implements Serializable {
 	this.admin = admin;
     }
 
-    /*public List<Model> getModels() {
-	return models;
-    }
-
-    public void setModels(List<Model> models) {
-	this.models = models;
-    }*/
+    /*
+     * public List<Model> getModels() { return models; }
+     * 
+     * public void setModels(List<Model> models) { this.models = models; }
+     */
 
     public long getVersion() {
 	return version;
@@ -126,7 +118,8 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-	return "admin : " + admin + " email : " + email + " login : " + login + "name : " + name + "status : " + status + version + id ;
+	return "admin : " + admin + " email : " + email + " login : " + login + "name : " + name + "status : " + status
+		+ version;
     }
 
 }
