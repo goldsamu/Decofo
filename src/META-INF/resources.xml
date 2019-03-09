@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+<Resource id="decofoDatabase" type="javax.sql.DataSource">
+	JdbcDriver org.hsqldb.jdbcDriver
+	JdbcUrl jdbc:hsqldb:file:/tmp/ma-bd
+	UserName sa
+	Password
+	jtaManaged true
+</Resource>
+
+</resources>
