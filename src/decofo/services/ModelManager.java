@@ -16,7 +16,7 @@ import decofo.entities.Model;
 @Stateless
 public class ModelManager {
 	
-	@PersistenceContext(unitName = "decofoDatabaseUnit")
+	@PersistenceContext(unitName = "myTestDatabaseUnit")
 	private EntityManager em;
 	/**
 	 * to return a list of model

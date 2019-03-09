@@ -4,7 +4,7 @@
           http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0">
 
-	<persistence-unit name="decofoDatabaseUnit"
+	<persistence-unit name="myTestDatabaseUnit"
 		transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<jta-data-source>myTestDataSource</jta-data-source>
