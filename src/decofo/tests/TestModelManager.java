@@ -14,6 +14,7 @@ import decofo.entities.Model;
 import decofo.services.ModelManager;
 
 public class TestModelManager {
+
 	static EJBContainer container;
 	static ModelManager em;
 
@@ -38,9 +39,9 @@ public class TestModelManager {
 	public void testCreateAndFindElement() {
 		Model model = new Model("CodeMaque", "ModelName");
 		em.saveModel(model);
-	
-		Model modelFindItTheBase = em.findModel("CodeMaque");
-		assertNotNull(modelFindItTheBase);
-		Assert.assertEquals(modelFindItTheBase.getNom(), model.getNom());
-}
+
+		Model modelFindInTheBase = em.findModel("CodeMaque");
+		assertNotNull(modelFindInTheBase);
+		Assert.assertEquals(modelFindInTheBase.getNom(), model.getNom());
+	}
 }
