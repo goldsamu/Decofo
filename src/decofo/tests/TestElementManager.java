@@ -1,7 +1,6 @@
 package decofo.tests;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import javax.ejb.embeddable.EJBContainer;
 import javax.naming.NamingException;
@@ -32,12 +31,12 @@ public class TestElementManager {
 		container.close();
 	}
 
-	@Test
+	//@Test
 	public void testInject() {
 		Assert.assertNotNull(em);
 	}
 
-	@Test
+	//@Test
 	public void testCreateAndFindElement() {
 		Nature nature = new Nature("codeNature1", "nameNature1");
 		Element element = new Element("codeElement1", nature, "nameElement1");

@@ -24,10 +24,10 @@ public class Model implements Serializable {
 	@Basic(optional = false)
 	private String nom;
 	
-	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<Person> responsables;
 	
-	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER)
+	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.LAZY)
 	private List<Element> elements;
 
 	//the Model entity contructors
