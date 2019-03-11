@@ -18,6 +18,7 @@ public class ModelManager {
 	
 	@PersistenceContext(unitName = "myTestDatabaseUnit")
 	private EntityManager em;
+	private PersonManager pm;
 	/**
 	 * to return a list of model
 	 * @return List<Model> liste of Model that is saved in the base
