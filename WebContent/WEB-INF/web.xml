@@ -33,7 +33,10 @@
 		<param-value>Development</param-value>
 		<!-- <param-value>Production</param-value> -->
 	</context-param>
-
+<context-param>
+    <param-name>primefaces.THEME</param-name>
+    <param-value>admin</param-value>
+</context-param>
 	<!-- Paramétrage Service d'authentification -->
 	<context-param>
 		<param-name>configurationStrategy</param-name>
