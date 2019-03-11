@@ -10,7 +10,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import decofo.entities.Nature;
 import decofo.entities.Site;
 import decofo.services.SiteManager;
 
