@@ -12,35 +12,53 @@ import org.junit.Test;
 
 import decofo.entities.Model;
 import decofo.services.ModelManager;
-
+/**
+ * 
+ * @author mahdi hassan djilal
+ * this will test the ModelManager
+ * 
+ */
 public class TestModelManager {
-
+	/**
+	 * attributs for TestModelManager
+	 * container objet of EJBContainer and mm objet ModelManager
+	 */
 	static EJBContainer container;
-	static ModelManager em;
-
+	static ModelManager mm;
+	/**
+	 * here we initialize the the EJB that we want to use
+	 * @throws NamingException
+	 */
 	@BeforeClass
 	public static void beforeAll() throws NamingException {
 		final String name = "java:global/Decofo/ModelManager";
 		container = EJBContainer.createEJBContainer();
-		em = (ModelManager) container.getContext().lookup(name);
+		mm = (ModelManager) container.getContext().lookup(name);
 	}
-
+	/**
+	 * after operation, we the conainer EJB
+	 */
 	@AfterClass
 	public static void afterAll() {
 		container.close();
 	}
-
+	/**
+	 * this method test is a method
+	 * this method test if the mm attribut is null or not
+	 */
 	@Test
 	public void testInject() {
-		Assert.assertNotNull(em);
+		Assert.assertNotNull(mm);
 	}
-
+	/**
+	 * this method will if we can create a model 
+	 */
 	@Test
 	public void testCreateAndFindElement() {
 		Model model = new Model("CodeMaque", "ModelName");
-		em.saveModel(model);
+		mm.saveModel(model);
 
-		Model modelFindInTheBase = em.findModel("CodeMaque");
+		Model modelFindInTheBase = mm.findModel("CodeMaque");
 		assertNotNull(modelFindInTheBase);
 		Assert.assertEquals(modelFindInTheBase.getNom(), model.getNom());
 	}

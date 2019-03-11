@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import decofo.entities.Model;
+import decofo.entities.Person;
 
 /**
  * 
@@ -16,7 +17,7 @@ import decofo.entities.Model;
 @Stateless
 public class ModelManager {
 	
-	@PersistenceContext(unitName = "myTestDatabaseUnit")
+	@PersistenceContext(unitName = "decofoDatabaseUnit")
 	private EntityManager em;
 	private PersonManager pm;
 	/**
@@ -63,5 +64,30 @@ public class ModelManager {
 	public Model updateModel(Model m) {
 		m = em.merge(m);
 		return m;
+	}
+	/**
+	 * this methode test when an user want to update a model if this user is the responsible of the model on update. 
+	 * @param m is an object of Model
+	 * @return a boolean(True or False)
+	 */
+	public boolean isResponsible(Model m) {
+		boolean response = false;
+		if(m.getResponsables().size()==1) {
+			if(m.getResponsables().get(0).getLogin() == pm.getUser().getLogin()) {
+				response = true;
+			}else {
+				response = false;
+			}
+		}else {
+			for(Person p:m.getResponsables()) {
+				if(p.getLogin() == pm.getUser().getLogin()) {
+					response = true;
+				}else {
+					response = false;
+				}
+			}
+		}
+		
+		return response;
 	}
 }

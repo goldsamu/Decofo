@@ -27,7 +27,7 @@ public class Model implements Serializable {
 	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER)
 	private List<Person> responsables;
 	
-	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER)
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 	private List<Element> elements;
 
 	//the Model entity contructors
