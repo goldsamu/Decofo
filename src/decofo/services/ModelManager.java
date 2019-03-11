@@ -23,7 +23,6 @@ public class ModelManager {
 
 	/**
 	 * to return a list of model
-	 * 
 	 * @return List<Model> liste of Model that is saved in the base
 	 */
 	public List<Model> findModel() {
@@ -33,8 +32,7 @@ public class ModelManager {
 	/**
 	 * to find a model that it code is passed on argument
 	 * 
-	 * @param code
-	 *            code of the model that we want to find it
+	 * @param code code of the model that we want to find it
 	 * @return Model model that it code is specified on argument
 	 */
 	public Model findModel(String code) {
@@ -44,11 +42,10 @@ public class ModelManager {
 	/**
 	 * to save a model
 	 * 
-	 * @param m
-	 *            the model that we want to save
+	 * @param m the model that we want to save
 	 * @return Model saved model
 	 */
-	public Model saveModel(Model m) {
+	public Model createModel(Model m) {
 		if (m.getCode() == null) {
 			em.persist(m);
 		} else {
@@ -60,8 +57,7 @@ public class ModelManager {
 	/**
 	 * to destroy the model that is passed on argument
 	 * 
-	 * @param m
-	 *            model to destroy
+	 * @param m model to destroy
 	 */
 	public void deleteModel(Model m) {
 		m = em.merge(m);
@@ -71,8 +67,7 @@ public class ModelManager {
 	/**
 	 * to udpate a model
 	 * 
-	 * @param m
-	 *            the model that we want to update
+	 * @param m the model that we want to update
 	 * @return Model updated model
 	 */
 	public Model updateModel(Model m) {
@@ -84,8 +79,7 @@ public class ModelManager {
 	 * this methode test when an user want to update a model if this user is the
 	 * responsible of the model on update.
 	 * 
-	 * @param m
-	 *            is an object of Model
+	 * @param m is an object of Model
 	 * @return a boolean(True or False)
 	 */
 	public boolean isResponsible(Model m) {

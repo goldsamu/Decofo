@@ -56,7 +56,7 @@ public class TestModelManager {
 	@Test
 	public void testCreateAndFindElement() {
 		Model model = new Model("CodeMaque", "ModelName");
-		mm.saveModel(model);
+		mm.createModel(model);
 
 		Model modelFindInTheBase = mm.findModel("CodeMaque");
 		assertNotNull(modelFindInTheBase);
