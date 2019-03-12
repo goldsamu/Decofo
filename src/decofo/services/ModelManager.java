@@ -25,7 +25,7 @@ public class ModelManager {
 	 * to return a list of model
 	 * @return List<Model> liste of Model that is saved in the base
 	 */
-	public List<Model> findModel() {
+	public List<Model> findAllModel() {
 		return em.createQuery("Select m From Model m", Model.class).getResultList();
 	}
 
@@ -46,10 +46,12 @@ public class ModelManager {
 	 * @return Model saved model
 	 */
 	public Model createModel(Model m) {
-		if (m.getCode() == null) {
-			em.persist(m);
-		} else {
-			m = em.merge(m);
+		if(isAdmin()) {
+			if (m.getCode() == null) {
+				em.persist(m);
+			} else {
+				m = em.merge(m);
+			}
 		}
 		return m;
 	}
