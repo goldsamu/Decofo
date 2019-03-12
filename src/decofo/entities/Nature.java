@@ -9,16 +9,15 @@ import javax.persistence.Version;
 
 @Entity
 public class Nature implements Serializable {
-	
 
 	private static final long serialVersionUID = 1L;
 
 	@Id()
-	private String code ;
-	
+	private String code;
+
 	@Basic(optional = false)
-	private String name ; 
-	
+	private String name;
+
 	@Version()
 	private long version = 0;
 
@@ -56,6 +55,9 @@ public class Nature implements Serializable {
 		this.version = version;
 	}
 
-	
-	
+	@Override
+	public String toString() {
+		return "Nature [Code = " + code + ", Name = " + name + ", Version = " + version + "]";
+	}
+
 }

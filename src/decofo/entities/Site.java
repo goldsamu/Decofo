@@ -55,6 +55,11 @@ public class Site implements Serializable {
 	public void setVersion(long version) {
 		this.version = version;
 	}
+	
+	@Override
+	public String toString() {
+		return "Site [Code = " + code + ", Name = " + name + ", Version = " + version + "]";
+	}
 
 	
 	
