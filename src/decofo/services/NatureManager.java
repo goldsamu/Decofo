@@ -1,5 +1,7 @@
 package decofo.services;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,4 +22,9 @@ public class NatureManager {
 	public Nature findNature(String code) {
 		return em.find(Nature.class, code);
 	}
+	
+	public List<Nature> findAllNature() {
+		return em.createQuery("Select From Nature", Nature.class).getResultList();
+	}
+
 }
