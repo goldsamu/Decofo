@@ -1,11 +1,18 @@
 package decofo.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 
 @Entity
@@ -32,22 +39,16 @@ public class Person implements Serializable {
     @Basic(optional = false)
     private boolean admin;
 
-    /*
-     * @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE,
-     * CascadeType.PERSIST })
-     * 
-     * @JoinTable(name = "Responsibles_Models", joinColumns = { @JoinColumn(name =
-     * "id") }, inverseJoinColumns = {
-     * 
-     * @JoinColumn(name = "code") })
-     */
-    // private List<Model> models;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @JoinTable(name = "Responsibles_Models", joinColumns = { @JoinColumn(name = "login") }, inverseJoinColumns = {
+	    @JoinColumn(name = "code") })
+    private List<Model> models;
 
     @Version()
     private long version = 0;
 
     public Person() {
-	// this.models = new ArrayList<Model>();
+	this.models = new ArrayList<Model>();
     }
 
     public String getLogin() {
@@ -90,11 +91,13 @@ public class Person implements Serializable {
 	this.admin = admin;
     }
 
-    /*
-     * public List<Model> getModels() { return models; }
-     * 
-     * public void setModels(List<Model> models) { this.models = models; }
-     */
+    public List<Model> getModels() {
+	return models;
+    }
+
+    public void setModels(List<Model> models) {
+	this.models = models;
+    }
 
     public long getVersion() {
 	return version;
