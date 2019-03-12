@@ -5,12 +5,14 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-
+<div>
 <p:tabMenu activeIndex="#{activeIndex}" style="position: fixed;width:100%;display:block;top:0;orverflow:hidden;z-index:1000">
 
 	<p:menuitem value="Accueil" outcome="/home" icon="fa fa-star"/>	
-	<p:menuitem value="Maquettes" outcome="/home" icon="fa fa-files"/>
+	<p:menuitem value="Maquettes" outcome="/maquettes" icon="fa fa-files"/>
+	
 
 </p:tabMenu>
-
+<p:commandButton value="Déconnexion" action="#{personController.logout()}" />
+</div>
 </html>
