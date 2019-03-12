@@ -33,6 +33,9 @@ public class TestPersonManager {
 	Assert.assertNotNull(pm);
     }
 
+    /**
+     * Test of the createPerson function.
+     */
     @Test(expected = EJBException.class)
     public void testCreatePerson() {
 	Person p = new Person();
@@ -52,6 +55,9 @@ public class TestPersonManager {
 	pm.removePerson(p);
     }
 
+    /**
+     * Test of the check function.
+     */
     @Test
     public void testCheck() {
 	Person p = new Person();
@@ -68,6 +74,9 @@ public class TestPersonManager {
 	pm.removePerson(p);
     }
 
+    /**
+     * Test of the logout function.
+     */
     @Test
     public void testLogout() {
 	Person p = new Person();

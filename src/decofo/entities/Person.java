@@ -20,25 +20,43 @@ public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The login ID of the user.
+     */
     @Id()
     @Column(name = "login", length = 25, nullable = false)
     private String login;
 
+    /**
+     * The full name of the user.
+     */
     @Basic(optional = false)
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
+    /**
+     * The status inside AMU (student, teacher...)
+     */
     @Basic(optional = false)
     @Column(name = "status", length = 25, nullable = false)
     private String status;
 
+    /**
+     * Email of the user.
+     */
     @Basic(optional = false)
     @Column(name = "email", length = 75, nullable = false)
     private String email;
 
+    /**
+     * If the user is an admin or not.
+     */
     @Basic(optional = false)
     private boolean admin;
 
+    /**
+     * The models for which he is responsible.
+     */
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinTable(name = "Responsibles_Models", joinColumns = { @JoinColumn(name = "login") }, inverseJoinColumns = {
 	    @JoinColumn(name = "code") })

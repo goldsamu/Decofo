@@ -20,6 +20,9 @@ public class PersonController {
     @EJB
     private PersonManager personManager;
 
+    /**
+     * Collect the data about the user from the CAS and give them to the manager.
+     */
     public void connect() {
 
 	AttributePrincipal principal = (AttributePrincipal) FacesContext.getCurrentInstance().getExternalContext()
@@ -39,6 +42,10 @@ public class PersonController {
 	}
     }
 
+    /**
+     * Invalidate the session and redirect to the home page.
+     * @throws IOException
+     */
     public void logout() throws IOException {
 	personManager.logout();
 	FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
