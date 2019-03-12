@@ -107,7 +107,6 @@ public class Model implements Serializable {
 	public void setElements(List<Element> elements) {
 		this.elements = elements;
 	}
-	
 	//the toString method to have a full descrition of Model entity
 	@Override
 	public String toString() {

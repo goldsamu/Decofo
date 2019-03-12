@@ -19,7 +19,7 @@ public class ModelManager {
 
 	@PersistenceContext(unitName = "decofoDatabaseUnit")
 	private EntityManager em;
-	private PersonManager pm;
+	private PersonManager personManager;
 
 	/**
 	 * to return a list of model
@@ -71,7 +71,8 @@ public class ModelManager {
 	 * @return Model updated model
 	 */
 	public Model updateModel(Model m) {
-		m = em.merge(m);
+		if(this.isAdmin() || this.isResponsible(m));
+			m = em.merge(m);
 		return m;
 	}
 
@@ -85,14 +86,14 @@ public class ModelManager {
 	public boolean isResponsible(Model m) {
 		boolean response = false;
 		if (m.getResponsables().size() == 1) {
-			if (m.getResponsables().get(0).getLogin() == pm.getUser().getLogin()) {
+			if (m.getResponsables().get(0).getLogin() == personManager.getUser().getLogin()) {
 				response = true;
 			} else {
 				response = false;
 			}
 		} else {
 			for (Person p : m.getResponsables()) {
-				if (p.getLogin() == pm.getUser().getLogin()) {
+				if (p.getLogin() == personManager.getUser().getLogin()) {
 					response = true;
 				} else {
 					response = false;
@@ -108,7 +109,7 @@ public class ModelManager {
 	 */
 	public boolean isAdmin() {
 		boolean admin;
-		if (pm.getUser().isAdmin()) {
+		if (personManager.getUser().isAdmin()) {
 			admin = true;
 		} else {
 			admin = false;
