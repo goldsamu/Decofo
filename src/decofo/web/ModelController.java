@@ -33,6 +33,7 @@ public class ModelController {
 	 * @return theModel
 	 */
 	public String newModel() {
+		modelmanager.createModel(theModel);
 		theModel = new Model();
 		return "";
 	}
