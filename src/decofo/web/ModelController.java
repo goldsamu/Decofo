@@ -35,7 +35,7 @@ public class ModelController {
 	public String newModel() {
 		modelmanager.createModel(theModel);
 		theModel = new Model();
-		return "";
+		return "listModels";
 	}
 	/**
 	 * to return the list of model stored in the database
