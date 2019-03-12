@@ -87,14 +87,14 @@ public class ModelManager {
 	 */
 	public boolean isResponsible(Model m) {
 		boolean response = false;
-		if (m.getResponsables().size() == 1) {
-			if (m.getResponsables().get(0).getLogin() == personManager.getUser().getLogin()) {
+		if (m.getResponsibles().size() == 1) {
+			if (m.getResponsibles().get(0).getLogin() == personManager.getUser().getLogin()) {
 				response = true;
 			} else {
 				response = false;
 			}
 		} else {
-			for (Person p : m.getResponsables()) {
+			for (Person p : m.getResponsibles()) {
 				if (p.getLogin() == personManager.getUser().getLogin()) {
 					response = true;
 				} else {

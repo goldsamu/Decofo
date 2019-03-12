@@ -36,7 +36,7 @@ public class TestModelManager {
 		mm = (ModelManager) container.getContext().lookup(name);
 	}
 	/**
-	 * after operation, we the conainer EJB
+	 * after operation, we close the conainer EJB
 	 */
 	@AfterClass
 	public static void afterAll() {
@@ -60,6 +60,6 @@ public class TestModelManager {
 
 		Model modelFindInTheBase = mm.findModel("CodeMaque");
 		assertNotNull(modelFindInTheBase);
-		Assert.assertEquals(modelFindInTheBase.getNom(), model.getNom());
+		Assert.assertEquals(modelFindInTheBase.getName(), model.getName());
 	}
 }
