@@ -24,8 +24,8 @@ public class Model implements Serializable {
 	@Basic(optional = false)
 	private String nom;
 	
-	@OneToMany(cascade = { CascadeType.ALL}, fetch = FetchType.EAGER)
-	private List<Person> responsables;
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	private List<Person> responsibles;
 	
 	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 	private List<Element> elements;
@@ -34,7 +34,7 @@ public class Model implements Serializable {
 
 	public Model() {
 		super();
-		this.responsables = new ArrayList<Person>();
+		this.responsibles = new ArrayList<Person>();
 		this.elements = new ArrayList<Element>();
 	}
 	/**
@@ -46,7 +46,7 @@ public class Model implements Serializable {
 		super();
 		this.code = code;
 		this.nom = nom;
-		this.responsables = new ArrayList<Person>();
+		this.responsibles = new ArrayList<Person>();
 		this.elements = new ArrayList<Element>();
 	}
 	
@@ -84,14 +84,14 @@ public class Model implements Serializable {
 	 * @return responsibles
 	 */
 	public List<Person> getResponsables() {
-		return responsables;
+		return responsibles;
 	}
 	/**
 	 * to set the list of person who edited the Model
 	 * @param responsables
 	 */
 	public void setResponsables(List<Person> responsables) {
-		this.responsables = responsables;
+		this.responsibles = responsables;
 	}
 	/**
 	 * to return the list of elements that the model contains
@@ -110,7 +110,7 @@ public class Model implements Serializable {
 	//the toString method to have a full descrition of Model entity
 	@Override
 	public String toString() {
-		return "Model [code=" + code + ", nom=" + nom + ", responsables=" + responsables + ", elements=" + elements
+		return "Model [code=" + code + ", nom=" + nom + ", responsables=" + responsibles + ", elements=" + elements
 				+ "]";
 	}
 }

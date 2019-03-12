@@ -42,7 +42,7 @@ public class ModelController {
 	 * @return List<Model>
 	 */
 	public List<Model> findAllModels(){
-		return modelmanager.findModel();
+		return modelmanager.findAllModel();
 	}
 	/**
 	 * to show a model that it code is passed on argument
