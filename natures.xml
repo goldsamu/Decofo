@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<natures>
+	<nature>
+		<code>N1</code>
+		<name>Formation</name>
+	</nature>
+	<nature>
+		<code>N2</code>
+		<name>Parcours</name>
+	</nature>
+	<nature>
+		<code>N3</code>
+		<name>Année</name>
+	</nature>
+	<nature>
+		<code>N4</code>
+		<name>Semestre</name>
+	</nature>
+	<nature>
+		<code>N5</code>
+		<name>Option</name>
+	</nature>
+	<nature>
+		<code>N6</code>
+		<name>Liste</name>
+	</nature>
+	<nature>
+		<code>N7</code>
+		<name>Unité d'enseignement</name>
+	</nature>
+</natures>

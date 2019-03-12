@@ -24,7 +24,7 @@ public class NatureManager {
 	}
 	
 	public List<Nature> findAllNature() {
-		return em.createQuery("Select From Nature", Nature.class).getResultList();
+		return em.createQuery("From Nature", Nature.class).getResultList();
 	}
 
 }
