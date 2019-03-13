@@ -38,7 +38,7 @@ public class TestNatureLoader {
 		Assert.assertNotNull(nm);
 	}
 	
-	//@Test
+	@Test
 	public void testFindAllNature() {
 		List<Nature> listNatures = nm.findAllNature();
 		assertNotNull(listNatures);
