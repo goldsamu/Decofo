@@ -10,7 +10,7 @@ import decofo.entities.Element;
 @Stateless
 public class ElementManager {
 
-	@PersistenceContext(unitName = "myTestDatabaseUnit")
+	@PersistenceContext(unitName = "decofoDatabaseUnit")
     private EntityManager em;
 
 	public  Element createElement(Element e) {

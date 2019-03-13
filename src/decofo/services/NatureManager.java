@@ -12,7 +12,7 @@ import decofo.entities.Nature;
 @Stateless
 public class NatureManager {
 
-	@PersistenceContext(unitName = "myTestDatabaseUnit")
+	@PersistenceContext(unitName = "decofoDatabaseUnit")
 	private EntityManager em;
 
 	public Nature createNature(Nature m) {

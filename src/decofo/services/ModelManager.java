@@ -20,7 +20,7 @@ import decofo.entities.Person;
 @Stateless
 public class ModelManager {
 
-	@PersistenceContext(unitName = "myTestDatabaseUnit")
+	@PersistenceContext(unitName = "decofoDatabaseUnit")
 	private EntityManager em;
 
 	@EJB
