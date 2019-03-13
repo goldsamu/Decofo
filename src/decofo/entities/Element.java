@@ -53,13 +53,13 @@ public class Element implements Serializable {
 	@MapKeyColumn(name = "SITE_ID")
 	private Map<Site, Integer> sites;
 
-	@JoinTable(name = "father-child", 
-			   joinColumns = {@JoinColumn(name = "father", referencedColumnName = "code", nullable = false)}, 
-			   inverseJoinColumns = {@JoinColumn(name = "child", referencedColumnName = "code", nullable=false)})
+	@JoinTable(name = "father_child", 
+			   joinColumns = {@JoinColumn(name = "father", referencedColumnName = "code")}, 
+			   inverseJoinColumns = {@JoinColumn(name = "child", referencedColumnName = "code")})
 	@ManyToMany
 	private List<Element> children;
 
-	@ManyToMany(mappedBy = "children")
+	@ManyToMany
 	private List<Element> fathers;
 
 	public Element() {

@@ -14,7 +14,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.webbeans.util.SpecializationUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -56,25 +55,23 @@ public class ModelAndElementLoader {
 
 			NodeIterator iterator = traversal.createNodeIterator(document.getDocumentElement(), NodeFilter.SHOW_ELEMENT,
 					null, true);
-			
+
 			List<Nature> naturesList = nm.findAllNature();
 			List<String> nameNaturesList = new ArrayList<String>();
 			for (Nature nature : naturesList) {
 				nameNaturesList.add(nature.getName());
 			}
-			/*for (String name : nameNaturesList) {
-				System.err.println(name);
-			}*/
+
 			for (Node node = iterator.nextNode(); node != null; node = iterator.nextNode()) {
 
 				if (node.getNodeName().equals("mention")) {
-					
+
 					Model model = new Model();
 					model.setCode(generate(5));
 					model.setName("NameMaquette");
 					model = mm.createModel(model);
 					Element formation = new Element();
-					
+
 					NodeList childList = node.getChildNodes();
 					for (int i = 0; i < childList.getLength(); i++) {
 						if (!childList.item(i).getTextContent().trim().equals("")) {
@@ -91,20 +88,17 @@ public class ModelAndElementLoader {
 							}
 						}
 					}
-					// System.out.println(model.toString()); // Pour tester si on lit les données
-					// depuis le fichier .xml
 					model.getElements().set(0, formation);
 					mm.updateModel(model);
 				}
-				
-				if(nameNaturesList.contains(node.getNodeName())){
-					//System.err.println("-------------------------------------------------------------------->");
+
+				if (nameNaturesList.contains(node.getNodeName())) {
 					Element element = new Element();
 					element.setCode(generate(10));
-		            Nature nature = nm.findNatureByName(node.getNodeName());
-		            element.setNature(nature);
-		            NodeList childList = node.getChildNodes();
-		            for (int i = 0; i < childList.getLength(); i++) {
+					Nature nature = nm.findNatureByName(node.getNodeName());
+					element.setNature(nature);
+					NodeList childList = node.getChildNodes();
+					for (int i = 0; i < childList.getLength(); i++) {
 						if (!childList.item(i).getTextContent().trim().equals("")) {
 							switch (i) {
 							case 1:
@@ -138,16 +132,32 @@ public class ModelAndElementLoader {
 							}
 						}
 					}
-		            //System.out.println(element.getName());
-		            em.createElement(element);
-		            
-				}
-				
-				if(node.getNodeName().equals("lien")) {
-					
-				}
-				
+					em.createElement(element);
 
+				}
+
+				if (node.getNodeName().equals("lien")) {
+					String codeFather = "";
+					String codeChild = "";
+					NodeList childList = node.getChildNodes();
+					for (int i = 0; i < childList.getLength(); i++) {
+						if (!childList.item(i).getTextContent().trim().equals("")) {
+							switch (i) {
+							case 1:
+								codeFather = childList.item(i).getTextContent();
+								break;
+							case 3:
+								codeChild = childList.item(i).getTextContent();
+								break;
+							}
+						}
+					}
+					Element fatherElement = em.findElement(codeFather);
+					Element childElement = em.findElement(codeChild);
+					fatherElement.getChildren().add(childElement);
+					em.updateElement(fatherElement);
+
+				}
 			}
 
 		} catch (ParserConfigurationException e) {
@@ -158,17 +168,16 @@ public class ModelAndElementLoader {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	public String generate(int length) {
-		String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"; 
-																							
+		String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+
 		String pass = "";
 		for (int x = 0; x < length; x++) {
-			int i = (int) Math.floor(Math.random() * 62); 
+			int i = (int) Math.floor(Math.random() * 62);
 			pass += chars.charAt(i);
 		}
-		//System.err.println(pass);
+		// System.err.println(pass);
 		return pass;
 	}
 

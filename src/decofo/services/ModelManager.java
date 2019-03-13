@@ -146,7 +146,7 @@ public class ModelManager {
 			int i = (int) Math.floor(Math.random() * 62); 
 			pass += chars.charAt(i);
 		}
-		System.err.println(pass);
+		//System.err.println(pass);
 		return pass;
 	}
 }
