@@ -2,32 +2,32 @@
 <natures>
 	<nature>
 		<code>FO</code>
-		<name>Formation</name>
+		<name>formation</name>
 		<type>OU</type>
 	</nature>
 	<nature>
 		<code>PA</code>
-		<name>Parcours</name>
+		<name>parcours</name>
 		<type>ET</type>
 	</nature>
 	<nature>
 		<code>AN</code>
-		<name>Annee</name>
+		<name>annee</name>
 		<type>ET</type>
 	</nature>
 	<nature>
 		<code>SE</code>
-		<name>Semestre</name>
+		<name>semestre</name>
 		<type>ET</type>
 	</nature>
 	<nature>
 		<code>OP</code>
-		<name>Option</name>
+		<name>option</name>
 		<type>OU</type>
 	</nature>
 	<nature>
 		<code>LI</code>
-		<name>Liste</name>
+		<name>liste</name>
 		<type>ET</type>
 	</nature>
 	<nature>
