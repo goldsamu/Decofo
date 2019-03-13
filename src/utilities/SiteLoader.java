@@ -26,7 +26,7 @@ import decofo.services.SiteManager;
 @Singleton
 @Startup
 @DependsOn("SiteManager")
-public class SitesLoader {
+public class SiteLoader {
 
 	@EJB
 	private SiteManager sm;
