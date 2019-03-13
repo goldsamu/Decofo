@@ -1,6 +1,5 @@
 package decofo.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -10,6 +9,7 @@ import javax.persistence.PersistenceContext;
 
 import decofo.entities.Element;
 import decofo.entities.Model;
+import decofo.entities.Nature;
 import decofo.entities.Person;
 
 /**
@@ -22,13 +22,17 @@ public class ModelManager {
 
 	@PersistenceContext(unitName = "myTestDatabaseUnit")
 	private EntityManager em;
+
 	@EJB
 	private PersonManager personManager;
-	//private ElementManager elemenManager;
+
+	@EJB
+	private NatureManager nm;
 
 	/**
 	 * to return a list of model
-	 * @return List<Model> liste of Model that is saved in the base
+	 * 
+	 * @return List<Model> list of Model that is saved in the base
 	 */
 	public List<Model> findAllModel() {
 		return em.createQuery("Select m From Model m", Model.class).getResultList();
@@ -45,22 +49,25 @@ public class ModelManager {
 	}
 
 	/**
+	 * to save a model
 	 * 
-	 * @param m object of Model(Maquuette)
-	 * @param element default element(Formation)
-	 * @return model 
+	 * @param m the model that we want to save
+	 * @return Model saved model
 	 */
-	public Model createModel(Model m, Element formation) {
-		if(isAdmin()) {
-			if (m.getCode() == null) {
-				List<Element> elements = new ArrayList<Element>();
-				elements.add(formation);
-				m.setElements(elements);
-				em.persist(m);
-			} else {
-				m = em.merge(m);
-			}
+	public Model createModel(Model m) {
+		 if(isAdmin()) {  
+		Element element = new Element();
+		element.setCode(m.getCode());
+		element.setName(m.getName());
+		Nature nature = nm.findNature("FO"); // A changer si le code sur natures.xml a changé
+		element.setNature(nature);
+		m.getElements().add(element);
+		if (m.getCode() == null) {
+			em.persist(m);
+		} else {
+			m = em.merge(m);
 		}
+		 }
 		return m;
 	}
 
@@ -83,6 +90,7 @@ public class ModelManager {
 	public Model updateModel(Model m) {
 		if(this.isAdmin() || this.isResponsible(m));
 			m = em.merge(m);
+
 		return m;
 	}
 
@@ -113,6 +121,7 @@ public class ModelManager {
 
 		return response;
 	}
+
 	/**
 	 * this method test if an user is an administrator or not
 	 * @return admin
@@ -126,4 +135,16 @@ public class ModelManager {
 		}
 		return admin;
 	}
+	
+	/*public String generate(int length) {
+		String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"; 
+																							
+		String pass = "";
+		for (int x = 0; x < length; x++) {
+			int i = (int) Math.floor(Math.random() * 62); 
+			pass += chars.charAt(i);
+		}
+		//System.err.println(pass);
+		return pass;
+	}*/
 }

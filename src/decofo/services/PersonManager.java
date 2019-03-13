@@ -31,9 +31,9 @@ public class PersonManager {
     }
 
     /**
-     * Check if a person is in the database.
-     * If the person is not in the table, then he is added and set to user.
-     * Else if he is found, he's just set to user.
+     * Check if a person is in the database. If the person is not in the table, then
+     * he is added and set to user. Else if he is found, he's just set to user.
+     * 
      * @param person The person to check.
      */
     public void check(Person person) {
@@ -56,6 +56,7 @@ public class PersonManager {
 
     /**
      * Add a new person to the database.
+     * 
      * @param person The person to add.
      * @return The person added.
      */
@@ -67,6 +68,7 @@ public class PersonManager {
 
     /**
      * Remove a person of the database.
+     * 
      * @param person The person to remove.
      */
     public void removePerson(Person person) {

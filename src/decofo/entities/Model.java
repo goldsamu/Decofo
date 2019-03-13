@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 public class Model implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -37,6 +37,7 @@ public class Model implements Serializable {
 		this.responsibles = new ArrayList<Person>();
 		this.elements = new ArrayList<Element>();
 	}
+
 	/**
 	 * constructor with two parameters 
 	 * @param code Model code
@@ -58,6 +59,7 @@ public class Model implements Serializable {
 	public String getCode() {
 		return code;
 	}
+
 	/**
 	 * to set Model code
 	 * @param code 
@@ -65,6 +67,7 @@ public class Model implements Serializable {
 	public void setCode(String code) {
 		this.code = code;
 	}
+
 	/**
 	 * return name of Model
 	 * @return Nom
@@ -72,6 +75,7 @@ public class Model implements Serializable {
 	public String getName() {
 		return name;
 	}
+
 	/**
 	 * to set name of Model
 	 * @param nom
@@ -79,6 +83,7 @@ public class Model implements Serializable {
 	public void setName(String nom) {
 		this.name = nom;
 	}
+
 	/**
 	 * to have the list of Model responsible
 	 * @return responsibles
@@ -86,6 +91,7 @@ public class Model implements Serializable {
 	public List<Person> getResponsibles() {
 		return responsibles;
 	}
+
 	/**
 	 * to set the list of person who edited the Model
 	 * @param responsables
@@ -93,6 +99,7 @@ public class Model implements Serializable {
 	public void setResponsibles(List<Person> responsables) {
 		this.responsibles = responsables;
 	}
+
 	/**
 	 * to return the list of elements that the model contains
 	 * @return elements
@@ -100,6 +107,7 @@ public class Model implements Serializable {
 	public List<Element> getElements() {
 		return elements;
 	}
+
 	/**
 	 * to set the list of elements
 	 * @param elements
@@ -107,11 +115,11 @@ public class Model implements Serializable {
 	public void setElements(List<Element> elements) {
 		this.elements = elements;
 	}
-	//the toString method to have a full descrition of Model entity
+
+	// the toString method to have a full descrition of Model entity
 	@Override
 	public String toString() {
-		return "Model [code=" + code + ", nom=" + name + ", responsables=" + responsibles + ", elements=" + elements
+		return "Model [Code=" + code + ", Name=" + name + ", responsibles=" + responsibles + ", Elements=" + elements
 				+ "]";
 	}
 }
-

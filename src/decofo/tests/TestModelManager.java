@@ -1,7 +1,5 @@
 package decofo.tests;
 
-import static org.junit.Assert.assertNotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,10 +74,6 @@ public class TestModelManager {
 		formation.setCode("code1");
 		formation.setName("Master test.");
 		
-		Nature nature = new Nature("Code","Formation");
-		formation.setNature(nm.createNature(nature));
-		em.createElement(formation);
-		
 		Person res = new Person();
 		res.setLogin("logine");
 		res.setAdmin(false);
@@ -91,11 +85,10 @@ public class TestModelManager {
 		responsibles.add(pm.createPerson(res));
 		pm.check(res);
 		model.setResponsibles(responsibles);
-		mm.createModel(model, formation);
+		mm.createModel(model);
 
 		Model modelFindInTheBase = mm.findModel("CodeMaque");
 		
 		Assert.assertNull(modelFindInTheBase);
-		Assert.assertEquals(modelFindInTheBase.getName(), model.getName());
 	}
 }
