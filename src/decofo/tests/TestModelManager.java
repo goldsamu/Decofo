@@ -42,6 +42,6 @@ public class TestModelManager {
 
 		Model modelFindInTheBase = em.findModel("CodeMaque");
 		assertNotNull(modelFindInTheBase);
-		Assert.assertEquals(modelFindInTheBase.getNom(), model.getNom());
+		Assert.assertEquals(modelFindInTheBase.getName(), model.getName());
 	}
 }
