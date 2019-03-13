@@ -43,7 +43,7 @@ public class TestNatureLoader {
 		List<Nature> listNatures = nm.findAllNature();
 		assertNotNull(listNatures);
 		for (Nature nature : listNatures) {
-			System.out.println(nature.toString());
+			System.err.println(nature.toString());
 		}
 	}
 

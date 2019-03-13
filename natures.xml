@@ -1,31 +1,38 @@
 <?xml version="1.0"?>
 <natures>
 	<nature>
-		<code>N1</code>
+		<code>FO</code>
 		<name>Formation</name>
+		<type>OU</type>
 	</nature>
 	<nature>
-		<code>N2</code>
+		<code>PA</code>
 		<name>Parcours</name>
+		<type>ET</type>
 	</nature>
 	<nature>
-		<code>N3</code>
-		<name>Année</name>
+		<code>AN</code>
+		<name>Annee</name>
+		<type>ET</type>
 	</nature>
 	<nature>
-		<code>N4</code>
+		<code>SE</code>
 		<name>Semestre</name>
+		<type>ET</type>
 	</nature>
 	<nature>
-		<code>N5</code>
+		<code>OP</code>
 		<name>Option</name>
+		<type>OU</type>
 	</nature>
 	<nature>
-		<code>N6</code>
+		<code>LI</code>
 		<name>Liste</name>
+		<type>ET</type>
 	</nature>
 	<nature>
-		<code>N7</code>
-		<name>Unité d'enseignement</name>
+		<code>UE</code>
+		<name>UE</name>
+		<type>ET</type>
 	</nature>
 </natures>

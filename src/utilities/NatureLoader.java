@@ -60,6 +60,9 @@ public class NatureLoader {
 							case 3:
 								nature.setName(childList.item(i).getTextContent());
 								break;
+							case 5:
+								nature.setNodeType(childList.item(i).getTextContent());
+								break;
 							}
 						}
 					}

@@ -18,6 +18,9 @@ public class Nature implements Serializable {
 	@Basic(optional = false)
 	private String name;
 
+	@Basic(optional = false)
+	private String nodeType;
+
 	@Version()
 	private long version = 0;
 
@@ -47,6 +50,14 @@ public class Nature implements Serializable {
 		this.name = name;
 	}
 
+	public String getNodeType() {
+		return nodeType;
+	}
+
+	public void setNodeType(String nodeType) {
+		this.nodeType = nodeType;
+	}
+
 	public long getVersion() {
 		return version;
 	}
@@ -57,7 +68,8 @@ public class Nature implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Nature [Code = " + code + ", Name = " + name + ", Version = " + version + "]";
+		return "Nature [Code = " + code + ", Name = " + name + ", NodeType = " + nodeType + ", Version = " + version
+				+ "]";
 	}
 
 }
