@@ -1,11 +1,14 @@
 package decofo.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import decofo.entities.Element;
 import decofo.entities.Model;
 import decofo.entities.Person;
 
@@ -17,9 +20,11 @@ import decofo.entities.Person;
 @Stateless
 public class ModelManager {
 
-	@PersistenceContext(unitName = "decofoDatabaseUnit")
+	@PersistenceContext(unitName = "myTestDatabaseUnit")
 	private EntityManager em;
+	@EJB
 	private PersonManager personManager;
+	//private ElementManager elemenManager;
 
 	/**
 	 * to return a list of model
@@ -40,14 +45,17 @@ public class ModelManager {
 	}
 
 	/**
-	 * to save a model
 	 * 
-	 * @param m the model that we want to save
-	 * @return Model saved model
+	 * @param m object of Model(Maquuette)
+	 * @param element default element(Formation)
+	 * @return model 
 	 */
-	public Model createModel(Model m) {
+	public Model createModel(Model m, Element formation) {
 		if(isAdmin()) {
 			if (m.getCode() == null) {
+				List<Element> elements = new ArrayList<Element>();
+				elements.add(formation);
+				m.setElements(elements);
 				em.persist(m);
 			} else {
 				m = em.merge(m);
