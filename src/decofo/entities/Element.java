@@ -1,6 +1,8 @@
 package decofo.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +33,7 @@ public class Element implements Serializable {
 	private String code;
 
 	@Basic(optional = false)
-	@ManyToOne(cascade={CascadeType.ALL}) // Juste pour le test 
+	@ManyToOne(cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) // Juste pour le test 
 	private Nature nature;
 
 	@Basic(optional = false)
@@ -61,14 +63,18 @@ public class Element implements Serializable {
 	private List<Element> fathers;
 
 	public Element() {
-		super();
+		sites = new HashMap<Site, Integer>();
+		children = new ArrayList<Element>();
+		fathers = new ArrayList<Element>();
 	}
 
 	public Element(String code, Nature nature, String name) {
-		super();
 		this.code = code;
 		this.nature = nature;
 		this.name = name;
+		sites = new HashMap<Site, Integer>();
+		children = new ArrayList<Element>();
+		fathers = new ArrayList<Element>();
 	}
 
 	public String getCode() {
