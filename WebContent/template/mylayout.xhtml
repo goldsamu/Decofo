@@ -32,12 +32,14 @@ footer{
 	<ui:include src="/template/menu.xhtml">
 		<ui:param name="activeIndex" value="#{activeIndex}" />
 	</ui:include>
-<p:commandButton value="Déconnexion" action="#{personController.logout()}" />
 
 
 
 	<ui:debug />
+	<p:commandButton value="Déconnexion" action="#{personController.logout()}" style="float:right;margin-top:50px;"/>
+		
 	<div class="container" style="margin-top: 50px;">
+		
 		<ui:insert name="content">
 		</ui:insert>
 		<h:messages />
