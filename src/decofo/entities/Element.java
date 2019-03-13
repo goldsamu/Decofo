@@ -56,10 +56,10 @@ public class Element implements Serializable {
 	@JoinTable(name = "father_child", joinColumns = {
 			@JoinColumn(name = "father", referencedColumnName = "code") }, inverseJoinColumns = {
 					@JoinColumn(name = "child", referencedColumnName = "code") })
-	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE})  //EAGER pour les tests
 	private List<Element> children;
 
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@ManyToMany(mappedBy="children", cascade = { CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)  //EAGER pour les tests
 	private List<Element> fathers;
 
 	public Element() {
