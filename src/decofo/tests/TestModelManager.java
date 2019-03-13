@@ -85,11 +85,11 @@ public class TestModelManager {
 		res.setAdmin(false);
 		res.setName("jilal");
 		res.setEmail("mahdihssajilal@gmail.com");
-		
+		res.setStatus("student");
 		
 		List<Person> responsibles = new ArrayList<Person>();
 		responsibles.add(pm.createPerson(res));
-		
+		pm.check(res);
 		model.setResponsibles(responsibles);
 		mm.createModel(model, formation);
 
