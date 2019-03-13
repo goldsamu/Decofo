@@ -31,12 +31,9 @@ public class TestModelManager {
 	 */
 	static EJBContainer container1,container;
 	static ModelManager mm;
-	@EJB
+
 	static PersonManager pm;
-	@EJB
-	static ElementManager em;
-	@EJB
-	static NatureManager nm;
+
 	/**
 	 * here we initialize the the EJB that we want to use
 	 * @throws NamingException
@@ -46,6 +43,7 @@ public class TestModelManager {
 		final String name = "java:global/Decofo/ModelManager";
 		container = EJBContainer.createEJBContainer();
 		mm = (ModelManager) container.getContext().lookup(name);
+		pm = (PersonManager) container.getContext().lookup("java:global/Decofo/PersonManager");
 	}
 	/**
 	 * after operation, we close the conainer EJB
@@ -66,13 +64,8 @@ public class TestModelManager {
 	 * this method will if we can create a model 
 	 */
 	@Test
-	public void testCreateAndFindElement() {
+	public void testCreateAndFindModel() {
 		Model model = new Model("CodeMaque", "ModelName");
-		
-		Element formation = new Element();
-		
-		formation.setCode("code1");
-		formation.setName("Master test.");
 		
 		Person res = new Person();
 		res.setLogin("logine");
@@ -89,6 +82,7 @@ public class TestModelManager {
 
 		Model modelFindInTheBase = mm.findModel("CodeMaque");
 		
-		Assert.assertNull(modelFindInTheBase);
+		Assert.assertNotNull(modelFindInTheBase);
+		Assert.assertEquals(modelFindInTheBase.getName(), model.getName());
 	}
 }

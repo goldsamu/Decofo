@@ -44,6 +44,7 @@ public class TestElementManager {
 	public void testCreateAndFindElement() {
 		
 		Nature nature = new Nature("codeNature1", "nameNature1");
+		nature.setNodeType("ET");
 		
 		/*Site site1 = new Site("codeSite1", "nameSite1");
 		Site site2 = new Site("codeSite2", "nameSite2");

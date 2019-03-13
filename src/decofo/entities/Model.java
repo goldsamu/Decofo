@@ -119,7 +119,7 @@ public class Model implements Serializable {
 	// the toString method to have a full descrition of Model entity
 	@Override
 	public String toString() {
-		return "Model [Code=" + code + ", Name=" + name + ", responsibles=" + responsibles + ", Elements=" + elements
+		return "Model [Code=" + code + ", Name=" + name
 				+ "]";
 	}
 }
