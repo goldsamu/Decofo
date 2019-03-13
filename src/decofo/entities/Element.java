@@ -33,7 +33,7 @@ public class Element implements Serializable {
 	private String code;
 
 	@Basic(optional = false)
-	@ManyToOne(cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}) // Juste pour le test 
+	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }) // Juste pour le test
 	private Nature nature;
 
 	@Basic(optional = false)
@@ -53,13 +53,13 @@ public class Element implements Serializable {
 	@MapKeyColumn(name = "SITE_ID")
 	private Map<Site, Integer> sites;
 
-	@JoinTable(name = "father_child", 
-			   joinColumns = {@JoinColumn(name = "father", referencedColumnName = "code")}, 
-			   inverseJoinColumns = {@JoinColumn(name = "child", referencedColumnName = "code")})
-	@ManyToMany
+	@JoinTable(name = "father_child", joinColumns = {
+			@JoinColumn(name = "father", referencedColumnName = "code") }, inverseJoinColumns = {
+					@JoinColumn(name = "child", referencedColumnName = "code") })
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE})
 	private List<Element> children;
 
-	@ManyToMany
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	private List<Element> fathers;
 
 	public Element() {
@@ -179,5 +179,12 @@ public class Element implements Serializable {
 
 	public void setFathers(List<Element> fathers) {
 		this.fathers = fathers;
+	}
+
+	@Override
+	public String toString() {
+		return "Element[ Code = " + code + " Nature = " + nature + " Name = " + name + " Credis = " + credits
+				+ " HoursLM : " + hoursLM + " HoursTC = " + hoursTC + " HoursPW = " + hoursPW + " ThresholdLM = "
+				+ thresholdLM + " ThresholdTC : " + thresholdTC + " ThresholdPW = " + thresholdPW + "]";
 	}
 }
