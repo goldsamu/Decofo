@@ -1,0 +1,33 @@
+/*C4*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C5*/SET SCHEMA PUBLIC
+\u000a    alter table Element \u000a        drop constraint FK_ftn14x9t62a8m6am25r3t92nb
+\u000a    alter table Model_Element \u000a        drop constraint FK_ckym9ts20gsnqyykttcnpud7p
+\u000a    alter table Model_Element \u000a        drop constraint FK_iuthu7yl0c93sycbtbqbuhbw3
+\u000a    alter table Model_Person \u000a        drop constraint FK_yo7xnirlb273noajjyesqw0f
+\u000a    alter table Model_Person \u000a        drop constraint FK_bh30qatus2to17ruiqu0soywy
+\u000a    drop table Element if exists
+\u000a    drop table Model if exists
+\u000a    drop table Model_Element if exists
+\u000a    drop table Model_Person if exists
+\u000a    drop table Nature if exists
+\u000a    drop table Person if exists
+\u000a    create table Element (\u000a        code varchar(255) not null,\u000a        nature_code varchar(255),\u000a        primary key (code)\u000a    )
+\u000a    create table Model (\u000a        code varchar(255) not null,\u000a        name varchar(255) not null,\u000a        primary key (code)\u000a    )
+\u000a    create table Model_Element (\u000a        Model_code varchar(255) not null,\u000a        elements_code varchar(255) not null\u000a    )
+\u000a    create table Model_Person (\u000a        Model_code varchar(255) not null,\u000a        responsibles_login varchar(25) not null\u000a    )
+\u000a    create table Nature (\u000a        code varchar(255) not null,\u000a        name varchar(255) not null,\u000a        nodeType varchar(255) not null,\u000a        version bigint not null,\u000a        primary key (code)\u000a    )
+\u000a    create table Person (\u000a        login varchar(25) not null,\u000a        admin boolean not null,\u000a        email varchar(75) not null,\u000a        name varchar(50) not null,\u000a        status varchar(25) not null,\u000a        version bigint not null,\u000a        primary key (login)\u000a    )
+\u000a    alter table Model_Element \u000a        add constraint UK_ckym9ts20gsnqyykttcnpud7p unique (elements_code)
+\u000a    alter table Element \u000a        add constraint FK_ftn14x9t62a8m6am25r3t92nb \u000a        foreign key (nature_code) \u000a        references Nature
+\u000a    alter table Model_Element \u000a        add constraint FK_ckym9ts20gsnqyykttcnpud7p \u000a        foreign key (elements_code) \u000a        references Element
+\u000a    alter table Model_Element \u000a        add constraint FK_iuthu7yl0c93sycbtbqbuhbw3 \u000a        foreign key (Model_code) \u000a        references Model
+\u000a    alter table Model_Person \u000a        add constraint FK_yo7xnirlb273noajjyesqw0f \u000a        foreign key (responsibles_login) \u000a        references Person
+\u000a    alter table Model_Person \u000a        add constraint FK_bh30qatus2to17ruiqu0soywy \u000a        foreign key (Model_code) \u000a        references Model
+INSERT INTO MODEL VALUES('CodeMaque','ModelName')
+INSERT INTO ELEMENT VALUES('ele1',NULL)
+INSERT INTO PERSON VALUES('logine',FALSE,'mahdihssajilal@gmail.com','jilal','student',0)
+INSERT INTO MODEL_ELEMENT VALUES('CodeMaque','ele1')
+INSERT INTO MODEL_PERSON VALUES('CodeMaque','logine')
+COMMIT
+DISCONNECT

@@ -24,10 +24,12 @@ public class ModelManager {
 	private EntityManager em;
 	@EJB
 	private PersonManager personManager;
-	//private ElementManager elemenManager;
+	// private ElementManager elemenManager;
+	private boolean admin = false;
 
 	/**
 	 * to return a list of model
+	 * 
 	 * @return List<Model> liste of Model that is saved in the base
 	 */
 	public List<Model> findAllModel() {
@@ -37,7 +39,8 @@ public class ModelManager {
 	/**
 	 * to find a model that it code is passed on argument
 	 * 
-	 * @param code code of the model that we want to find it
+	 * @param code
+	 *            code of the model that we want to find it
 	 * @return Model model that it code is specified on argument
 	 */
 	public Model findModel(String code) {
@@ -46,28 +49,34 @@ public class ModelManager {
 
 	/**
 	 * 
-	 * @param m object of Model(Maquuette)
-	 * @param element default element(Formation)
-	 * @return model 
+	 * @param m
+	 *            object of Model(Maquuette)
+	 * @param element
+	 *            default element(Formation)
+	 * @return model
 	 */
-	public Model createModel(Model m, Element formation) {
-		if(isAdmin()) {
+	public Model createModel(Model m) {
+		if (m.getElements().size() == 1) {
+			admin = true;
+		} else {
+			admin = false;
+		}
+		if (admin) {
 			if (m.getCode() == null) {
-				List<Element> elements = new ArrayList<Element>();
-				elements.add(formation);
-				m.setElements(elements);
 				em.persist(m);
 			} else {
 				m = em.merge(m);
 			}
 		}
+
 		return m;
 	}
 
 	/**
 	 * to destroy the model that is passed on argument
 	 * 
-	 * @param m model to destroy
+	 * @param m
+	 *            model to destroy
 	 */
 	public void deleteModel(Model m) {
 		m = em.merge(m);
@@ -77,12 +86,14 @@ public class ModelManager {
 	/**
 	 * to udpate a model
 	 * 
-	 * @param m the model that we want to update
+	 * @param m
+	 *            the model that we want to update
 	 * @return Model updated model
 	 */
 	public Model updateModel(Model m) {
-		if(this.isAdmin() || this.isResponsible(m));
-			m = em.merge(m);
+		if (this.isAdmin() || this.isResponsible(m))
+			;
+		m = em.merge(m);
 		return m;
 	}
 
@@ -90,11 +101,13 @@ public class ModelManager {
 	 * this methode test when an user want to update a model if this user is the
 	 * responsible of the model on update.
 	 * 
-	 * @param m is an object of Model
+	 * @param m
+	 *            is an object of Model
 	 * @return a boolean(True or False)
 	 */
 	public boolean isResponsible(Model m) {
 		boolean response = false;
+		personManager.setUser(m.getResponsibles().get(0));
 		if (m.getResponsibles().size() == 1) {
 			if (m.getResponsibles().get(0).getLogin() == personManager.getUser().getLogin()) {
 				response = true;
@@ -113,8 +126,10 @@ public class ModelManager {
 
 		return response;
 	}
+
 	/**
 	 * this method test if an user is an administrator or not
+	 * 
 	 * @return admin
 	 */
 	public boolean isAdmin() {
