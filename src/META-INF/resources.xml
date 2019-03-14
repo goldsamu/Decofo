@@ -1,6 +1,6 @@
 <?xml version = "1.0" encoding="UTF-8"?>
-<!DOCTYPE openejb>
-<openejb>
+
+<resources>
 	<Resource id="decofoDatabase" type="DataSource">
 		JdbcDriver org.hsqldb.jdbcDriver
 		JdbcUrl jdbc:hsqldb:file:/data/decofo
@@ -9,5 +9,4 @@
 		JtaManaged true
 	</Resource>
 
-</openejb>
-
+</resources>
