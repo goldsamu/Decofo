@@ -7,6 +7,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 
 import decofo.entities.Model;
+import decofo.entities.Person;
 import decofo.services.ModelManager;
 /**
  * 
@@ -32,8 +33,8 @@ public class ModelController {
 	 * after creation of a new model, this return us the new model
 	 * @return theModel
 	 */
-	public String newModel() {
-		modelmanager.createModel(theModel);
+	public String newModel(Person user) {
+		modelmanager.createModel(theModel, user);
 		theModel = new Model();
 		return "listModels";
 	}
@@ -68,8 +69,8 @@ public class ModelController {
 	 * @param model object of Model that we want to edit
 	 * @return String name of the web page that we want to reduct to user
 	 */
-	public String editModel(Model model) {
-		theModel = modelmanager.updateModel(model);
+	public String editModel(Model model, Person user) {
+		theModel = modelmanager.updateModel(model, user);
 		return"listModels";
 	}
 	

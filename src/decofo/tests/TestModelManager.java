@@ -69,7 +69,7 @@ public class TestModelManager {
 		
 		Person res = new Person();
 		res.setLogin("logine");
-		res.setAdmin(false);
+		res.setAdmin(true);
 		res.setName("jilal");
 		res.setEmail("mahdihssajilal@gmail.com");
 		res.setStatus("student");
@@ -78,7 +78,7 @@ public class TestModelManager {
 		responsibles.add(pm.createPerson(res));
 		pm.check(res);
 		model.setResponsibles(responsibles);
-		mm.createModel(model);
+		mm.createModel(model, pm.getUser());
 
 		Model modelFindInTheBase = mm.findModel("CodeMaque");
 		

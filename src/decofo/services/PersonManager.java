@@ -1,9 +1,12 @@
 
 package decofo.services;
 
+import java.util.List;
+
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import decofo.entities.Person;
 
@@ -16,18 +19,10 @@ public class PersonManager {
     /**
      * The current user logged.
      */
-    private Person user;
-
-    public PersonManager() {
-	setUser(new Person());
-    }
+    private Person user = new Person();
 
     public Person getUser() {
 	return user;
-    }
-
-    public void setUser(Person user) {
-	this.user = user;
     }
 
     /**
@@ -76,5 +71,17 @@ public class PersonManager {
 
 	if (p != null)
 	    em.remove(p);
+    }
+    
+    public Person findPersonByLogin(String login)
+    {
+	return em.find(Person.class, login);
+    }
+    
+    public List<Person> findPersonsByName(String name)
+    {
+	TypedQuery<Person> q = em.createQuery("FROM Activity WHERE lower(name) LIKE lower(:name)", Person.class);
+	q.setParameter("name", name + "%");
+	return q.getResultList();
     }
 }
