@@ -92,27 +92,45 @@ public class ModelController {
 		theModel = modelmanager.updateModel(model);
 		return"listModels";
 	}
-
+	/**
+	 * to get themodel
+	 * @return Model
+	 */
 	public Model getTheModel() {
 		return theModel;
 	}
-
+	/**
+	 * to set the model
+	 * @param theModel
+	 */
 	public void setTheModel(Model theModel) {
 		this.theModel = theModel;
 	}
-
+	/**
+	 * to get the list of responsibles
+	 * @return
+	 */
 	public List<Person> getResponsibles() {
 		return responsibles;
 	}
-
+	/**
+	 * set responsibles
+	 * @param responsibles
+	 */
 	public void setResponsibles(List<Person> responsibles) {
 		this.responsibles = responsibles;
 	}
-
+	/**
+	 * get the liste of elements
+	 * @return
+	 */
 	public List<Element> getElements() {
 		return elements;
 	}
-
+	/**
+	 * set the liste of elements
+	 * @param elements
+	 */
 	public void setElements(List<Element> elements) {
 		this.elements = elements;
 	}
