@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import decofo.entities.Nature;
 import decofo.entities.Person;
 
 @Stateful
@@ -84,4 +85,8 @@ public class PersonManager {
 	q.setParameter("name", name + "%");
 	return q.getResultList();
     }
+    
+    public List<Person> findAllPersons() {
+	return em.createQuery("From Person", Person.class).getResultList();
+}
 }

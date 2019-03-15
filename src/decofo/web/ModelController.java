@@ -2,9 +2,10 @@ package decofo.web;
 
 import java.util.List;
 
-import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 import decofo.entities.Model;
 import decofo.entities.Person;
@@ -26,6 +27,12 @@ public class ModelController {
 	@EJB
 	private ModelManager modelmanager;
 	private Model theModel;
+	
+	@PostConstruct
+	public void init()
+	{
+		System.out.println("Create " + this);
+	}
 	/*
 	 * the methods of model controller
 	 */

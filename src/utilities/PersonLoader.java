@@ -1,6 +1,5 @@
 package utilities;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.annotation.PostConstruct;
@@ -33,16 +32,14 @@ public class PersonLoader {
 
     @PostConstruct
     private void lunch() {
-	browserXML("persons.xml");
+	browserXML("/persons.xml");
     }
 
     public void browserXML(String file) {
 	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	try {
 	    DocumentBuilder builder = factory.newDocumentBuilder();
-	    File f = new File(file);
-	    System.out.println(f.toURI());
-	    Document document = builder.parse(f);
+	    Document document = builder.parse(getClass().getResourceAsStream(file));
 	    DocumentTraversal traversal = (DocumentTraversal) document;
 
 	    NodeIterator iterator = traversal.createNodeIterator(document.getDocumentElement(), NodeFilter.SHOW_ELEMENT,

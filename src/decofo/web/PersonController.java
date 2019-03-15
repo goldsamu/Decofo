@@ -1,8 +1,10 @@
 package decofo.web;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -19,6 +21,11 @@ public class PersonController {
 
     @EJB
     private PersonManager personManager;
+
+    @PostConstruct
+    public void init() {
+	System.out.println("Create " + this);
+    }
 
     /**
      * Collect the data about the user from the CAS and give them to the manager.
@@ -44,6 +51,7 @@ public class PersonController {
 
     /**
      * Invalidate the session and redirect to the home page.
+     * 
      * @throws IOException
      */
     public void logout() throws IOException {
@@ -51,6 +59,10 @@ public class PersonController {
 	FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 	FacesContext.getCurrentInstance().getExternalContext().redirect(
 		"https://ident.univ-amu.fr/cas/logout?service=http%3A%2F%2Flocalhost%3A8080%2FDecofo%2Fhome.xhtml");
+    }
+
+    public List<Person> findAllPersons() {
+	return personManager.findAllPersons();
     }
 
     public boolean isConnected() {

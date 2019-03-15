@@ -19,10 +19,11 @@
 					</p:inputText>
 				</DIV>
 				<DIV class="ui-g-3">
-					<p:selectBooleanCheckbox value=""
-						itemLabel="Mes maquettes">
-						<p:ajax update=""  />
-					</p:selectBooleanCheckbox>
+					<ui:remove>
+						<p:selectBooleanCheckbox value="" itemLabel="Mes maquettes">
+							<p:ajax update="" />
+						</p:selectBooleanCheckbox>
+					</ui:remove>
 				</DIV>
 				<DIV class="ui-g-3">
 					<p:button outcome="visu_maquette" value="Visualiser"
@@ -37,15 +38,19 @@
 			</div>
 			<div class="ui-g">
 				<div class="ui-g-6">
-					<p:dataGrid id="maquettes" var="maquette" value="" columns="1"
-						layout="grid" rows="12" paginator="true" lazy="true"
-						paginatorPosition="both"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="6,12,16, 32">
+					<ui:remove>
+						<p:dataGrid id="maquettes" var="maquette" value="" columns="1"
+							layout="grid" rows="12" paginator="true" lazy="true"
+							paginatorPosition="both"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="6,12,16, 32">
 
 
 
-					</p:dataGrid>
+						</p:dataGrid>
+					</ui:remove>
+					#{modelController}
+					#{personController}
 				</div>
 			</div>
 
