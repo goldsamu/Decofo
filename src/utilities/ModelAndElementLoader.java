@@ -64,7 +64,7 @@ public class ModelAndElementLoader {
 	    for (Nature nature : naturesList) {
 		nameNaturesList.add(nature.getName());
 	    }
-	    
+
 	    Person person = pm.findPersonByLogin("g13017841");
 
 	    for (Node node = iterator.nextNode(); node != null; node = iterator.nextNode()) {

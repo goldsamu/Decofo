@@ -73,9 +73,9 @@ public class ModelManager {
      * 
      * @param m model to destroy
      */
-    public void deleteModel(Model m) {
-	m = em.merge(m);
-	em.remove(m);
+    public void deleteModel(Model m, Person user) {
+	if (user.isAdmin())
+	    em.remove(m);
     }
 
     /**
@@ -85,7 +85,7 @@ public class ModelManager {
      * @return Model updated model
      */
     public Model updateModel(Model m, Person user) {
-	if (user.isAdmin() || this.isResponsible(m, user))
+	if (user.isAdmin() /* || this.isResponsible(m, user) */)
 	    m = em.merge(m);
 
 	return m;
@@ -98,14 +98,11 @@ public class ModelManager {
      * @param m is an object of Model
      * @return a boolean(True or False)
      */
-    public boolean isResponsible(Model m, Person user) {
-	for (Person p : m.getResponsibles()) {
-	    if (p.getLogin().equals(user.getLogin())) {
-		return true;
-	    }
-	}
-	return false;
-    }
+    /*
+     * public boolean isResponsible(Model m, Person user) { for (Person p :
+     * m.getResponsibles()) { if (p.getLogin().equals(user.getLogin())) { return
+     * true; } } return false; }
+     */
 
     /**
      * this method test if an user is an administrator or not
