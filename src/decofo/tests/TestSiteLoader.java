@@ -42,7 +42,7 @@ public class TestSiteLoader {
 		List<Site> listSites = sm.findAllSite();
 		assertNotNull(listSites);
 		for (Site site : listSites) {
-			System.out.println(site.toString());
+			System.err.println(site.toString());
 		}
 	}
 

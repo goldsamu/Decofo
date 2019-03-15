@@ -39,7 +39,7 @@ public class TestNatureLoader {
 	}
 	
 	@Test
-	public void testFindAllNature() {
+	public void testFindAllNatures() {
 		List<Nature> listNatures = nm.findAllNature();
 		assertNotNull(listNatures);
 		for (Nature nature : listNatures) {

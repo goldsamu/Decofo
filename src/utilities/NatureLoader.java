@@ -1,6 +1,5 @@
 package utilities;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.annotation.PostConstruct;
@@ -33,14 +32,14 @@ public class NatureLoader {
 	
 	@PostConstruct
 	private void lunch() {
-		browserXML("natures.xml");
+		browserXML("/natures.xml");
 	}
 
 	public void browserXML(String file) {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(new File(file));
+			Document document = builder.parse(getClass().getResourceAsStream(file));
 			DocumentTraversal traversal = (DocumentTraversal) document;
 			
 			NodeIterator iterator = traversal.createNodeIterator(document.getDocumentElement(), NodeFilter.SHOW_ELEMENT,
