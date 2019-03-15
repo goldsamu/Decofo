@@ -59,9 +59,9 @@ public class ModelController {
 	 * @param codeModel String code of model that we want to destroy it
 	 * @return String name of the web page that we want to reduct to user
 	 */
-	public String removeModel(String codeModel) {
+	public String removeModel(String codeModel, Person user) {
 		theModel = modelmanager.findModel(codeModel);
-		modelmanager.deleteModel(theModel);
+		modelmanager.deleteModel(theModel, user);
 		return "listeModels";
 	}
 	/**
