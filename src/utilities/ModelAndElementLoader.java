@@ -65,12 +65,11 @@ public class ModelAndElementLoader {
 	    }
 
 	    Person person = pm.findPersonByLogin("g13017841");
-
+	    Model model = null;
 	    for (Node node = iterator.nextNode(); node != null; node = iterator.nextNode()) {
-
+		Model m = model;
 		if (node.getNodeName().equals("mention")) {
-
-		    Model model = new Model();
+		    model = new Model();
 		    model.setCode(generate(5));
 		    model.setName("NameMaquette");
 		    model.getResponsibles().add(person);
@@ -93,6 +92,9 @@ public class ModelAndElementLoader {
 			    }
 			}
 		    }
+		    formation.setNature(nm.findNature("FO"));
+		    model.setName(formation.getName());
+		    formation.setModel(model);
 		    model.getElements().set(0, formation);
 		    mm.updateModel(model, person);
 		}
@@ -102,6 +104,8 @@ public class ModelAndElementLoader {
 		    element.setCode(generate(10));
 		    Nature nature = nm.findNatureByName(node.getNodeName());
 		    element.setNature(nature);
+		    element.setModel(m);
+		    System.out.println("Model : " + m);
 		    NodeList childList = node.getChildNodes();
 		    for (int i = 0; i < childList.getLength(); i++) {
 			if (!childList.item(i).getTextContent().trim().equals("")) {
@@ -137,7 +141,7 @@ public class ModelAndElementLoader {
 			    }
 			}
 		    }
-		    em.createElement(element);
+		    em.createElement(element, person);
 
 		}
 
@@ -159,8 +163,10 @@ public class ModelAndElementLoader {
 		    }
 		    Element fatherElement = em.findElement(codeFather);
 		    Element childElement = em.findElement(codeChild);
+		    System.out.println(fatherElement);
+		    System.out.println(childElement);
 		    fatherElement.getChildren().add(childElement);
-		    em.updateElement(fatherElement);
+		    em.updateElement(fatherElement, person);
 
 		}
 	    }

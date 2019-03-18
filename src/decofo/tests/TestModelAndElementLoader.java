@@ -46,18 +46,18 @@ public class TestModelAndElementLoader {
 		List<Model> listModels = mm.findAllModel();
 		assertNotNull(listModels);
 		for (Model model : listModels) {
-			System.err.println(model.getCode());
+			System.err.println("Maquettes : " + model.getCode());
 		}
 		
 		Element parcours = em.findElement("P100");
 		assertNotNull(parcours);
 		System.err.println(parcours.getCode());
 		
-		Element formation = parcours.getFathers().get(0);
+		Element formation = em.findChildren("P100").get(0);
 		assertNotNull(formation);
 		System.err.println(formation.getCode());
 		
-		Element semestre = parcours.getChildren().get(0);
+		Element semestre = em.findChildren("P100").get(0);
 		assertNotNull(semestre);
 		System.err.println(semestre.getCode());	
 	}
