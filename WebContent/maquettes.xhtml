@@ -19,11 +19,13 @@
 					</p:inputText>
 				</DIV>
 				<DIV class="ui-g-3">
-					<p:selectBooleanCheckbox value="" itemLabel="Mes maquettes">
-						<p:ajax update="models" />
-					</p:selectBooleanCheckbox>
+					<ui:remove>
+						<p:selectBooleanCheckbox value="" itemLabel="Mes maquettes">
+							<p:ajax update="models" />
+						</p:selectBooleanCheckbox>
+					</ui:remove>
 				</DIV>
-				
+
 				<DIV class="ui-g-3">
 					<p:commandButton value="Ajout maquette"
 						onclick="PF('addMaquetteDialog').show();">
@@ -74,7 +76,6 @@
 		<p:dialog header="Ajout maquette" widgetVar="addMaquetteDialog"
 			modal="true" resizable="false" responsive="true" draggable="false"
 			width="50%">
-			
 
 			<h:form id="addMaquetteForm">
 				<c:set var="newModel" value="#{modelView.theModel}" />
@@ -85,39 +86,34 @@
 					columnClasses="ui-grid-col-3, ui-grid-col-6, ui-grid-col-3">
 
 					<h:outputText value="Nom : " />
-					<p:inputText type="text" value="#{newModel.name}" class="form-control"
-						id="inputName" placeholder="Nom" required="true"
-						requiredMessage="Nom requis" />
-					<p:message for="inputName" showDetail="false" display="icon">
-						<p:autoUpdate />
-					</p:message>
+					<p:inputText type="text" value="#{newModel.name}"
+						styleClass="form-control" id="inputName" placeholder="Nom"
+						required="true" requiredMessage="Nom requis" />
+					<p:message for="inputName" showDetail="false" display="icon" />
 
 
 					<h:outputText value="Code :" />
-					<p:inputText type="text" value="#{newModel.code}" class="form-control"
-						id="inputCode" placeholder="Code" required="true"
-						requiredMessage="Code requis" />
+					<p:inputText type="text" value="#{newModel.code}"
+						styleClass="form-control" id="inputCode" placeholder="Code"
+						required="true" requiredMessage="Code requis" />
 					<p:message for="inputCode" showDetail="false" display="icon">
 						<p:autoUpdate />
 					</p:message>
 
 					<h:outputText value="Responsable :" />
-
 					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 						<p:outputLabel for="responsable" value="" />
-						<p:selectOneMenu id="responsable" value="" style="width:125px">
+						<p:selectOneMenu id="responsable" value="#{modelView.responsible}">
 							<f:selectItem itemLabel="Select One" itemValue="" />
-							<f:selectItem itemLabel="Jean-luc Massat"
-								itemValue="Jean-luc Massat" />
-							<f:selectItem itemLabel="Omar Boucelma" itemValue="Omar Boucelma" />
+							<f:selectItems value="#{personController.findAllPersons()}" />
+							<p:ajax event="change" update="@this" />
 						</p:selectOneMenu>
 					</h:panelGrid>
-					<p:commandButton value="Accepter"
-						action="#{ modelView.add()}"
+					<h:commandButton value="Valider"
+						action="#{modelView.newModel(personController.user)}"
 						icon="fa fa-check">
-					</p:commandButton>
+					</h:commandButton>
 				</p:panelGrid>
-
 			</h:form>
 		</p:dialog>
 		<p:dialog header="Maquette" widgetVar="maquetteDialog" modal="true"

@@ -33,7 +33,7 @@ public class Element implements Serializable {
     private String code;
 
     @Basic(optional = false)
-    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, fetch = FetchType.EAGER)
+    @ManyToOne(/*cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, */fetch = FetchType.EAGER)
     private Nature nature;
     
     @Basic(optional = false)
