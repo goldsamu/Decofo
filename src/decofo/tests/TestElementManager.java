@@ -2,9 +2,6 @@ package decofo.tests;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.ejb.embeddable.EJBContainer;
 import javax.naming.NamingException;
 
@@ -14,20 +11,27 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import decofo.entities.Element;
+import decofo.entities.Model;
 import decofo.entities.Nature;
-import decofo.entities.Site;
+import decofo.entities.Person;
 import decofo.services.ElementManager;
+import decofo.services.ModelManager;
+import decofo.services.PersonManager;
 
 public class TestElementManager {
 
 	static EJBContainer container;
 	static ElementManager em;
+	static ModelManager mm;
+	static PersonManager pm;
 
 	@BeforeClass
 	public static void beforeAll() throws NamingException {
 		final String name = "java:global/Decofo/ElementManager";
 		container = EJBContainer.createEJBContainer();
 		em = (ElementManager) container.getContext().lookup(name);
+		mm = (ModelManager) container.getContext().lookup("java:global/Decofo/ModelManager");
+		pm = (PersonManager) container.getContext().lookup("java:global/Decofo/PersonManager");
 	}
 
 	@AfterClass
@@ -52,9 +56,23 @@ public class TestElementManager {
 		sites.put(site1, Integer.valueOf(100));
 		sites.put(site2, Integer.valueOf(200));*/
 		
+		Person p = new Person();
+		p.setLogin("CreateAndFindElement");
+		p.setAdmin(true);
+		p.setName("CreateAndFindElement");
+		p.setEmail("CreateAndFindElement");
+		p.setStatus("CreateAndFindElement");
+		
+		pm.createPerson(p);
+		
+		Model model = new Model("CreateAndFindElement", "CreateAndFindElement");
+		model.getResponsibles().add(p);
+		mm.createModel(model, p);
+		
 		Element element = new Element("codeElement1", nature, "nameElement1");
 		//element.setSites(sites);
-		em.createElement(element);
+		element.setModel(model);
+		em.createElement(element, p);
 	
 		Element eltFromDatabase = em.findElement("codeElement1");
 		assertNotNull(eltFromDatabase);

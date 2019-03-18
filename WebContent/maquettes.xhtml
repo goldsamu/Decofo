@@ -18,33 +18,56 @@
 						<p:ajax event="keyup" update=""></p:ajax>
 					</p:inputText>
 				</DIV>
-				<DIV class="ui-g-3" />
 				<DIV class="ui-g-3">
-					<p:button outcome="visu_maquette" value="Visualiser" icon="fa fa-search">
+					<ui:remove>
+						<p:selectBooleanCheckbox value="" itemLabel="Mes maquettes">
+							<p:ajax update="" />
+						</p:selectBooleanCheckbox>
+					</ui:remove>
+				</DIV>
+				<DIV class="ui-g-3">
+					<p:button outcome="visu_maquette" value="Visualiser"
+						icon="fa fa-search">
 					</p:button>
 				</DIV>
 				<DIV class="ui-g-3">
-					<p:commandButton value="Ajout Maquette"
+					<p:commandButton value="Ajout maquette"
 						onclick="PF('addMaquetteDialog').show();">
 					</p:commandButton>
 				</DIV>
 			</div>
 			<div class="ui-g">
 				<div class="ui-g-6">
-					<p:dataGrid id="maquettes" var="maquette" value="" columns="1"
-						layout="grid" rows="12" paginator="true" lazy="true"
-						paginatorPosition="both"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="6,12,16, 32">
+					<ui:remove>
+						<p:dataGrid id="maquettes" var="maquette" value="" columns="1"
+							layout="grid" rows="12" paginator="true" lazy="true"
+							paginatorPosition="both"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="6,12,16, 32">
 
 
 
-					</p:dataGrid>
+						</p:dataGrid>
+					</ui:remove>
+					#{modelController}
+					#{personController}
+				</div>
+			</div>
+
+			<div class="ui-g">
+				<div class="ui-g-6"></div>
+				<div class="ui-g-6">
+					<p:commandButton value="Modifier maquette"
+						onclick="PF('modifieMaquetteDialog').show();">
+					</p:commandButton>
 				</div>
 			</div>
 		</h:form>
-
-		<p:dialog header="Add Maquette" widgetVar="addMaquetteDialog"
+		<p:dialog header="Modifier maquette"
+			widgetVar="modifierMaquetteDialog" modal="true" resizable="false"
+			responsive="true" draggable="false" width="50%">
+		</p:dialog>
+		<p:dialog header="Ajout maquette" widgetVar="addMaquetteDialog"
 			modal="true" resizable="false" responsive="true" draggable="false"
 			width="50%">
 			<p:ajax event="close" update="addMaquetteForm"

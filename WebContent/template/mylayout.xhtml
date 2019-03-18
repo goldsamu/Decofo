@@ -13,13 +13,14 @@ body {
 	background-size: cover;
 	background-attachment: fixed;
 }
-footer{
-	float:bottom;
+
+footer {
+	float: bottom;
 }
 </style>
 <h:head>
 	<title><ui:insert name="title">Decofo</ui:insert></title>
-	
+
 	<h:outputStylesheet library="webjars"
 		name="bootstrap/3.3.7/css/bootstrap.min-jsf.css" />
 
@@ -36,10 +37,13 @@ footer{
 
 
 	<ui:debug />
-	<p:commandButton value="Déconnexion" action="#{personController.logout()}" style="float:right;margin-top:50px;"/>
-		
+	<h:form>
+		<p:commandButton value="Déconnexion"
+			action="#{personController.logout()}"
+			style="float:right;margin-top:50px;" />
+	</h:form>
 	<div class="container" style="margin-top: 50px;">
-		
+
 		<ui:insert name="content">
 		</ui:insert>
 		<h:messages />

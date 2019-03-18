@@ -2,11 +2,13 @@ package decofo.web;
 
 import java.util.List;
 
-import javax.annotation.ManagedBean;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 import decofo.entities.Model;
+import decofo.entities.Person;
 import decofo.services.ModelManager;
 /**
  * 
@@ -25,6 +27,12 @@ public class ModelController {
 	@EJB
 	private ModelManager modelmanager;
 	private Model theModel;
+	
+	@PostConstruct
+	public void init()
+	{
+		System.out.println("Create " + this);
+	}
 	/*
 	 * the methods of model controller
 	 */
@@ -32,8 +40,8 @@ public class ModelController {
 	 * after creation of a new model, this return us the new model
 	 * @return theModel
 	 */
-	public String newModel() {
-		modelmanager.createModel(theModel);
+	public String newModel(Person user) {
+		modelmanager.createModel(theModel, user);
 		theModel = new Model();
 		return "listModels";
 	}
@@ -58,9 +66,9 @@ public class ModelController {
 	 * @param codeModel String code of model that we want to destroy it
 	 * @return String name of the web page that we want to reduct to user
 	 */
-	public String removeModel(String codeModel) {
+	public String removeModel(String codeModel, Person user) {
 		theModel = modelmanager.findModel(codeModel);
-		modelmanager.deleteModel(theModel);
+		modelmanager.deleteModel(theModel, user);
 		return "listeModels";
 	}
 	/**
@@ -68,8 +76,8 @@ public class ModelController {
 	 * @param model object of Model that we want to edit
 	 * @return String name of the web page that we want to reduct to user
 	 */
-	public String editModel(Model model) {
-		theModel = modelmanager.updateModel(model);
+	public String editModel(Model model, Person user) {
+		theModel = modelmanager.updateModel(model, user);
 		return"listModels";
 	}
 	

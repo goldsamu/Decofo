@@ -42,9 +42,21 @@
 					</h:form>
 				</div>
 			</div>
+			<div class="ui-g">
+				<div class="ui-g-6"></div>
+				<div class="ui-g-6">
+					<p:commandButton value="Modifier élément"
+						onclick="PF('modifieElementDialog').show();">
+					</p:commandButton>
+				</div>
+			</div>
 		</h:form>
+		<p:dialog header="Modifier élément" widgetVar="modifieElementDialog"
+			modal="true" resizable="false" responsive="true" draggable="false"
+			width="50%">
+		</p:dialog>
 
-		<p:dialog header="Add Element" widgetVar="addElementDialog"
+		<p:dialog header="Ajout Element" widgetVar="addElementDialog"
 			modal="true" resizable="false" responsive="true" draggable="false"
 			width="50%">
 			<p:ajax event="close" update="addElementForm"

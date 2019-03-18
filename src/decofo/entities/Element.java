@@ -1,6 +1,5 @@
 package decofo.entities;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,8 +33,12 @@ public class Element implements Serializable {
     private String code;
 
     @Basic(optional = false)
-    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }) // Juste pour le test
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, fetch = FetchType.EAGER)
     private Nature nature;
+    
+    @Basic(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Model model;
 
     @Basic(optional = false)
     @Column(nullable = false)
@@ -57,13 +60,10 @@ public class Element implements Serializable {
     @JoinTable(name = "father_child", joinColumns = {
 	    @JoinColumn(name = "father", referencedColumnName = "code") }, inverseJoinColumns = {
 		    @JoinColumn(name = "child", referencedColumnName = "code") })
-    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE }) // EAGER pour les tests
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }) 
     private List<Element> children;
 
-    @ManyToMany(mappedBy = "children", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER) // EAGER
-														      // pour
-														      // les
-														      // tests
+    @ManyToMany(mappedBy = "children", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
     private List<Element> fathers;
 
     public Element() {
@@ -95,6 +95,14 @@ public class Element implements Serializable {
 
     public void setNature(Nature nature) {
 	this.nature = nature;
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
     }
 
     public String getName() {
