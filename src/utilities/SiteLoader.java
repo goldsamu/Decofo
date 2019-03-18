@@ -33,14 +33,14 @@ public class SiteLoader {
 	
 	@PostConstruct
 	private void lunch() {
-		browserXML("sites.xml");
+		browserXML("/sites.xml");
 	}
 
 	public void browserXML(String file) {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(new File(file));
+			Document document = builder.parse(getClass().getResourceAsStream(file));
 			DocumentTraversal traversal = (DocumentTraversal) document;
 			
 			NodeIterator iterator = traversal.createNodeIterator(document.getDocumentElement(), NodeFilter.SHOW_ELEMENT,

@@ -43,14 +43,14 @@ public class ModelAndElementLoader {
 
 	@PostConstruct
 	private void lunch() {
-		readXML("un-exemple-de-fichier.xml");
+		readXML("/un-exemple-de-fichier.xml");
 	}
 
 	public void readXML(String file) {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(new File(file));
+			Document document = builder.parse(getClass().getResourceAsStream(file));
 			DocumentTraversal traversal = (DocumentTraversal) document;
 
 			NodeIterator iterator = traversal.createNodeIterator(document.getDocumentElement(), NodeFilter.SHOW_ELEMENT,
