@@ -19,49 +19,53 @@
 					</p:inputText>
 				</DIV>
 				<DIV class="ui-g-3">
-					<ui:remove>
-						<p:selectBooleanCheckbox value="" itemLabel="Mes maquettes">
-							<p:ajax update="" />
-						</p:selectBooleanCheckbox>
-					</ui:remove>
+					<p:selectBooleanCheckbox value="" itemLabel="Mes maquettes">
+						<p:ajax update="models" />
+					</p:selectBooleanCheckbox>
 				</DIV>
-				<DIV class="ui-g-3">
-					<p:button outcome="visu_maquette" value="Visualiser"
-						icon="fa fa-search">
-					</p:button>
-				</DIV>
+				
 				<DIV class="ui-g-3">
 					<p:commandButton value="Ajout maquette"
 						onclick="PF('addMaquetteDialog').show();">
 					</p:commandButton>
 				</DIV>
 			</div>
-			<div class="ui-g">
-				<div class="ui-g-6">
-					<ui:remove>
-						<p:dataGrid id="maquettes" var="maquette" value="" columns="1"
-							layout="grid" rows="12" paginator="true" lazy="true"
-							paginatorPosition="both"
-							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							rowsPerPageTemplate="6,12,16, 32">
+			<div class="ui-g-12">
+
+				<p:dataGrid id="models" var="model" value="#{modelView.models}"
+					columns="1" layout="grid" rows="12" paginator="true" lazy="true"
+					paginatorPosition="both"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="6,12,16, 32">
 
 
+					<div class="ui-g-1 ">
+						<h:outputText value="#{model.code} " />
+					</div>
 
-						</p:dataGrid>
-					</ui:remove>
-					#{modelController}
-					#{personController}
-				</div>
+					<div class="ui-g-10"
+						style="text-align: center; font-size: 20px; font-weight: bold;">
+						<h:commandLink value="#{model.name}" outcome="visu_maquette" />
+					</div>
+					<div class="ui-g-1">
+						<p:commandButton icon="fa fa-pencil"
+							onclick="PF('modifieMaquetteDialog').show();">
+						</p:commandButton>
+					</div>
+					<div>
+						<c:forEach var="responsible"
+							items="#{modelView.theModel.responsibles}">
+							<c:set var="counter" value="#{counter + 1}"></c:set>
+
+							<h:outputText value="#{responsible} " />
+
+						</c:forEach>
+					</div>
+				</p:dataGrid>
 			</div>
 
-			<div class="ui-g">
-				<div class="ui-g-6"></div>
-				<div class="ui-g-6">
-					<p:commandButton value="Modifier maquette"
-						onclick="PF('modifieMaquetteDialog').show();">
-					</p:commandButton>
-				</div>
-			</div>
+
+
 		</h:form>
 		<p:dialog header="Modifier maquette"
 			widgetVar="modifierMaquetteDialog" modal="true" resizable="false"
@@ -70,11 +74,10 @@
 		<p:dialog header="Ajout maquette" widgetVar="addMaquetteDialog"
 			modal="true" resizable="false" responsive="true" draggable="false"
 			width="50%">
-			<p:ajax event="close" update="addMaquetteForm"
-				listener="#{signUpView.handleClose}" />
+			
 
 			<h:form id="addMaquetteForm">
-				<c:set var="maquette" value="#{signUpView.maquette}" />
+				<c:set var="newModel" value="#{modelView.theModel}" />
 
 				<p:messages />
 
@@ -82,7 +85,7 @@
 					columnClasses="ui-grid-col-3, ui-grid-col-6, ui-grid-col-3">
 
 					<h:outputText value="Nom : " />
-					<p:inputText type="text" value="" class="form-control"
+					<p:inputText type="text" value="#{newModel.name}" class="form-control"
 						id="inputName" placeholder="Nom" required="true"
 						requiredMessage="Nom requis" />
 					<p:message for="inputName" showDetail="false" display="icon">
@@ -91,19 +94,13 @@
 
 
 					<h:outputText value="Code :" />
-					<p:inputText type="text" value="" class="form-control"
+					<p:inputText type="text" value="#{newModel.code}" class="form-control"
 						id="inputCode" placeholder="Code" required="true"
 						requiredMessage="Code requis" />
 					<p:message for="inputCode" showDetail="false" display="icon">
 						<p:autoUpdate />
 					</p:message>
-					<h:outputText value="Crédits :" />
-					<p:inputText type="text" value="" class="form-control"
-						id="inputCrédits" placeholder="Crédits" required="true"
-						requiredMessage="Crédits requis" />
-					<p:message for="inputCode" showDetail="false" display="icon">
-						<p:autoUpdate />
-					</p:message>
+
 					<h:outputText value="Responsable :" />
 
 					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
@@ -115,7 +112,9 @@
 							<f:selectItem itemLabel="Omar Boucelma" itemValue="Omar Boucelma" />
 						</p:selectOneMenu>
 					</h:panelGrid>
-					<p:commandButton value="Accepter" update="" icon="fa fa-check">
+					<p:commandButton value="Accepter"
+						action="#{ modelView.add()}"
+						icon="fa fa-check">
 					</p:commandButton>
 				</p:panelGrid>
 

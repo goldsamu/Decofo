@@ -7,15 +7,20 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.primefaces.PrimeFaces;
+
 import decofo.entities.Model;
 import decofo.entities.Person;
 import decofo.services.ModelManager;
+import decofo.services.PersonManager;
+
+
 /**
  * 
  * @author mahdi hassan djilal
  * ManagedBean of Model
  */
-@ManagedBean
+@ManagedBean(name="modelView")
 @SessionScoped
 public class ModelController {
 
@@ -26,13 +31,42 @@ public class ModelController {
 	 */
 	@EJB
 	private ModelManager modelmanager;
+	private PersonManager personmanager;
 	private Model theModel;
+
+	private List<Model> models;
+
+	
 	
 	@PostConstruct
 	public void init()
 	{
+		this.models =modelmanager.findAllModel();
 		System.out.println("Create " + this);
 	}
+	
+	public List<Model> getModels() {
+		return models;
+	}
+	public void setModels(List<Model> models) {
+		this.models = models;
+	}
+	public ModelManager getModelmanager() {
+		return modelmanager;
+	}
+
+	public void setModelmanager(ModelManager modelmanager) {
+		this.modelmanager = modelmanager;
+	}
+
+	public Model getTheModel() {
+		return theModel;
+	}
+
+	public void setTheModel(Model theModel) {
+		this.theModel = theModel;
+	}
+
 	/*
 	 * the methods of model controller
 	 */
@@ -45,13 +79,14 @@ public class ModelController {
 		theModel = new Model();
 		return "listModels";
 	}
-	/**
-	 * to return the list of model stored in the database
-	 * @return List<Model>
-	 */
-	public List<Model> findAllModels(){
-		return modelmanager.findAllModel();
+	
+	public void add() {
+		Person user = personmanager.getUser();
+		modelmanager.createModel(theModel,user );
+		models=modelmanager.findAllModel();
+		PrimeFaces.current().executeScript("PF('addMaquetteDialog').hide();");
 	}
+	
 	/**
 	 * to show a model that it code is passed on argument
 	 * @param code String code of Model
@@ -79,6 +114,14 @@ public class ModelController {
 	public String editModel(Model model, Person user) {
 		theModel = modelmanager.updateModel(model, user);
 		return"listModels";
+	}
+
+	public PersonManager getPersonmanager() {
+		return personmanager;
+	}
+
+	public void setPersonmanager(PersonManager personmanager) {
+		this.personmanager = personmanager;
 	}
 	
 
