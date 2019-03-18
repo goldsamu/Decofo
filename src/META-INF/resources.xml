@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources>
+<?xml version = "1.0" encoding="UTF-8"?>
 
-<Resource id="myTestDatabase" type="javax.sql.DataSource">
-	JdbcDriver org.hsqldb.jdbcDriver
-	JdbcUrl jdbc:hsqldb:file:/data/decofo
-	UserName sa
-	Password
-	jtaManaged true
-</Resource>
+<resources>
+	<Resource id="decofoDatabase" type="DataSource">
+		JdbcDriver org.hsqldb.jdbcDriver
+		JdbcUrl jdbc:hsqldb:file:/data/decofo
+		UserName sa
+		Password
+		JtaManaged true
+	</Resource>
 
 </resources>

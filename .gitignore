@@ -1,3 +1,7 @@
 /build/
 /target/
 /.settings/
+/data/
+/tmp/
+/.classpath
+/bin/

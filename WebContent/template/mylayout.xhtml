@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<style type="text/css">
+body {
+	background-image: url("ressources/images/fond.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+}
+
+footer {
+	float: bottom;
+}
+</style>
+<h:head>
+	<title><ui:insert name="title">Decofo</ui:insert></title>
+
+	<h:outputStylesheet library="webjars"
+		name="bootstrap/3.3.7/css/bootstrap.min-jsf.css" />
+
+	<h:outputScript library="webjars"
+		name="bootstrap/3.3.7/js/bootstrap.js" />
+</h:head>
+<h:body>
+	<!-- Mon menu -->
+
+	<ui:include src="/template/menu.xhtml">
+		<ui:param name="activeIndex" value="#{activeIndex}" />
+	</ui:include>
+
+
+
+	<ui:debug />
+	<h:form>
+		<p:commandButton value="Déconnexion"
+			action="#{personController.logout()}"
+			style="float:right;margin-top:50px;" />
+	</h:form>
+	<div class="container" style="margin-top: 50px;">
+
+		<ui:insert name="content">
+		</ui:insert>
+		<h:messages />
+	</div>
+	<div>
+
+		<footer class="page-footer">
+			<div class="footer-copyright text-center py-3">
+				<ui:insert name="footer">
+					(c) Goibeault-Goldstein-Hassan-Toure-Vala 2019 
+				</ui:insert>
+			</div>
+		</footer>
+	</div>
+
+
+
+</h:body>
+</html>

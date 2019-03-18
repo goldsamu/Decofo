@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+<ui:composition template="/template/mylayout.xhtml">
+	<ui:param name="activeIndex" value="1" />
+	<ui:define name="content">
+		<h:form>
+			<div class="ui-g">
+				<DIV class="ui-g-3">
+					<p:inputText style="width:100%" placeholder="Search" value="">
+						<p:ajax event="keyup" update=""></p:ajax>
+					</p:inputText>
+				</DIV>
+				<DIV class="ui-g-3">
+					<ui:remove>
+						<p:selectBooleanCheckbox value="" itemLabel="Mes maquettes">
+							<p:ajax update="" />
+						</p:selectBooleanCheckbox>
+					</ui:remove>
+				</DIV>
+				<DIV class="ui-g-3">
+					<p:button outcome="visu_maquette" value="Visualiser"
+						icon="fa fa-search">
+					</p:button>
+				</DIV>
+				<DIV class="ui-g-3">
+					<p:commandButton value="Ajout maquette"
+						onclick="PF('addMaquetteDialog').show();">
+					</p:commandButton>
+				</DIV>
+			</div>
+			<div class="ui-g">
+				<div class="ui-g-6">
+					<ui:remove>
+						<p:dataGrid id="maquettes" var="maquette" value="" columns="1"
+							layout="grid" rows="12" paginator="true" lazy="true"
+							paginatorPosition="both"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="6,12,16, 32">
+
+
+
+						</p:dataGrid>
+					</ui:remove>
+					#{modelController}
+					#{personController}
+				</div>
+			</div>
+
+			<div class="ui-g">
+				<div class="ui-g-6"></div>
+				<div class="ui-g-6">
+					<p:commandButton value="Modifier maquette"
+						onclick="PF('modifieMaquetteDialog').show();">
+					</p:commandButton>
+				</div>
+			</div>
+		</h:form>
+		<p:dialog header="Modifier maquette"
+			widgetVar="modifierMaquetteDialog" modal="true" resizable="false"
+			responsive="true" draggable="false" width="50%">
+		</p:dialog>
+		<p:dialog header="Ajout maquette" widgetVar="addMaquetteDialog"
+			modal="true" resizable="false" responsive="true" draggable="false"
+			width="50%">
+			<p:ajax event="close" update="addMaquetteForm"
+				listener="#{signUpView.handleClose}" />
+
+			<h:form id="addMaquetteForm">
+				<c:set var="maquette" value="#{signUpView.maquette}" />
+
+				<p:messages />
+
+				<p:panelGrid columns="3" layout="grid"
+					columnClasses="ui-grid-col-3, ui-grid-col-6, ui-grid-col-3">
+
+					<h:outputText value="Nom : " />
+					<p:inputText type="text" value="" class="form-control"
+						id="inputName" placeholder="Nom" required="true"
+						requiredMessage="Nom requis" />
+					<p:message for="inputName" showDetail="false" display="icon">
+						<p:autoUpdate />
+					</p:message>
+
+
+					<h:outputText value="Code :" />
+					<p:inputText type="text" value="" class="form-control"
+						id="inputCode" placeholder="Code" required="true"
+						requiredMessage="Code requis" />
+					<p:message for="inputCode" showDetail="false" display="icon">
+						<p:autoUpdate />
+					</p:message>
+					<h:outputText value="Crédits :" />
+					<p:inputText type="text" value="" class="form-control"
+						id="inputCrédits" placeholder="Crédits" required="true"
+						requiredMessage="Crédits requis" />
+					<p:message for="inputCode" showDetail="false" display="icon">
+						<p:autoUpdate />
+					</p:message>
+					<h:outputText value="Responsable :" />
+
+					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+						<p:outputLabel for="responsable" value="" />
+						<p:selectOneMenu id="responsable" value="" style="width:125px">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItem itemLabel="Jean-luc Massat"
+								itemValue="Jean-luc Massat" />
+							<f:selectItem itemLabel="Omar Boucelma" itemValue="Omar Boucelma" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<p:commandButton value="Accepter" update="" icon="fa fa-check">
+					</p:commandButton>
+				</p:panelGrid>
+
+			</h:form>
+		</p:dialog>
+		<p:dialog header="Maquette" widgetVar="maquetteDialog" modal="true"
+			showEffect="blind" hideEffect="explode" resizable="false">
+			<p:outputPanel id="maquetteDetail" style="text-align:center;">
+				<p:panelGrid columns="2" columnClasses="label,value">
+
+
+					<h:outputText value="Code:" />
+					<h:outputText value="" />
+
+					<h:outputText value="Nom:" />
+					<h:outputText value="" />
+
+					<h:outputText value="Nombre de crédits:" />
+					<h:outputText value="" />
+
+					<h:outputText value="Responsables" />
+					<h:outputText value="" />
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+
+	</ui:define>
+	<ui:define name="title">Decofo</ui:define>
+</ui:composition>
+</html>
+

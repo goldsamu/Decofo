@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<persons>
+	<person>
+		<login>g13017841</login>
+		<name>Samuel Goldstein</name>
+		<status>student</status>
+		<email>samuel.goldstein@etu.univ-amu.fr</email>
+		<admin>true</admin>
+	</person>
+</persons>

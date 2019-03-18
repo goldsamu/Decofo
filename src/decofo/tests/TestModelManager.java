@@ -1,7 +1,5 @@
 package decofo.tests;
 
-import static org.junit.Assert.assertNotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +10,6 @@ import javax.naming.NamingException;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import decofo.entities.Element;
@@ -32,13 +29,11 @@ public class TestModelManager {
 	 * attributs for TestModelManager
 	 * container objet of EJBContainer and mm objet ModelManager
 	 */
-	static EJBContainer container,container1;
+	static EJBContainer container1,container;
 	static ModelManager mm;
-	@EJB
+
 	static PersonManager pm;
-	@EJB
-	static ElementManager em;
-	
+
 	/**
 	 * here we initialize the the EJB that we want to use
 	 * @throws NamingException
@@ -47,9 +42,8 @@ public class TestModelManager {
 	public static void beforeAll() throws NamingException {
 		final String name = "java:global/Decofo/ModelManager";
 		container = EJBContainer.createEJBContainer();
-		Object object = container.getContext().lookup(name);
-		mm = (ModelManager) object;
-		
+		mm = (ModelManager) container.getContext().lookup(name);
+		pm = (PersonManager) container.getContext().lookup("java:global/Decofo/PersonManager");
 	}
 	/**
 	 * after operation, we close the conainer EJB
@@ -70,53 +64,25 @@ public class TestModelManager {
 	 * this method will if we can create a model 
 	 */
 	@Test
-	public void testCreateAndFindElement() {
+	public void testCreateAndFindModel() {
 		Model model = new Model("CodeMaque", "ModelName");
-		Element formation = new Element();
-		Nature nature = new Nature("na1","Formation");
-		//formation.setNature(nature);
-		formation.setCode("ele1");
-		List<Element> elements = new ArrayList<Element>();
-		elements.add(formation);
+		
 		Person res = new Person();
 		res.setLogin("logine");
-		res.setAdmin(false);
+		res.setAdmin(true);
 		res.setName("jilal");
 		res.setEmail("mahdihssajilal@gmail.com");
 		res.setStatus("student");
+		
 		List<Person> responsibles = new ArrayList<Person>();
-		responsibles.add(res);
+		responsibles.add(pm.createPerson(res));
+		pm.check(res);
 		model.setResponsibles(responsibles);
-		model.setElements(elements);
-		mm.createModel(model);
+		mm.createModel(model, pm.getUser());
+
 		Model modelFindInTheBase = mm.findModel("CodeMaque");
+		
 		Assert.assertNotNull(modelFindInTheBase);
 		Assert.assertEquals(modelFindInTheBase.getName(), model.getName());
 	}
-	@Test
-	public void testIsResponsible() {
-		pm = new PersonManager();
-		Model model = new Model("CodeMaque", "ModelName");
-		Element formation = new Element();
-		Nature nature = new Nature("na1","Formation");
-		//formation.setNature(nature);
-		formation.setCode("ele1");
-		List<Element> elements = new ArrayList<Element>();
-		elements.add(formation);
-		Person res = new Person();
-		res.setLogin("logine");
-		res.setAdmin(false);
-		res.setName("jilal");
-		res.setEmail("mahdihssajilal@gmail.com");
-		res.setStatus("student");
-		pm.setUser(res);
-		List<Person> responsibles = new ArrayList<Person>();
-		responsibles.add(res);
-		model.setResponsibles(responsibles);
-		model.setElements(elements);
-		boolean ok = mm.isResponsible(model);
-		Assert.assertTrue(ok);
-	}
-
-
 }
