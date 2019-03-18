@@ -7,4 +7,11 @@
 		<email>samuel.goldstein@etu.univ-amu.fr</email>
 		<admin>true</admin>
 	</person>
+	<person>
+		<login>g13005851</login>
+		<name>Timothee-swann Goibeault</name>
+		<status>student</status>
+		<email>timothee-swann.goibeault@etu.univ-amu.fr</email>
+		<admin>true</admin>
+	</person>
 </persons>
