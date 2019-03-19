@@ -1,6 +1,7 @@
 package utilities;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.DependsOn;
@@ -29,10 +30,12 @@ public class SiteLoader {
 
 	@EJB
 	private SiteManager sm;
-	
+
 	@PostConstruct
 	private void lunch() {
-		browserXML("/sites.xml");
+		List<Site> allSites = sm.findAllSite();
+		if (allSites == null)
+			browserXML("/sites.xml");
 	}
 
 	public void browserXML(String file) {
@@ -41,7 +44,7 @@ public class SiteLoader {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(getClass().getResourceAsStream(file));
 			DocumentTraversal traversal = (DocumentTraversal) document;
-			
+
 			NodeIterator iterator = traversal.createNodeIterator(document.getDocumentElement(), NodeFilter.SHOW_ELEMENT,
 					null, true);
 

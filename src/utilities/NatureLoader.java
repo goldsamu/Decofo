@@ -1,6 +1,7 @@
 package utilities;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.DependsOn;
@@ -20,19 +21,22 @@ import org.w3c.dom.traversal.NodeIterator;
 import org.xml.sax.SAXException;
 
 import decofo.entities.Nature;
+import decofo.entities.Person;
 import decofo.services.NatureManager;
 
 @Singleton
 @Startup
 @DependsOn("NatureManager")
 public class NatureLoader {
-	
+
 	@EJB
 	private NatureManager nm;
-	
+
 	@PostConstruct
 	private void lunch() {
-		browserXML("/natures.xml");
+		List<Nature> allNatures = nm.findAllNature();
+		if (allNatures == null)
+			browserXML("/natures.xml");
 	}
 
 	public void browserXML(String file) {
@@ -41,7 +45,7 @@ public class NatureLoader {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.parse(getClass().getResourceAsStream(file));
 			DocumentTraversal traversal = (DocumentTraversal) document;
-			
+
 			NodeIterator iterator = traversal.createNodeIterator(document.getDocumentElement(), NodeFilter.SHOW_ELEMENT,
 					null, true);
 
@@ -65,7 +69,7 @@ public class NatureLoader {
 							}
 						}
 					}
-					//System.out.println(nature.toString());
+					// System.out.println(nature.toString());
 					nm.createNature(nature);
 				}
 			}
