@@ -18,18 +18,19 @@ public class Model implements Serializable {
 	 * the Model entity attributs
 	 */
 	@Id
+	@Basic(optional = false)
 	private String code;
 
 	@Basic(optional = false)
 	private String name;
-
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
+	
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	private List<Person> responsibles;
-
-	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	
+	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
 	private List<Element> elements;
 
-	// the Model entity contructors
+	//the Model entity contructors
 
 	public Model() {
 		super();
@@ -38,23 +39,21 @@ public class Model implements Serializable {
 	}
 
 	/**
-	 * constructor with two parameters
-	 * 
+	 * constructor with two parameters 
 	 * @param code Model code
 	 * @param nom  Model Name
 	 */
-	public Model(String code, String name) {
+	public Model(String code, String nom) {
 		super();
 		this.code = code;
-		this.name = name;
+		this.name = nom;
 		this.responsibles = new ArrayList<Person>();
 		this.elements = new ArrayList<Element>();
 	}
-
-	// Getters and setters
+	
+	//Getters and setters
 	/**
 	 * to have Model code
-	 * 
 	 * @return code
 	 */
 	public String getCode() {
@@ -63,8 +62,7 @@ public class Model implements Serializable {
 
 	/**
 	 * to set Model code
-	 * 
-	 * @param code
+	 * @param code 
 	 */
 	public void setCode(String code) {
 		this.code = code;
@@ -72,7 +70,6 @@ public class Model implements Serializable {
 
 	/**
 	 * return name of Model
-	 * 
 	 * @return Nom
 	 */
 	public String getName() {
@@ -81,16 +78,14 @@ public class Model implements Serializable {
 
 	/**
 	 * to set name of Model
-	 * 
 	 * @param nom
 	 */
-	public void setName(String nom) {
-		this.name = nom;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
 	 * to have the list of Model responsible
-	 * 
 	 * @return responsibles
 	 */
 	public List<Person> getResponsibles() {
@@ -99,7 +94,6 @@ public class Model implements Serializable {
 
 	/**
 	 * to set the list of person who edited the Model
-	 * 
 	 * @param responsables
 	 */
 	public void setResponsibles(List<Person> responsables) {
@@ -108,7 +102,6 @@ public class Model implements Serializable {
 
 	/**
 	 * to return the list of elements that the model contains
-	 * 
 	 * @return elements
 	 */
 	public List<Element> getElements() {
@@ -117,7 +110,6 @@ public class Model implements Serializable {
 
 	/**
 	 * to set the list of elements
-	 * 
 	 * @param elements
 	 */
 	public void setElements(List<Element> elements) {
@@ -127,7 +119,7 @@ public class Model implements Serializable {
 	// the toString method to have a full descrition of Model entity
 	@Override
 	public String toString() {
-		return "Model [Code=" + code + ", Name=" + name + ", responsibles=" + responsibles + ", Elements=" + elements
+		return "Model [Code=" + code + ", Name=" + name
 				+ "]";
 	}
 }

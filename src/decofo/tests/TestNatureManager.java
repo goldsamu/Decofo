@@ -42,6 +42,9 @@ public class TestNatureManager {
 		Nature nature1 = new Nature("codeNature1", "nameNature1");
 		Nature nature2 = new Nature("codeNature2", "nameNature2");
 		
+		nature1.setNodeType("ET");
+		nature2.setNodeType("OU");
+		
 		nm.createNature(nature1);
 		nm.createNature(nature2);
 	

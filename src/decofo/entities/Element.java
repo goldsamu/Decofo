@@ -23,168 +23,180 @@ import javax.persistence.MapKeyColumn;
 @Entity
 public class Element implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "code", nullable = false)
-	private String code;
+    @Id
+    @Column(name = "code", nullable = false)
+    private String code;
 
-	@Basic(optional = false)
-	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }) // Juste pour le test
-	private Nature nature;
+    @Basic(optional = false)
+    @ManyToOne(/*cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, */fetch = FetchType.EAGER)
+    private Nature nature;
+    
+    @Basic(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Model model;
 
-	@Basic(optional = false)
-	@Column(nullable = false)
-	private String name;
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private String name;
 
-	private Float credits;
-	private Float hoursLM;
-	private Float hoursTC;
-	private Float hoursPW;
-	private Integer thresholdLM;
-	private Integer thresholdTC;
-	private Integer thresholdPW;
+    private Float credits;
+    private Float hoursLM;
+    private Float hoursTC;
+    private Float hoursPW;
+    private Integer thresholdLM;
+    private Integer thresholdTC;
+    private Integer thresholdPW;
 
-	@ElementCollection
-	@CollectionTable(name = "sites_effectifs")
-	@MapKeyColumn(name = "SITE_ID")
-	private Map<Site, Integer> sites;
+    @ElementCollection
+    @CollectionTable(name = "sites_effectifs")
+    @MapKeyColumn(name = "SITE_ID")
+    private Map<Site, Integer> sites;
 
-	@JoinTable(name = "father_child", joinColumns = {
-			@JoinColumn(name = "father", referencedColumnName = "code") }, inverseJoinColumns = {
-					@JoinColumn(name = "child", referencedColumnName = "code") })
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE})  //EAGER pour les tests
-	private List<Element> children;
+    @JoinTable(name = "father_child", joinColumns = {
+	    @JoinColumn(name = "father", referencedColumnName = "code") }, inverseJoinColumns = {
+		    @JoinColumn(name = "child", referencedColumnName = "code") })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }) 
+    private List<Element> children;
 
-	@ManyToMany(mappedBy="children", cascade = { CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)  //EAGER pour les tests
-	private List<Element> fathers;
+    @ManyToMany(mappedBy = "children", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
+    private List<Element> fathers;
 
-	public Element() {
-		sites = new HashMap<Site, Integer>();
-		children = new ArrayList<Element>();
-		fathers = new ArrayList<Element>();
-	}
+    public Element() {
+	sites = new HashMap<Site, Integer>();
+	children = new ArrayList<Element>();
+	fathers = new ArrayList<Element>();
+    }
 
-	public Element(String code, Nature nature, String name) {
-		this.code = code;
-		this.nature = nature;
-		this.name = name;
-		sites = new HashMap<Site, Integer>();
-		children = new ArrayList<Element>();
-		fathers = new ArrayList<Element>();
-	}
+    public Element(String code, Nature nature, String name) {
+	this.code = code;
+	this.nature = nature;
+	this.name = name;
+	sites = new HashMap<Site, Integer>();
+	children = new ArrayList<Element>();
+	fathers = new ArrayList<Element>();
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+	return code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setCode(String code) {
+	this.code = code;
+    }
 
-	public Nature getNature() {
-		return nature;
-	}
+    public Nature getNature() {
+	return nature;
+    }
 
-	public void setNature(Nature nature) {
-		this.nature = nature;
-	}
+    public void setNature(Nature nature) {
+	this.nature = nature;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Model getModel() {
+        return model;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setModel(Model model) {
+        this.model = model;
+    }
 
-	public Float getCredits() {
-		return credits;
-	}
+    public String getName() {
+	return name;
+    }
 
-	public void setCredits(Float credits) {
-		this.credits = credits;
-	}
+    public void setName(String name) {
+	this.name = name;
+    }
 
-	public Float getHoursLM() {
-		return hoursLM;
-	}
+    public Float getCredits() {
+	return credits;
+    }
 
-	public void setHoursLM(Float hoursLM) {
-		this.hoursLM = hoursLM;
-	}
+    public void setCredits(Float credits) {
+	this.credits = credits;
+    }
 
-	public Float getHoursTC() {
-		return hoursTC;
-	}
+    public Float getHoursLM() {
+	return hoursLM;
+    }
 
-	public void setHoursTC(Float hoursTC) {
-		this.hoursTC = hoursTC;
-	}
+    public void setHoursLM(Float hoursLM) {
+	this.hoursLM = hoursLM;
+    }
 
-	public Float getHoursPW() {
-		return hoursPW;
-	}
+    public Float getHoursTC() {
+	return hoursTC;
+    }
 
-	public void setHoursPW(Float hoursPW) {
-		this.hoursPW = hoursPW;
-	}
+    public void setHoursTC(Float hoursTC) {
+	this.hoursTC = hoursTC;
+    }
 
-	public Integer getThresholdLM() {
-		return thresholdLM;
-	}
+    public Float getHoursPW() {
+	return hoursPW;
+    }
 
-	public void setThresholdLM(Integer thresholdLM) {
-		this.thresholdLM = thresholdLM;
-	}
+    public void setHoursPW(Float hoursPW) {
+	this.hoursPW = hoursPW;
+    }
 
-	public Integer getThresholdTC() {
-		return thresholdTC;
-	}
+    public Integer getThresholdLM() {
+	return thresholdLM;
+    }
 
-	public void setThresholdTC(Integer thresholdTC) {
-		this.thresholdTC = thresholdTC;
-	}
+    public void setThresholdLM(Integer thresholdLM) {
+	this.thresholdLM = thresholdLM;
+    }
 
-	public Integer getThresholdPW() {
-		return thresholdPW;
-	}
+    public Integer getThresholdTC() {
+	return thresholdTC;
+    }
 
-	public void setThresholdPW(Integer thresholdPW) {
-		this.thresholdPW = thresholdPW;
-	}
+    public void setThresholdTC(Integer thresholdTC) {
+	this.thresholdTC = thresholdTC;
+    }
 
-	public Map<Site, Integer> getSites() {
-		return sites;
-	}
+    public Integer getThresholdPW() {
+	return thresholdPW;
+    }
 
-	public void setSites(Map<Site, Integer> sites) {
-		this.sites = sites;
-	}
+    public void setThresholdPW(Integer thresholdPW) {
+	this.thresholdPW = thresholdPW;
+    }
 
-	public List<Element> getChildren() {
-		return children;
-	}
+    public Map<Site, Integer> getSites() {
+	return sites;
+    }
 
-	public void setChildren(List<Element> children) {
-		this.children = children;
-	}
+    public void setSites(Map<Site, Integer> sites) {
+	this.sites = sites;
+    }
 
-	public List<Element> getFathers() {
-		return fathers;
-	}
+    public List<Element> getChildren() {
+	return children;
+    }
 
-	public void setFathers(List<Element> fathers) {
-		this.fathers = fathers;
-	}
+    public void setChildren(List<Element> children) {
+	this.children = children;
+    }
 
-	@Override
-	public String toString() {
-		return "Element[ Code = " + code + " Nature = " + nature + " Name = " + name + " Credis = " + credits
-				+ " HoursLM : " + hoursLM + " HoursTC = " + hoursTC + " HoursPW = " + hoursPW + " ThresholdLM = "
-				+ thresholdLM + " ThresholdTC : " + thresholdTC + " ThresholdPW = " + thresholdPW + "]";
-	}
+    public List<Element> getFathers() {
+	return fathers;
+    }
+
+    public void setFathers(List<Element> fathers) {
+	this.fathers = fathers;
+    }
+
+    @Override
+    public String toString() {
+	return "Element[ Code = " + code + " Nature = " + nature + " Name = " + name + " Credis = " + credits
+		+ " HoursLM : " + hoursLM + " HoursTC = " + hoursTC + " HoursPW = " + hoursPW + " ThresholdLM = "
+		+ thresholdLM + " ThresholdTC : " + thresholdTC + " ThresholdPW = " + thresholdPW + "]";
+    }
 }

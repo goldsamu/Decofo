@@ -11,7 +11,7 @@ import decofo.entities.Site;
 @Stateless
 public class SiteManager {
 
-	@PersistenceContext(unitName = "myTestDatabaseUnit")
+	@PersistenceContext(unitName = "decofoDatabaseUnit")
 	private EntityManager em;
 	
 	public Site createSite(Site m) {
