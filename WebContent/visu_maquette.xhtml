@@ -11,46 +11,48 @@
 <ui:composition template="/template/mylayout.xhtml">
 	<ui:param name="activeIndex" value="1" />
 	<ui:define name="content">
-		<h:form>
-			<div class="ui-g">
-				<DIV class="ui-g-3">
-					<p:inputText style="width:100%" placeholder="Search" value="">
-						<p:ajax event="keyup" update=""></p:ajax>
-					</p:inputText>
-				</DIV>
-				<DIV class="ui-g-3" />
-				<DIV class="ui-g-3">
-					<p:button outcome="visu_maquette" value="Visualiser"
-						icon="fa fa-search">
-					</p:button>
-				</DIV>
-				<DIV class="ui-g-3">
-					<p:commandButton value="Ajout élément"
-						onclick="PF('addElementDialog').show();">
-					</p:commandButton>
-				</DIV>
+		<div class="ui-g">
+			<DIV class="ui-g-3">
+				<p:inputText style="width:100%" placeholder="Search" value="">
+					<p:ajax event="keyup" update=""></p:ajax>
+				</p:inputText>
+			</DIV>
+			<DIV class="ui-g-3" />
+			<DIV class="ui-g-3">
+				<p:button outcome="visu_maquette" value="Visualiser"
+					icon="fa fa-search">
+				</p:button>
+			</DIV>
+			<DIV class="ui-g-3">
+				<p:commandButton value="Ajout élément"
+					onclick="PF('addElementDialog').show();">
+				</p:commandButton>
+			</DIV>
+		</div>
+		<div class="ui-g">
+			<div class="ui-g-6">
+				<h:form id="tree">
+					<h3 style="margin-top: 0">Eléments</h3>
+					<p:growl id="messages" showDetail="true" />
+					<p:tree value="#{treeView.root}" var="element" dynamic="true"
+						selectionMode="single"
+						selection="#{treeView.selectedElement}">
+						<p:ajax event="expand" update=":tree:messages" listener="#{treeView.onNodeExpand}" />
+						<p:treeNode>
+							<h:outputText value="#{element}" />
+						</p:treeNode>
+					</p:tree>
+				</h:form>
 			</div>
-			<div class="ui-g">
-				<div class="ui-g-6">
-					<h:form>
-						<h3 style="margin-top: 0">Eléments</h3>
-						<p:tree value="" var="" dynamic="true">
-							<p:treeNode>
-								<h:outputText value="" />
-							</p:treeNode>
-						</p:tree>
-					</h:form>
-				</div>
+		</div>
+		<div class="ui-g">
+			<div class="ui-g-6"></div>
+			<div class="ui-g-6">
+				<p:commandButton value="Modifier élément"
+					onclick="PF('modifieElementDialog').show();">
+				</p:commandButton>
 			</div>
-			<div class="ui-g">
-				<div class="ui-g-6"></div>
-				<div class="ui-g-6">
-					<p:commandButton value="Modifier élément"
-						onclick="PF('modifieElementDialog').show();">
-					</p:commandButton>
-				</div>
-			</div>
-		</h:form>
+		</div>
 		<p:dialog header="Modifier élément" widgetVar="modifieElementDialog"
 			modal="true" resizable="false" responsive="true" draggable="false"
 			width="50%">
