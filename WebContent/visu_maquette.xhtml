@@ -35,14 +35,17 @@
 					<h3 style="margin-top: 0">Eléments</h3>
 					<p:growl id="messages" showDetail="true" />
 					<p:tree value="#{treeView.root}" var="element" dynamic="true"
-						selectionMode="single"
-						selection="#{treeView.selectedElement}">
-						<p:ajax event="expand" update=":tree:messages" listener="#{treeView.onNodeExpand}" />
+						selectionMode="single" selection="#{treeView.selectedElement}">
+						<p:ajax event="expand" listener="#{treeView.onNodeExpand}" />
+						<p:ajax event="select" update=":myElement" listener="#{treeView.onNodeSelect}" />
 						<p:treeNode>
-							<h:outputText value="#{element}" />
+							<h:outputText value="#{element.getName()}" />
 						</p:treeNode>
 					</p:tree>
 				</h:form>
+			</div>
+			<div>
+				<h:outputText id="myElement" value="#{elementController.theElement}" />
 			</div>
 		</div>
 		<div class="ui-g">

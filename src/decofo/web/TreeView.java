@@ -2,12 +2,12 @@ package decofo.web;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 import org.primefaces.event.NodeExpandEvent;
+import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -17,9 +17,12 @@ import decofo.services.ElementManager;
 @ManagedBean(name = "treeView")
 @ViewScoped
 public class TreeView {
+
     @EJB
     private ElementManager em;
 
+    @ManagedProperty(value = "#{elementController}")
+    private ElementController ec;
     private TreeNode root;
     private TreeNode selectedElement;
 
@@ -47,6 +50,14 @@ public class TreeView {
 	this.selectedElement = selectedElement;
     }
 
+    public ElementController getEc() {
+        return ec;
+    }
+
+    public void setEc(ElementController ec) {
+        this.ec = ec;
+    }
+
     public void onNodeExpand(NodeExpandEvent event) {
 	TreeNode node = event.getTreeNode();
 	TreeNode childNode;
@@ -61,7 +72,9 @@ public class TreeView {
 		node.getChildren().add(childNode);
 	    }
 	}
-	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Expanded", event.getTreeNode().toString());
-	FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    public void onNodeSelect(NodeSelectEvent event) {
+	ec.setTheElement((Element) selectedElement.getData());
     }
 }

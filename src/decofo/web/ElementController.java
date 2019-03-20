@@ -12,7 +12,7 @@ import decofo.services.ElementManager;
 @SessionScoped
 public class ElementController {
 
-    Element theElement;
+    private Element theElement;
     @EJB
     private ElementManager elementManager;
     
@@ -20,6 +20,14 @@ public class ElementController {
     public void init() {
 	theElement = new Element();
 	System.out.println("Create " + this);
+    }
+
+    public Element getTheElement() {
+	return theElement;
+    }
+
+    public void setTheElement(Element theElement) {
+	this.theElement = theElement;
     }
     
     
