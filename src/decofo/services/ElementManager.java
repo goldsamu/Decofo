@@ -39,9 +39,9 @@ public class ElementManager {
     }
 
     public Element updateElement(Element e, Person user) {
-	System.out.println("updateElement : " + em.find(Element.class, e.getCode()));
-	if (isResponsible(e.getModel(), user))
+	if (isResponsible(e.getModel(), user)) {
 	    return em.merge(e);
+	}
 	return e;
     }
 
@@ -52,7 +52,6 @@ public class ElementManager {
 
     public boolean isResponsible(Model model, Person user) {
 	Model m = em.find(Model.class, model.getCode());
-	System.out.println("Responsibles : " + m.getResponsibles());
 	for (Person p : m.getResponsibles()) {
 	    if (p.getLogin().equals(user.getLogin()))
 		return true;

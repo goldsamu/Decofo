@@ -76,7 +76,7 @@
 		</init-param>
 		<init-param>
 			<param-name>ignorePattern</param-name>
-			<param-value>(.+Decofo\/$)|(.+home.xhtml)|(.+index.jsp)|(.+Decofo\/javax.faces.resource/.+)|(.+Decofo\/resources/.+)</param-value>
+			<param-value>(.+Decofo\/javax.faces.resource/.+)|(.+Decofo\/resources/.+)</param-value>
 		</init-param>
 		<init-param>
 			<param-name>ignoreUrlPatternType</param-name>

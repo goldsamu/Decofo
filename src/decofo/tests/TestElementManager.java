@@ -16,6 +16,7 @@ import decofo.entities.Nature;
 import decofo.entities.Person;
 import decofo.services.ElementManager;
 import decofo.services.ModelManager;
+import decofo.services.NatureManager;
 import decofo.services.PersonManager;
 
 public class TestElementManager {
@@ -24,6 +25,7 @@ public class TestElementManager {
 	static ElementManager em;
 	static ModelManager mm;
 	static PersonManager pm;
+	static NatureManager nm;
 
 	@BeforeClass
 	public static void beforeAll() throws NamingException {
@@ -32,6 +34,7 @@ public class TestElementManager {
 		em = (ElementManager) container.getContext().lookup(name);
 		mm = (ModelManager) container.getContext().lookup("java:global/Decofo/ModelManager");
 		pm = (PersonManager) container.getContext().lookup("java:global/Decofo/PersonManager");
+		nm = (NatureManager) container.getContext().lookup("java:global/Decofo/NatureManager");
 	}
 
 	@AfterClass
@@ -49,6 +52,8 @@ public class TestElementManager {
 		
 		Nature nature = new Nature("codeNature1", "nameNature1");
 		nature.setNodeType("ET");
+		
+		nm.createNature(nature);
 		
 		/*Site site1 = new Site("codeSite1", "nameSite1");
 		Site site2 = new Site("codeSite2", "nameSite2");

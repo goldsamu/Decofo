@@ -33,7 +33,7 @@ public class Element implements Serializable {
     private String code;
 
     @Basic(optional = false)
-    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, fetch = FetchType.EAGER)
+    @ManyToOne(/*cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, */fetch = FetchType.EAGER)
     private Nature nature;
     
     @Basic(optional = false)
@@ -195,8 +195,6 @@ public class Element implements Serializable {
 
     @Override
     public String toString() {
-	return "Element[ Code = " + code + " Nature = " + nature + " Name = " + name + " Credis = " + credits
-		+ " HoursLM : " + hoursLM + " HoursTC = " + hoursTC + " HoursPW = " + hoursPW + " ThresholdLM = "
-		+ thresholdLM + " ThresholdTC : " + thresholdTC + " ThresholdPW = " + thresholdPW + "]";
+	return code + " " + name;
     }
 }

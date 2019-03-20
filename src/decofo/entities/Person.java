@@ -127,9 +127,7 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-	return "admin : " + admin + " email : " + email + " login : " + login + "name : " + name + "status : " + status
-		+ version;
+	return login;
     }
 
 }
-
