@@ -27,7 +27,7 @@
 				</DIV>
 
 				<DIV class="ui-g-3">
-					<p:commandButton value="Ajout maquette"
+					<p:commandButton value="Ajout maquette" rendered="#{personController.isAdmin()}"
 						onclick="PF('addMaquetteDialog').show();">
 					</p:commandButton>
 				</DIV>

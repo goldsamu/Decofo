@@ -14,4 +14,11 @@
 		<email>timothee-swann.goibeault@etu.univ-amu.fr</email>
 		<admin>true</admin>
 	</person>
+	<person>
+		<login>t17027587</login>
+		<name>Moustapha TOURE</name>
+		<status>student</status>
+		<email>moustapha.toure@etu.univ-amu.fr</email>
+		<admin>false</admin>
+	</person>
 </persons>

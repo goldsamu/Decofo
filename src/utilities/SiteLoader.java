@@ -33,8 +33,8 @@ public class SiteLoader {
 
 	@PostConstruct
 	private void lunch() {
-		List<Site> allSites = sm.findAllSite();
-		if (allSites == null)
+		/*List<Site> allSites = sm.findAllSite();
+		if (allSites == null)*/
 			browserXML("/sites.xml");
 	}
 

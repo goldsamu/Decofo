@@ -34,8 +34,8 @@ public class NatureLoader {
 
 	@PostConstruct
 	private void lunch() {
-		List<Nature> allNatures = nm.findAllNature();
-		if (allNatures == null)
+		/*List<Nature> allNatures = nm.findAllNature();
+		if (allNatures == null)*/
 			browserXML("/natures.xml");
 	}
 

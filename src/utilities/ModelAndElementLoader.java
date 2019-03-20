@@ -45,8 +45,8 @@ public class ModelAndElementLoader {
 
 	@PostConstruct
 	private void lunch() {
-		List<Model> allModels = mm.findAllModel();
-		if (allModels == null)
+		/*List<Model> allModels = mm.findAllModel();
+		if (allModels == null)*/
 			readXML("/un-exemple-de-fichier.xml");
 	}
 

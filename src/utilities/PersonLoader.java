@@ -34,8 +34,8 @@ public class PersonLoader {
 
 	@PostConstruct
 	private void lunch() {
-		List<Person> allPersons = pm.findAllPersons();
-		if (allPersons == null)
+		/*List<Person> allPersons = pm.findAllPersons();
+		if (allPersons == null)*/
 			browserXML("/persons.xml");
 	}
 
