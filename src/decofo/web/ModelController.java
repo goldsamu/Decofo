@@ -94,7 +94,7 @@ public class ModelController {
      */
     public String showModel(String code) {
 	theModel = modelmanager.findModel(code);
-	return "detailModel";
+	return "visu_maquette";
     }
 
     /**

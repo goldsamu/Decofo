@@ -47,7 +47,7 @@
 
 					<div class="ui-g-10"
 						style="text-align: center; font-size: 20px; font-weight: bold;">
-						<h:commandLink value="#{model.name}" outcome="visu_maquette" />
+						<h:commandLink value="#{model.name}" action="#{modelView.showModel(model.code)}" />
 					</div>
 					<div class="ui-g-1">
 						<p:commandButton icon="fa fa-pencil"
