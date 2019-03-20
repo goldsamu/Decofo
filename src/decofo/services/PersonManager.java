@@ -36,7 +36,7 @@ public class PersonManager {
 	Person p = em.find(Person.class, person.getLogin());
 
 	if (p == null) {
-	    user.setAdmin(false);
+	    person.setAdmin(false);
 	    this.user = createPerson(person);
 	} else {
 	    this.user = p;

@@ -19,6 +19,6 @@
 		<name>Moustapha TOURE</name>
 		<status>student</status>
 		<email>moustapha.toure@etu.univ-amu.fr</email>
-		<admin>false</admin>
+		<admin>true</admin>
 	</person>
 </persons>

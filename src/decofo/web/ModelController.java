@@ -106,7 +106,7 @@ public class ModelController {
     public String removeModel(String codeModel, Person user) {
 	theModel = modelmanager.findModel(codeModel);
 	modelmanager.deleteModel(theModel, user);
-	return "listeModels";
+	return "listModels";
     }
 
     /**
