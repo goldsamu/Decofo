@@ -7,4 +7,11 @@
 		<email>samuel.goldstein@etu.univ-amu.fr</email>
 		<admin>true</admin>
 	</person>
+	<person>
+		<login>h17027450</login>
+		<name>Mahdi HASSAN</name>
+		<status>student</status>
+		<email>mahdi.hassan-djilal@etu.univ-amu.fr</email>
+		<admin>true</admin>
+	</person>
 </persons>
