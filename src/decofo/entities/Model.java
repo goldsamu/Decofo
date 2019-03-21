@@ -24,7 +24,7 @@ public class Model implements Serializable {
 	@Basic(optional = false)
 	private String name;
 	
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Person> responsibles;
 	
 	@OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)

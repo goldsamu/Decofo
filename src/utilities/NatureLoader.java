@@ -20,6 +20,7 @@ import org.w3c.dom.traversal.NodeFilter;
 import org.w3c.dom.traversal.NodeIterator;
 import org.xml.sax.SAXException;
 
+import decofo.entities.Element;
 import decofo.entities.Nature;
 import decofo.entities.Person;
 import decofo.services.NatureManager;
@@ -69,8 +70,31 @@ public class NatureLoader {
 							}
 						}
 					}
-					// System.out.println(nature.toString());
 					nm.createNature(nature);
+				}
+				
+				if (node.getNodeName().equals("lien")) {
+					String codeFather = "";
+					String codeChild = "";
+					NodeList childList = node.getChildNodes();
+					for (int i = 0; i < childList.getLength(); i++) {
+						if (!childList.item(i).getTextContent().trim().equals("")) {
+							switch (i) {
+							case 1:
+								codeFather = childList.item(i).getTextContent();
+								break;
+							case 3:
+								codeChild = childList.item(i).getTextContent();
+								break;
+							}
+						}
+					}
+					Nature fatherNature = nm.findNature(codeFather);
+					Nature childNature = nm.findNature(codeChild);
+
+					fatherNature.getChildren().add(childNature);
+					nm.updateNature(fatherNature);
+
 				}
 			}
 

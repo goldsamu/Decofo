@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <natures>
 	<nature>
-		<code>FO</code>
+		<code>FR</code>
 		<name>formation</name>
 		<type>OU</type>
 	</nature>
@@ -10,29 +10,61 @@
 		<name>parcours</name>
 		<type>ET</type>
 	</nature>
+	<lien>
+		<pere>FR</pere>
+		<fils>PA</fils>
+	</lien>
 	<nature>
 		<code>AN</code>
 		<name>annee</name>
 		<type>ET</type>
 	</nature>
+	<lien>
+		<pere>PA</pere>
+		<fils>AN</fils>
+	</lien>
 	<nature>
 		<code>SE</code>
 		<name>semestre</name>
 		<type>ET</type>
 	</nature>
+	<lien>
+		<pere>AN</pere>
+		<fils>SE</fils>
+	</lien>
 	<nature>
 		<code>OP</code>
 		<name>option</name>
 		<type>OU</type>
 	</nature>
+	<lien>
+		<pere>SE</pere>
+		<fils>OP</fils>
+	</lien>
 	<nature>
 		<code>LI</code>
 		<name>liste</name>
 		<type>ET</type>
 	</nature>
+	<lien>
+		<pere>OP</pere>
+		<fils>LI</fils>
+	</lien>
 	<nature>
 		<code>UE</code>
 		<name>UE</name>
 		<type>ET</type>
 	</nature>
+	<lien>
+		<pere>SE</pere>
+		<fils>UE</fils>
+	</lien>
+	<lien>
+		<pere>OP</pere>
+		<fils>UE</fils>
+	</lien>
+	<lien>
+		<pere>LI</pere>
+		<fils>UE</fils>
+	</lien>
 </natures>

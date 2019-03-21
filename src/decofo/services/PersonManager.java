@@ -81,7 +81,7 @@ public class PersonManager {
     
     public List<Person> findPersonsByName(String name)
     {
-	TypedQuery<Person> q = em.createQuery("FROM Activity WHERE lower(name) LIKE lower(:name)", Person.class);
+	TypedQuery<Person> q = em.createQuery("FROM Person WHERE lower(name) LIKE lower(:name)", Person.class);
 	q.setParameter("name", name + "%");
 	return q.getResultList();
     }

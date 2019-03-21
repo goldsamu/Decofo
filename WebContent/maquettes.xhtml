@@ -56,7 +56,7 @@
 					</div>
 					<div>
 						<c:forEach var="responsible"
-							items="#{modelView.theModel.responsibles}">
+							items="#{model.responsibles}">
 							<c:set var="counter" value="#{counter + 1}"></c:set>
 
 							<h:outputText value="#{responsible} " />
@@ -80,7 +80,6 @@
 			width="50%">
 
 			<h:form id="addMaquetteForm">
-				<c:set var="newModel" value="#{modelView.theModel}" />
 
 				<p:messages />
 
@@ -88,14 +87,14 @@
 					columnClasses="ui-grid-col-3, ui-grid-col-6, ui-grid-col-3">
 
 					<h:outputText value="Nom : " />
-					<p:inputText type="text" value="#{newModel.name}"
+					<p:inputText type="text" value="#{modelView.newModel.name}"
 						styleClass="form-control" id="inputName" placeholder="Nom"
 						required="true" requiredMessage="Nom requis" />
 					<p:message for="inputName" showDetail="false" display="icon" />
 
 
 					<h:outputText value="Code :" />
-					<p:inputText type="text" value="#{newModel.code}"
+					<p:inputText type="text" value="#{modelView.newModel.code}"
 						styleClass="form-control" id="inputCode" placeholder="Code"
 						required="true" requiredMessage="Code requis" />
 					<p:message for="inputCode" showDetail="false" display="icon">
@@ -112,7 +111,7 @@
 						</p:selectOneMenu>
 					</h:panelGrid>
 					<h:commandButton value="Valider"
-						action="#{modelView.newModel(personController.user)}"
+						action="#{modelView.createModel(personController.user)}"
 						icon="fa fa-check">
 					</h:commandButton>
 				</p:panelGrid>

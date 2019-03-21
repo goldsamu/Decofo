@@ -53,17 +53,16 @@ public class ModelManager {
      */
     public Model createModel(Model m, Person user) {
 	if (user.isAdmin()) {
-	    Element element = new Element();
-	    element.setCode(m.getCode());
-	    element.setName(m.getName());
-	    Nature nature = nm.findNature("FO"); // A changer si le code sur natures.xml a changé
-	    element.setNature(nature);
-	    m.getElements().add(element);
-	    if (m.getCode() == null) {
-		em.persist(m);
-	    } else {
-		m = em.merge(m);
+	    if (m.getElements().isEmpty()) {
+		Element element = new Element();
+		element.setCode(m.getCode());
+		element.setName(m.getName());
+		Nature nature = nm.findNature(NatureManager.ROOTNATURE);
+		element.setNature(nature);
+		element.setModel(m);
+		m.getElements().add(element);
 	    }
+	    em.persist(m);
 	}
 	return m;
     }
@@ -85,42 +84,9 @@ public class ModelManager {
      * @return Model updated model
      */
     public Model updateModel(Model m, Person user) {
-	if (user.isAdmin() /* || this.isResponsible(m, user) */)
+	if (user.isAdmin())
 	    m = em.merge(m);
 
 	return m;
     }
-
-    /**
-     * this methode test when an user want to update a model if this user is the
-     * responsible of the model on update.
-     * 
-     * @param m is an object of Model
-     * @return a boolean(True or False)
-     */
-    /*
-     * public boolean isResponsible(Model m, Person user) { for (Person p :
-     * m.getResponsibles()) { if (p.getLogin().equals(user.getLogin())) { return
-     * true; } } return false; }
-     */
-
-    /**
-     * this method test if an user is an administrator or not
-     * 
-     * @return admin
-     */
-    /*
-     * public boolean isAdmin() { boolean admin; if
-     * (personManager.getUser().isAdmin()) { admin = true; } else { admin = false; }
-     * System.out.println("mytest2 : " + personManager.getUser()); return admin; }
-     */
-
-    /*
-     * public String generate(int length) { String chars =
-     * "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-     * 
-     * String pass = ""; for (int x = 0; x < length; x++) { int i = (int)
-     * Math.floor(Math.random() * 62); pass += chars.charAt(i); }
-     * //System.err.println(pass); return pass; }
-     */
 }

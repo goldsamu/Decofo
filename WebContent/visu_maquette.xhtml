@@ -37,15 +37,25 @@
 					<p:tree value="#{treeView.root}" var="element" dynamic="true"
 						selectionMode="single" selection="#{treeView.selectedElement}">
 						<p:ajax event="expand" listener="#{treeView.onNodeExpand}" />
-						<p:ajax event="select" update=":myElement" listener="#{treeView.onNodeSelect}" />
+						<p:ajax event="select" update=":myElement2"
+							listener="#{treeView.onNodeSelect}" />
 						<p:treeNode>
 							<h:outputText value="#{element.getName()}" />
 						</p:treeNode>
 					</p:tree>
 				</h:form>
 			</div>
-			<div>
-				<h:outputText id="myElement" value="#{elementController.theElement}" />
+			<div class="ui-g-6">
+				<p:panelGrid id="myElement2" columns="1" layout="grid">
+					<h:outputText value="#{elementController.theElement.code}" />
+					<h:outputText value="#{elementController.theElement.name}" />
+					<h:outputText value="#{elementController.theElement.nature.name}" />
+
+					<h:outputText value="#{elementController.theElement.credits}" />
+					<h:outputText value="#{elementController.theElement.thresholdLM}" />
+					<h:outputText value="#{elementController.theElement.thresholdTC}" />
+					<h:outputText value="#{elementController.theElement.thresholdPW}" />
+				</p:panelGrid>
 			</div>
 		</div>
 		<div class="ui-g">
@@ -100,28 +110,27 @@
 						<p:autoUpdate />
 					</p:message>
 
-					<h:outputText value="Père :" />
-
-					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-						<p:outputLabel for="responsable" value="" />
-						<p:selectOneMenu id="responsable" value="" style="width:125px">
-							<f:selectItem itemLabel="Select One" itemValue="" />
-							<f:selectItem itemLabel="Semestre 1" itemValue="Semestre 1" />
-							<f:selectItem itemLabel="Smestre 2" itemValue="Semestre 2" />
-						</p:selectOneMenu>
-					</h:panelGrid>
-					<br />
 					<h:outputText value="Nature :" />
 
 					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 						<p:outputLabel for="nature" value="" />
 						<p:selectOneMenu id="nature" value="" style="width:125px">
 							<f:selectItem itemLabel="Select One" itemValue="" />
-							<f:selectItem itemLabel="Formation" itemValue="Formation" />
-							<f:selectItem itemLabel="Semestre" itemValue="Semestre" />
+							<f:selectItems value="#{elementController.findAllNature()}"
+								var="nature" itemValue="#{nature.code}"
+								itemLabel="#{nature.name}" />
 						</p:selectOneMenu>
 					</h:panelGrid>
 
+					<h:outputText value="Père :" />
+
+					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+						<p:selectOneMenu id="father" value="" style="width:125px">
+							<f:selectItem itemLabel="Select One" itemValue="" />
+							<f:selectItems value="#{elementController.findPotentialFathers()}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<br />
 
 					<p:commandButton value="Accepter" update="" icon="fa fa-check">
 					</p:commandButton>

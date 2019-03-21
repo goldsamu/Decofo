@@ -1,10 +1,17 @@
 package decofo.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 
 @Entity
@@ -20,12 +27,19 @@ public class Nature implements Serializable {
 
     @Basic(optional = false)
     private String nodeType;
+    
+    @JoinTable(name = "nature_child", joinColumns = {
+	    @JoinColumn(name = "father", referencedColumnName = "code") }, inverseJoinColumns = {
+		    @JoinColumn(name = "child", referencedColumnName = "code") })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }) 
+    private List<Nature> children;
 
     @Version()
     private long version = 0;
 
     public Nature() {
 	super();
+	this.children = new ArrayList<Nature>();
     }
 
     public Nature(String code, String name) {
@@ -56,6 +70,14 @@ public class Nature implements Serializable {
 
     public void setNodeType(String nodeType) {
 	this.nodeType = nodeType;
+    }
+
+    public List<Nature> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Nature> children) {
+        this.children = children;
     }
 
     public long getVersion() {

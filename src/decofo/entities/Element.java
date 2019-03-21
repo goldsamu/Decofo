@@ -195,6 +195,6 @@ public class Element implements Serializable {
 
     @Override
     public String toString() {
-	return code + " " + name;
+	return code + " " + name + " " + model + " " + nature;
     }
 }

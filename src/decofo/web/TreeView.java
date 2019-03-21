@@ -19,19 +19,22 @@ import decofo.services.ElementManager;
 public class TreeView {
 
     @EJB
-    private ElementManager em;
+    private ElementManager elementManager;
 
     @ManagedProperty(value = "#{elementController}")
-    private ElementController ec;
+    private ElementController elementController;
+    
     private TreeNode root;
     private TreeNode selectedElement;
 
     @PostConstruct
     public void init() {
 	root = new DefaultTreeNode(new Element(), null);
-
-	TreeNode node = new DefaultTreeNode(em.findElement("M100"), root);
-	node.getChildren().add(new DefaultTreeNode(new Element()));
+	TreeNode node = new DefaultTreeNode(elementManager.findRoot(elementController.getModelController().getTheModel()), root);
+	if (!elementManager.findChildren(((Element) node.getData()).getCode()).isEmpty()) {
+	    node.getChildren().add(new DefaultTreeNode(new Element()));
+	}
+	elementController.setTheElement((Element) node.getData());
     }
 
     public TreeNode getRoot() {
@@ -50,12 +53,12 @@ public class TreeView {
 	this.selectedElement = selectedElement;
     }
 
-    public ElementController getEc() {
-        return ec;
+    public ElementController getElementController() {
+        return elementController;
     }
 
-    public void setEc(ElementController ec) {
-        this.ec = ec;
+    public void setElementController(ElementController elementController) {
+        this.elementController = elementController;
     }
 
     public void onNodeExpand(NodeExpandEvent event) {
@@ -64,9 +67,9 @@ public class TreeView {
 	Element element = (Element) node.getData();
 	if (node.getChildCount() == 1 && ((Element) node.getChildren().get(0).getData()).getCode() == null) {
 	    node.getChildren().remove(0);
-	    for (Element childElement : em.findChildren(element.getCode())) {
+	    for (Element childElement : elementManager.findChildren(element.getCode())) {
 		childNode = new DefaultTreeNode(childElement);
-		if (!em.findChildren(childElement.getCode()).isEmpty()) {
+		if (!elementManager.findChildren(childElement.getCode()).isEmpty()) {
 		    childNode.getChildren().add(new DefaultTreeNode(new Element()));
 		}
 		node.getChildren().add(childNode);
@@ -75,6 +78,6 @@ public class TreeView {
     }
     
     public void onNodeSelect(NodeSelectEvent event) {
-	ec.setTheElement((Element) selectedElement.getData());
+	elementController.setTheElement((Element) selectedElement.getData());
     }
 }
