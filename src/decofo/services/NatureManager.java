@@ -40,6 +40,14 @@ public class NatureManager {
 	}
 	return n.getChildren();
     }
+    
+    public List<Nature> findFathers(String code) {
+	Nature n = em.find(Nature.class, code);
+	if (n != null) {
+	    n.getFathers().size();
+	}
+	return n.getFathers();
+    }
 
     public List<Nature> findAllNature() {
 	return em.createQuery("From Nature", Nature.class).getResultList();

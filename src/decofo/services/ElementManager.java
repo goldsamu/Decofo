@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 
 import decofo.entities.Element;
 import decofo.entities.Model;
+import decofo.entities.Nature;
 import decofo.entities.Person;
 
 @Stateless
@@ -24,12 +25,18 @@ public class ElementManager {
 
     public Element createElement(Element e, Person user) {
 	if (isResponsible(e.getModel(), user))
-	    em.persist(em.contains(e) ? e : em.merge(e));
+	    em.persist(e);
 	return e;
     }
 
     public Element findElement(String code) {
 	return em.find(Element.class, code);
+    }
+
+    public Element findElementWithChildren(String code) {
+	Element e = em.find(Element.class, code);
+	e.getChildren().size();
+	return e;
     }
 
     public List<Element> findFathers(String code) {
@@ -53,15 +60,30 @@ public class ElementManager {
     }
 
     public List<Element> findPotentialFathers(Model model, String codeNature) {
-	if (codeNature != null) {
+	if (!codeNature.equals("")) {
 	    TypedQuery<Element> q = em.createQuery("FROM Element WHERE Model_Code = :model AND Nature_Code IN :nature",
 		    Element.class);
 	    q.setParameter("model", model.getCode());
-	    q.setParameter("nature", nm.findChildren(codeNature));
+	    q.setParameter("nature", nm.findFathers(codeNature));
 
 	    return q.getResultList();
 	}
-	return null;
+	return new ArrayList<Element>();
+    }
+
+    public List<Element> findPotentialChildren(Model model, String codeNature) {
+	if (!codeNature.equals("")) {
+	    List<Nature> children = nm.findChildren(codeNature);
+	    if (children.size() > 0) {
+		TypedQuery<Element> q = em.createQuery(
+			"FROM Element WHERE Model_Code = :model AND Nature_Code IN :nature", Element.class);
+		q.setParameter("model", model.getCode());
+		q.setParameter("nature", children);
+
+		return q.getResultList();
+	    }
+	}
+	return new ArrayList<Element>();
     }
 
     public Element updateElement(Element e, Person user) {
@@ -73,7 +95,7 @@ public class ElementManager {
 
     public void removeElement(Element e, Person user) {
 	if (isResponsible(e.getModel(), user))
-	    em.remove(em.contains(e) ? e : em.merge(e));
+	    em.remove(e);
     }
 
     public boolean isResponsible(Model model, Person user) {

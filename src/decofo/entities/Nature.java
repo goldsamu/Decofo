@@ -27,12 +27,15 @@ public class Nature implements Serializable {
 
     @Basic(optional = false)
     private String nodeType;
-    
+
     @JoinTable(name = "nature_child", joinColumns = {
 	    @JoinColumn(name = "father", referencedColumnName = "code") }, inverseJoinColumns = {
 		    @JoinColumn(name = "child", referencedColumnName = "code") })
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }) 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Nature> children;
+
+    @ManyToMany(mappedBy = "children", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<Nature> fathers;
 
     @Version()
     private long version = 0;
@@ -40,12 +43,15 @@ public class Nature implements Serializable {
     public Nature() {
 	super();
 	this.children = new ArrayList<Nature>();
+	this.fathers = new ArrayList<Nature>();
     }
 
     public Nature(String code, String name) {
 	super();
 	this.code = code;
 	this.name = name;
+	this.children = new ArrayList<Nature>();
+	this.fathers = new ArrayList<Nature>();
     }
 
     public String getCode() {
@@ -73,11 +79,19 @@ public class Nature implements Serializable {
     }
 
     public List<Nature> getChildren() {
-        return children;
+	return children;
     }
 
     public void setChildren(List<Nature> children) {
-        this.children = children;
+	this.children = children;
+    }
+
+    public List<Nature> getFathers() {
+	return fathers;
+    }
+
+    public void setFathers(List<Nature> fathers) {
+	this.fathers = fathers;
     }
 
     public long getVersion() {

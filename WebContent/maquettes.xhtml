@@ -14,72 +14,52 @@
 		<h:form>
 			<div class="ui-g">
 				<DIV class="ui-g-3">
-					<p:inputText style="width:100%" placeholder="Search" value="">
-						<p:ajax event="keyup" update=""></p:ajax>
-					</p:inputText>
-				</DIV>
-				<DIV class="ui-g-3">
-					<ui:remove>
-						<p:selectBooleanCheckbox value="" itemLabel="Mes maquettes">
-							<p:ajax update="models" />
-						</p:selectBooleanCheckbox>
-					</ui:remove>
+					<p:selectBooleanCheckbox value="#{modelView.myModels}"
+						itemLabel="Mes maquettes">
+						<p:ajax update="models" />
+					</p:selectBooleanCheckbox>
 				</DIV>
 
 				<DIV class="ui-g-3">
-					<p:commandButton value="Ajout maquette" rendered="#{personController.isAdmin()}"
-						onclick="PF('addMaquetteDialog').show();">
+					<p:commandButton value="Ajout maquette"
+						rendered="#{personController.isAdmin()}"
+						onclick="PF('addModelDialog').show();">
 					</p:commandButton>
 				</DIV>
 			</div>
 			<div class="ui-g-12">
-
-				<p:dataGrid id="models" var="model" value="#{modelView.models}"
-					columns="1" layout="grid" rows="12" paginator="true" lazy="true"
-					paginatorPosition="both"
+				<p:dataTable id="models" var="model" value="#{modelView.models}"
+					rows="6" paginator="true" lazy="true" paginatorPosition="both"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="6,12,16, 32">
+					rowsPerPageTemplate="6, 12, 16, 32">
 
-
-					<div class="ui-g-1 ">
+					<p:column headerText="Responsables">
+						<p:dataList value="#{modelView.findResponsibles(model.code)}"
+							var="responsible">
+							<h:outputText value="#{responsible.name}" />
+						</p:dataList>
+					</p:column>
+					<p:column headerText="Codes">
 						<h:outputText value="#{model.code} " />
-					</div>
+					</p:column>
 
-					<div class="ui-g-10"
-						style="text-align: center; font-size: 20px; font-weight: bold;">
-						<h:commandLink value="#{model.name}" action="#{modelView.showModel(model.code)}" />
-					</div>
-					<div class="ui-g-1">
+					<p:column headerText="Noms">
+						<h:commandLink value="#{model.name}"
+							action="#{modelView.showModel(model.code)}" />
+					</p:column>
+					<p:column rendered="#{personController.isAdmin()}">
 						<p:commandButton icon="fa fa-pencil"
-							onclick="PF('modifieMaquetteDialog').show();">
+							onclick="PF('editModelDialog').show();">
 						</p:commandButton>
-					</div>
-					<div>
-						<c:forEach var="responsible"
-							items="#{model.responsibles}">
-							<c:set var="counter" value="#{counter + 1}"></c:set>
-
-							<h:outputText value="#{responsible} " />
-
-						</c:forEach>
-					</div>
-				</p:dataGrid>
+					</p:column>
+				</p:dataTable>
 			</div>
-
-
-
 		</h:form>
-		
-		<p:dialog header="Modifier maquette"
-			widgetVar="modifierMaquetteDialog" modal="true" resizable="false"
-			responsive="true" draggable="false" width="50%">
-		</p:dialog>
-		
-		<p:dialog header="Ajout maquette" widgetVar="addMaquetteDialog"
+
+		<p:dialog header="Modifier maquette" widgetVar="editModelDialog"
 			modal="true" resizable="false" responsive="true" draggable="false"
 			width="50%">
-
-			<h:form id="addMaquetteForm">
+			<h:form id="editModelForm">
 
 				<p:messages />
 
@@ -111,34 +91,56 @@
 						</p:selectOneMenu>
 					</h:panelGrid>
 					<h:commandButton value="Valider"
-						action="#{modelView.createModel(personController.user)}"
+						action="#{modelView.editModel(personController.user)}"
 						icon="fa fa-check">
 					</h:commandButton>
 				</p:panelGrid>
 			</h:form>
 		</p:dialog>
-		
-		<p:dialog header="Maquette" widgetVar="maquetteDialog" modal="true"
-			showEffect="blind" hideEffect="explode" resizable="false">
-			<p:outputPanel id="maquetteDetail" style="text-align:center;">
-				<p:panelGrid columns="2" columnClasses="label,value">
+
+		<p:dialog header="Ajout maquette" widgetVar="addModelDialog"
+			modal="true" resizable="false" responsive="true" draggable="false"
+			width="50%">
+
+			<h:form id="addModelForm">
+
+				<p:messages />
+
+				<p:panelGrid columns="3" layout="grid"
+					columnClasses="ui-grid-col-3, ui-grid-col-6, ui-grid-col-3">
+
+					<h:outputText value="Nom : " />
+					<p:inputText type="text" value="#{modelView.newModel.name}"
+						styleClass="form-control" id="inputName" placeholder="Nom"
+						required="true" requiredMessage="Nom requis" />
+					<p:message for="inputName" display="both">
+						<p:autoUpdate />
+					</p:message>
 
 
-					<h:outputText value="Code:" />
-					<h:outputText value="" />
+					<h:outputText value="Code :" />
+					<p:inputText type="text" value="#{modelView.newModel.code}"
+						styleClass="form-control" id="inputCode" placeholder="Code"
+						required="true" requiredMessage="Code requis" />
+					<p:message for="inputCode" display="both">
+						<p:autoUpdate />
+					</p:message>
 
-					<h:outputText value="Nom:" />
-					<h:outputText value="" />
-
-					<h:outputText value="Nombre de crédits:" />
-					<h:outputText value="" />
-
-					<h:outputText value="Responsables" />
-					<h:outputText value="" />
+					<p:outputLabel for="responsable" value="Responsable :" />
+					<p:selectOneMenu id="responsable" value="#{modelView.responsible}"
+						required="true" requiredMessage="Responsable requis">
+						<f:selectItem itemLabel="Selectionner" itemValue="" />
+						<f:selectItems value="#{personController.findAllPersons()}" />
+						<p:ajax event="change" update="@this" />
+					</p:selectOneMenu>
+					<p:message for="responsable" display="both">
+						<p:autoUpdate />
+					</p:message>
+					<p:commandButton value="Valider" icon="fa fa-check"
+						action="#{modelView.createModel(personController.user)}" />
 				</p:panelGrid>
-			</p:outputPanel>
+			</h:form>
 		</p:dialog>
-
 	</ui:define>
 	<ui:define name="title">Decofo</ui:define>
 </ui:composition>

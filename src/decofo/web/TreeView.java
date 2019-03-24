@@ -25,11 +25,13 @@ public class TreeView {
     private ElementController elementController;
     
     private TreeNode root;
+    private TreeNode orphan;
     private TreeNode selectedElement;
 
     @PostConstruct
     public void init() {
 	root = new DefaultTreeNode(new Element(), null);
+	orphan = new DefaultTreeNode(new Element(), null);
 	TreeNode node = new DefaultTreeNode(elementManager.findRoot(elementController.getModelController().getTheModel()), root);
 	if (!elementManager.findChildren(((Element) node.getData()).getCode()).isEmpty()) {
 	    node.getChildren().add(new DefaultTreeNode(new Element()));
@@ -43,6 +45,14 @@ public class TreeView {
 
     public void setRoot(TreeNode root) {
 	this.root = root;
+    }
+
+    public TreeNode getOrphan() {
+	return orphan;
+    }
+
+    public void setOrphan(TreeNode orphan) {
+	this.orphan = orphan;
     }
 
     public TreeNode getSelectedElement() {

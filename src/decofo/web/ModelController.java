@@ -1,5 +1,6 @@
 package decofo.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -28,14 +29,15 @@ public class ModelController {
      */
     @EJB
     private ModelManager modelmanager;
-    
+
     @EJB
     private PersonManager pm;
-    
+
     private Model newModel;
     private Model theModel;
     private String responsible;
     private List<Model> models;
+    private boolean myModels;
 
     @PostConstruct
     public void init() {
@@ -51,14 +53,6 @@ public class ModelController {
 
     public void setModels(List<Model> models) {
 	this.models = models;
-    }
-
-    public ModelManager getModelmanager() {
-	return modelmanager;
-    }
-
-    public void setModelmanager(ModelManager modelmanager) {
-	this.modelmanager = modelmanager;
     }
 
     public Model getNewModel() {
@@ -91,8 +85,7 @@ public class ModelController {
 	modelmanager.createModel(newModel, user);
 	models = modelmanager.findAllModel();
 	newModel = new Model();
-	PrimeFaces.current().executeScript("PF('addMaquetteDialog').hide();");
-	
+	PrimeFaces.current().executeScript("PF('addModelDialog').hide();");
     }
 
     /**
@@ -135,5 +128,17 @@ public class ModelController {
 
     public void setResponsible(String responsible) {
 	this.responsible = responsible;
+    }
+
+    public boolean isMyModels() {
+	return myModels;
+    }
+
+    public void setMyModels(boolean myModels) {
+	this.myModels = myModels;
+    }
+
+    public List<Person> findResponsibles(String code) {
+	return modelmanager.findResponsibles(code);
     }
 }

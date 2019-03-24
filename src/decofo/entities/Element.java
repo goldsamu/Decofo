@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -33,9 +32,9 @@ public class Element implements Serializable {
     private String code;
 
     @Basic(optional = false)
-    @ManyToOne(/*cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, */fetch = FetchType.EAGER)
+    @ManyToOne(/* cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }, */fetch = FetchType.EAGER)
     private Nature nature;
-    
+
     @Basic(optional = false)
     @ManyToOne(fetch = FetchType.EAGER)
     private Model model;
@@ -60,10 +59,10 @@ public class Element implements Serializable {
     @JoinTable(name = "father_child", joinColumns = {
 	    @JoinColumn(name = "father", referencedColumnName = "code") }, inverseJoinColumns = {
 		    @JoinColumn(name = "child", referencedColumnName = "code") })
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }) 
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Element> children;
 
-    @ManyToMany(mappedBy = "children", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "children", fetch = FetchType.LAZY)
     private List<Element> fathers;
 
     public Element() {
@@ -98,11 +97,11 @@ public class Element implements Serializable {
     }
 
     public Model getModel() {
-        return model;
+	return model;
     }
 
     public void setModel(Model model) {
-        this.model = model;
+	this.model = model;
     }
 
     public String getName() {
@@ -111,6 +110,10 @@ public class Element implements Serializable {
 
     public void setName(String name) {
 	this.name = name;
+    }
+
+    public String getLongName() {
+	return code + " " + name + " (" + credits + ")";
     }
 
     public Float getCredits() {

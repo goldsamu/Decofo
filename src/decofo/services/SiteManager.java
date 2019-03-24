@@ -14,9 +14,9 @@ public class SiteManager {
 	@PersistenceContext(unitName = "decofoDatabaseUnit")
 	private EntityManager em;
 	
-	public Site createSite(Site m) {
-		em.persist(em.contains(m) ? m : em.merge(m));
-		return m;
+	public Site createSite(Site s) {
+		em.persist(s);
+		return s;
 	}
 	
 	public Site findSite(String code) {

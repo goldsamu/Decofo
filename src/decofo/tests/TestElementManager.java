@@ -2,6 +2,9 @@ package decofo.tests;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ejb.embeddable.EJBContainer;
 import javax.naming.NamingException;
 
@@ -14,10 +17,12 @@ import decofo.entities.Element;
 import decofo.entities.Model;
 import decofo.entities.Nature;
 import decofo.entities.Person;
+import decofo.entities.Site;
 import decofo.services.ElementManager;
 import decofo.services.ModelManager;
 import decofo.services.NatureManager;
 import decofo.services.PersonManager;
+import decofo.services.SiteManager;
 
 public class TestElementManager {
 
@@ -26,6 +31,7 @@ public class TestElementManager {
 	static ModelManager mm;
 	static PersonManager pm;
 	static NatureManager nm;
+	static SiteManager sm;
 
 	@BeforeClass
 	public static void beforeAll() throws NamingException {
@@ -35,6 +41,7 @@ public class TestElementManager {
 		mm = (ModelManager) container.getContext().lookup("java:global/Decofo/ModelManager");
 		pm = (PersonManager) container.getContext().lookup("java:global/Decofo/PersonManager");
 		nm = (NatureManager) container.getContext().lookup("java:global/Decofo/NatureManager");
+		sm = (SiteManager) container.getContext().lookup("java:global/Decofo/SiteManager");
 	}
 
 	@AfterClass
@@ -55,11 +62,13 @@ public class TestElementManager {
 		
 		nm.createNature(nature);
 		
-		/*Site site1 = new Site("codeSite1", "nameSite1");
+		Site site1 = new Site("codeSite1", "nameSite1");
 		Site site2 = new Site("codeSite2", "nameSite2");
+		sm.createSite(site1);
+		sm.createSite(site2);
 		Map<Site, Integer> sites = new HashMap<Site, Integer>();
 		sites.put(site1, Integer.valueOf(100));
-		sites.put(site2, Integer.valueOf(200));*/
+		sites.put(site2, Integer.valueOf(200));
 		
 		Person p = new Person();
 		p.setLogin("CreateAndFindElement");
@@ -75,7 +84,7 @@ public class TestElementManager {
 		mm.createModel(model, p);
 		
 		Element element = new Element("codeElement1", nature, "nameElement1");
-		//element.setSites(sites);
+		element.setSites(sites);
 		element.setModel(model);
 		em.createElement(element, p);
 	

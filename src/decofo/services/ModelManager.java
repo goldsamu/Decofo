@@ -1,5 +1,6 @@
 package decofo.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -43,6 +44,15 @@ public class ModelManager {
      */
     public Model findModel(String code) {
 	return em.find(Model.class, code);
+    }
+
+    public List<Person> findResponsibles(String code) {
+	Model m = em.find(Model.class, code);
+	if (m != null) {
+	    m.getResponsibles().size();
+	    return m.getResponsibles();
+	}
+	return new ArrayList<Person>();
     }
 
     /**
