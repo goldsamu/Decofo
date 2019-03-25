@@ -1,11 +1,15 @@
 package decofo.web;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.event.NodeCollapseEvent;
 import org.primefaces.event.NodeExpandEvent;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
@@ -23,7 +27,7 @@ public class TreeView {
 
     @ManagedProperty(value = "#{elementController}")
     private ElementController elementController;
-    
+
     private TreeNode root;
     private TreeNode orphan;
     private TreeNode selectedElement;
@@ -32,11 +36,18 @@ public class TreeView {
     public void init() {
 	root = new DefaultTreeNode(new Element(), null);
 	orphan = new DefaultTreeNode(new Element(), null);
-	TreeNode node = new DefaultTreeNode(elementManager.findRoot(elementController.getModelController().getTheModel()), root);
+	TreeNode node = new DefaultTreeNode(
+		elementManager.findRoot(elementController.getModelController().getTheModel()), root);
 	if (!elementManager.findChildren(((Element) node.getData()).getCode()).isEmpty()) {
 	    node.getChildren().add(new DefaultTreeNode(new Element()));
 	}
 	elementController.setTheElement((Element) node.getData());
+	elementController.initEdit();
+    }
+    
+    public void collapse()
+    {
+	root.getChildren().get(0).setExpanded(false);
     }
 
     public TreeNode getRoot() {
@@ -64,11 +75,11 @@ public class TreeView {
     }
 
     public ElementController getElementController() {
-        return elementController;
+	return elementController;
     }
 
     public void setElementController(ElementController elementController) {
-        this.elementController = elementController;
+	this.elementController = elementController;
     }
 
     public void onNodeExpand(NodeExpandEvent event) {
@@ -86,8 +97,19 @@ public class TreeView {
 	    }
 	}
     }
-    
+
+    public void onNodeCollapse(NodeCollapseEvent event) {
+	TreeNode node = event.getTreeNode();
+	Iterator<TreeNode> i = node.getChildren().iterator();
+	while (i.hasNext()) {
+	    i.next();
+	    i.remove();
+	}
+	node.getChildren().add(new DefaultTreeNode(new Element()));
+    }
+
     public void onNodeSelect(NodeSelectEvent event) {
 	elementController.setTheElement((Element) selectedElement.getData());
+	elementController.initEdit();
     }
 }

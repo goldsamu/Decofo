@@ -29,6 +29,8 @@ public class ElementController {
     private String selectedNature;
     private List<String> codesFathers;
     private List<String> codesChildren;
+    private List<String> codesFathersEdit;
+    private List<String> codesChildrenEdit;
     private List<SiteField> siteFields;
 
     @ManagedProperty(value = "#{modelView}")
@@ -50,6 +52,8 @@ public class ElementController {
 	theElement = new Element();
 	codesFathers = new ArrayList<String>();
 	codesChildren = new ArrayList<String>();
+	codesFathersEdit = new ArrayList<String>();
+	codesChildrenEdit = new ArrayList<String>();
 	siteFields = new ArrayList<SiteField>();
 	siteFields.add(new SiteField());
 	System.out.println("Create " + this);
@@ -75,12 +79,12 @@ public class ElementController {
 	return natureManager.findAllNatureWithoutRoot();
     }
 
-    public List<Element> findPotentialFathers() {
-	return elementManager.findPotentialFathers(modelController.getTheModel(), selectedNature);
+    public List<Element> findPotentialFathers(String codeNature) {
+	return elementManager.findPotentialFathers(modelController.getTheModel(), codeNature);
     }
 
-    public List<Element> findPotentialChildren() {
-	return elementManager.findPotentialChildren(modelController.getTheModel(), selectedNature);
+    public List<Element> findPotentialChildren(String codeNature) {
+	return elementManager.findPotentialChildren(modelController.getTheModel(), codeNature);
     }
 
     public void createElement(Person user) {
@@ -107,8 +111,52 @@ public class ElementController {
 	}
 
 	newElement = new Element();
-
+	selectedNature = "";
+	codesFathers = new ArrayList<String>();
+	codesChildren = new ArrayList<String>();
+	siteFields = new ArrayList<SiteField>();
+	siteFields.add(new SiteField());
 	PrimeFaces.current().executeScript("PF('addElementDialog').hide();");
+    }
+
+    public void editElement(Person user) {
+	System.out.println("theElement : " + theElement);
+	if (theElement.getNature().getCode().equals("AN")) {
+	    for (SiteField field : siteFields) {
+		System.out.println("Sites : " + field.getSiteCode() + " " + field.getEffectif());
+		theElement.getSites().put(siteManager.findSite(field.getSiteCode()), field.getEffectif());
+	    }
+	}
+
+	theElement.setFathers(new ArrayList<Element>());
+	theElement.setChildren(new ArrayList<Element>());
+	for (String father : codesFathersEdit) {
+	    theElement.getFathers().add(elementManager.findElementWithChildren(father));
+	}
+	for (String child : codesChildrenEdit) {
+	    theElement.getChildren().add(elementManager.findElement(child));
+	}
+
+	elementManager.updateElement(theElement, user);
+
+	for (Element father : theElement.getFathers()) {
+	    father.getChildren().add(theElement);
+	    elementManager.updateElement(father, user);
+	}
+
+	PrimeFaces.current().executeScript("PF('editElementDialog').hide();");
+    }
+
+    public void initEdit() {
+	codesFathersEdit = new ArrayList<String>();
+	codesChildrenEdit = new ArrayList<String>();
+
+	for (Element e : elementManager.findFathers(theElement.getCode())) {
+	    codesFathersEdit.add(e.getCode());
+	}
+	for (Element e : elementManager.findChildren(theElement.getCode())) {
+	    codesChildrenEdit.add(e.getCode());
+	}
     }
 
     public Element getNewElement() {
@@ -141,6 +189,22 @@ public class ElementController {
 
     public void setCodesChildren(List<String> codesChildren) {
 	this.codesChildren = codesChildren;
+    }
+
+    public List<String> getCodesFathersEdit() {
+	return codesFathersEdit;
+    }
+
+    public void setCodesFathersEdit(List<String> codesFathersEdit) {
+	this.codesFathersEdit = codesFathersEdit;
+    }
+
+    public List<String> getCodesChildrenEdit() {
+	return codesChildrenEdit;
+    }
+
+    public void setCodesChildrenEdit(List<String> codesChildrenEdit) {
+	this.codesChildrenEdit = codesChildrenEdit;
     }
 
     public boolean isSelectedNatureEqualUE() {
