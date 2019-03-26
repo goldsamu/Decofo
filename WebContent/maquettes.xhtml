@@ -11,21 +11,15 @@
 <ui:composition template="/template/mylayout.xhtml">
 	<ui:param name="activeIndex" value="1" />
 	<ui:define name="content">
-		<h:form>
+		<h:form id="tableForm">
 			<div class="ui-g">
-				<DIV class="ui-g-3">
-					<p:selectBooleanCheckbox value="#{modelView.myModels}"
-						itemLabel="Mes maquettes">
-						<p:ajax update="models" />
-					</p:selectBooleanCheckbox>
-				</DIV>
 
-				<DIV class="ui-g-3">
+				<div class="ui-g-3">
 					<p:commandButton value="Ajout maquette"
 						rendered="#{personController.isAdmin()}"
 						onclick="PF('addModelDialog').show();">
 					</p:commandButton>
-				</DIV>
+				</div>
 			</div>
 			<div class="ui-g-12">
 				<p:dataTable id="models" var="model" value="#{modelView.models}"
@@ -49,8 +43,10 @@
 					</p:column>
 					<p:column rendered="#{personController.isAdmin()}">
 						<p:commandButton icon="fa fa-pencil"
-							onclick="PF('editModelDialog').show();">
-						</p:commandButton>
+							action="#{modelView.initEdit(model)}" update="editModelForm"
+							onclick="PF('editModelDialog').show();" />
+						<p:commandButton icon="fa fa-times"
+							action="#{modelView.removeModel(model.code, personController.user)}" update="models"/>
 					</p:column>
 				</p:dataTable>
 			</div>
@@ -60,23 +56,20 @@
 			modal="true" resizable="false" responsive="true" draggable="false"
 			width="50%">
 			<h:form id="editModelForm">
-
-				<p:messages />
-
 				<p:panelGrid columns="3" layout="grid"
 					columnClasses="ui-grid-col-3, ui-grid-col-6, ui-grid-col-3">
 
 					<h:outputText value="Nom : " />
-					<p:inputText type="text" value="#{modelView.newModel.name}"
+					<p:inputText type="text" value="#{modelView.theModel.name}"
 						styleClass="form-control" id="inputName" placeholder="Nom"
 						required="true" requiredMessage="Nom requis" />
 					<p:message for="inputName" showDetail="false" display="icon" />
 
 
 					<h:outputText value="Code :" />
-					<p:inputText type="text" value="#{modelView.newModel.code}"
+					<p:inputText type="text" value="#{modelView.theModel.code}"
 						styleClass="form-control" id="inputCode" placeholder="Code"
-						required="true" requiredMessage="Code requis" />
+						required="true" requiredMessage="Code requis" disabled="true" />
 					<p:message for="inputCode" showDetail="false" display="icon">
 						<p:autoUpdate />
 					</p:message>
@@ -84,16 +77,18 @@
 					<h:outputText value="Responsable :" />
 					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 						<p:outputLabel for="responsable" value="" />
-						<p:selectOneMenu id="responsable" value="#{modelView.responsible}">
-							<f:selectItem itemLabel="Select One" itemValue="" />
+						<p:selectCheckboxMenu id="responsable"
+							value="#{modelView.responsiblesEdit}" required="true"
+							requiredMessage="Responsable requis">
 							<f:selectItems value="#{personController.findAllPersons()}" />
-							<p:ajax event="change" update="@this" />
-						</p:selectOneMenu>
+						</p:selectCheckboxMenu>
 					</h:panelGrid>
-					<h:commandButton value="Valider"
+					<p:message for="responsable" display="both">
+						<p:autoUpdate />
+					</p:message>
+					<p:commandButton value="Valider"
 						action="#{modelView.editModel(personController.user)}"
-						icon="fa fa-check">
-					</h:commandButton>
+						update="tableForm:models" icon="fa fa-check" />
 				</p:panelGrid>
 			</h:form>
 		</p:dialog>
@@ -103,9 +98,6 @@
 			width="50%">
 
 			<h:form id="addModelForm">
-
-				<p:messages />
-
 				<p:panelGrid columns="3" layout="grid"
 					columnClasses="ui-grid-col-3, ui-grid-col-6, ui-grid-col-3">
 
@@ -127,16 +119,16 @@
 					</p:message>
 
 					<p:outputLabel for="responsable" value="Responsable :" />
-					<p:selectOneMenu id="responsable" value="#{modelView.responsible}"
-						required="true" requiredMessage="Responsable requis">
-						<f:selectItem itemLabel="Selectionner" itemValue="" />
+					<p:selectCheckboxMenu id="responsable"
+						value="#{modelView.responsibles}" required="true"
+						requiredMessage="Responsable requis">
 						<f:selectItems value="#{personController.findAllPersons()}" />
-						<p:ajax event="change" update="@this" />
-					</p:selectOneMenu>
+					</p:selectCheckboxMenu>
 					<p:message for="responsable" display="both">
 						<p:autoUpdate />
 					</p:message>
 					<p:commandButton value="Valider" icon="fa fa-check"
+						update="addModelForm tableForm:models"
 						action="#{modelView.createModel(personController.user)}" />
 				</p:panelGrid>
 			</h:form>

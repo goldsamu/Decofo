@@ -15,10 +15,6 @@ import decofo.entities.Person;
 import decofo.services.ModelManager;
 import decofo.services.PersonManager;
 
-/**
- * 
- * @author mahdi hassan djilal ManagedBean of Model
- */
 @ManagedBean(name = "modelView")
 @SessionScoped
 public class ModelController {
@@ -35,7 +31,8 @@ public class ModelController {
 
     private Model newModel;
     private Model theModel;
-    private String responsible;
+    private List<String> responsibles;
+    private List<String> responsiblesEdit;
     private List<Model> models;
     private boolean myModels;
 
@@ -43,6 +40,8 @@ public class ModelController {
     public void init() {
 	newModel = new Model();
 	theModel = new Model();
+	responsibles = new ArrayList<String>();
+	responsiblesEdit = new ArrayList<String>();
 	this.models = modelmanager.findAllModel();
 	System.out.println("Create " + this);
     }
@@ -71,20 +70,20 @@ public class ModelController {
 	this.theModel = theModel;
     }
 
-    /*
-     * the methods of model controller
-     */
     /**
      * after creation of a new model, this return us the new model
      * 
      * @return theModel
      */
     public void createModel(Person user) {
-	Person p = pm.findPersonByLogin(responsible);
-	newModel.getResponsibles().add(p);
+	for (String r : responsibles) {
+	    Person p = pm.findPersonByLogin(r);
+	    newModel.getResponsibles().add(p);
+	}
 	modelmanager.createModel(newModel, user);
 	models = modelmanager.findAllModel();
 	newModel = new Model();
+	responsibles = new ArrayList<String>();
 	PrimeFaces.current().executeScript("PF('addModelDialog').hide();");
     }
 
@@ -103,31 +102,47 @@ public class ModelController {
      * to destroy a model
      * 
      * @param codeModel String code of model that we want to destroy it
-     * @return String name of the web page that we want to reduct to user
      */
-    public String removeModel(String codeModel, Person user) {
-	theModel = modelmanager.findModel(codeModel);
-	modelmanager.deleteModel(theModel, user);
-	return "listModels";
+    public void removeModel(String codeModel, Person user) {
+	Model m = modelmanager.findModel(codeModel);
+	modelmanager.deleteModel(m, user);
     }
 
     /**
      * to edit a model
-     * 
-     * @param model object of Model that we want to edit
-     * @return String name of the web page that we want to reduct to user
      */
-    public String editModel(Model model, Person user) {
-	theModel = modelmanager.updateModel(model, user);
-	return "listModels";
+    public void editModel(Person user) {
+	theModel.setResponsibles(new ArrayList<Person>());
+	for (String r : responsiblesEdit) {
+	    Person p = pm.findPersonByLogin(r);
+	    theModel.getResponsibles().add(p);
+	}
+	modelmanager.updateModel(theModel, user);
+	PrimeFaces.current().executeScript("PF('editModelDialog').hide();");
     }
 
-    public String getResponsible() {
-	return responsible;
+    public void initEdit(Model model) {
+	responsiblesEdit = new ArrayList<String>();
+	theModel = model;
+	for (Person p : modelmanager.findResponsibles(model.getCode())) {
+	    responsiblesEdit.add(p.getLogin());
+	}
     }
 
-    public void setResponsible(String responsible) {
-	this.responsible = responsible;
+    public List<String> getResponsibles() {
+	return responsibles;
+    }
+
+    public void setResponsibles(List<String> responsibles) {
+	this.responsibles = responsibles;
+    }
+
+    public List<String> getResponsiblesEdit() {
+	return responsiblesEdit;
+    }
+
+    public void setResponsiblesEdit(List<String> responsiblesEdit) {
+	this.responsiblesEdit = responsiblesEdit;
     }
 
     public boolean isMyModels() {

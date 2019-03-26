@@ -94,8 +94,10 @@ public class ElementManager {
     }
 
     public void removeElement(Element e, Person user) {
-	if (isResponsible(e.getModel(), user))
-	    em.remove(e);
+	if (isResponsible(e.getModel(), user)) {
+	    Element element = em.find(Element.class, e.getCode());
+	    em.remove(element);
+	}
     }
 
     public boolean isResponsible(Model model, Person user) {

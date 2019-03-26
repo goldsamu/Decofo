@@ -13,11 +13,6 @@ import decofo.entities.Model;
 import decofo.entities.Nature;
 import decofo.entities.Person;
 
-/**
- * 
- * @author mahdi hassan djilal
- *
- */
 @Stateless
 public class ModelManager {
 
@@ -69,6 +64,7 @@ public class ModelManager {
 		element.setName(m.getName());
 		Nature nature = nm.findNature(NatureManager.ROOTNATURE);
 		element.setNature(nature);
+		element.setCredits(60f);
 		element.setModel(m);
 		m.getElements().add(element);
 	    }
@@ -83,8 +79,10 @@ public class ModelManager {
      * @param m model to destroy
      */
     public void deleteModel(Model m, Person user) {
-	if (user.isAdmin())
-	    em.remove(m);
+	if (user.isAdmin()) {
+	    Model model = em.find(Model.class, m.getCode());
+	    em.remove(model);
+	}
     }
 
     /**
