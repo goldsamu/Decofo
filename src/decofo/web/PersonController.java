@@ -68,7 +68,6 @@ public class PersonController {
 	{
 	    map.put(p.getName(), p);
 	}
-	System.out.println(map);
 	return map;
     }
 

@@ -72,12 +72,8 @@ public class ModelAndElementLoader {
 				Model m = model;
 				if (node.getNodeName().equals("mention")) {
 					model = new Model();
-					model.setCode(generate(5));
-					model.setName("NameMaquette");
 					model.getResponsibles().add(person);
-					model = mm.createModel(model, person);
 					Element formation = new Element();
-
 					NodeList childList = node.getChildNodes();
 					for (int i = 0; i < childList.getLength(); i++) {
 						if (!childList.item(i).getTextContent().trim().equals("")) {
@@ -94,20 +90,19 @@ public class ModelAndElementLoader {
 							}
 						}
 					}
-					formation.setNature(nm.findNature("FO"));
+					formation.setNature(nm.findNature(NatureManager.ROOTNATURE));
+					model.setCode(formation.getCode());
 					model.setName(formation.getName());
 					formation.setModel(model);
-					model.getElements().set(0, formation);
-					mm.updateModel(model, person);
+					model.getElements().add(formation);
+					model = mm.createModel(model, person);
 				}
 
 				if (nameNaturesList.contains(node.getNodeName())) {
 					Element element = new Element();
-					element.setCode(generate(10));
 					Nature nature = nm.findNatureByName(node.getNodeName());
 					element.setNature(nature);
 					element.setModel(m);
-					System.out.println("Model : " + m);
 					NodeList childList = node.getChildNodes();
 					for (int i = 0; i < childList.getLength(); i++) {
 						if (!childList.item(i).getTextContent().trim().equals("")) {
@@ -165,8 +160,7 @@ public class ModelAndElementLoader {
 					}
 					Element fatherElement = em.findElement(codeFather);
 					Element childElement = em.findElement(codeChild);
-					System.out.println(fatherElement);
-					System.out.println(childElement);
+
 					fatherElement.getChildren().add(childElement);
 					em.updateElement(fatherElement, person);
 
@@ -180,18 +174,6 @@ public class ModelAndElementLoader {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public String generate(int length) {
-		String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-
-		String pass = "";
-		for (int x = 0; x < length; x++) {
-			int i = (int) Math.floor(Math.random() * 62);
-			pass += chars.charAt(i);
-		}
-		// System.err.println(pass);
-		return pass;
 	}
 
 }

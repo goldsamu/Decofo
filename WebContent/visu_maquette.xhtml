@@ -13,118 +13,480 @@
 	<ui:define name="content">
 		<div class="ui-g">
 			<DIV class="ui-g-3">
-				<p:inputText style="width:100%" placeholder="Search" value="">
-					<p:ajax event="keyup" update=""></p:ajax>
-				</p:inputText>
-			</DIV>
-			<DIV class="ui-g-3" />
-			<DIV class="ui-g-3">
-				<p:button outcome="visu_maquette" value="Visualiser"
-					icon="fa fa-search">
-				</p:button>
-			</DIV>
-			<DIV class="ui-g-3">
 				<p:commandButton value="Ajout élément"
 					onclick="PF('addElementDialog').show();">
 				</p:commandButton>
 			</DIV>
+			<div class="ui-g-3">
+				<p:commandButton value="Modifier élément"
+					onclick="PF('editElementDialog').show();">
+				</p:commandButton>
+			</div>
 		</div>
 		<div class="ui-g">
 			<div class="ui-g-6">
-				<h:form id="tree">
-					<h3 style="margin-top: 0">Eléments</h3>
-					<p:growl id="messages" showDetail="true" />
-					<p:tree value="#{treeView.root}" var="element" dynamic="true"
-						selectionMode="single" selection="#{treeView.selectedElement}">
+				<h:form id="treeForm">
+					<h3 style="margin-top: 0">Éléments</h3>
+					<p:tree id="tree" value="#{treeView.root}" var="element"
+						dynamic="true" selectionMode="single"
+						selection="#{treeView.selectedElement}">
 						<p:ajax event="expand" listener="#{treeView.onNodeExpand}" />
-						<p:ajax event="select" update=":myElement" listener="#{treeView.onNodeSelect}" />
+						<p:ajax event="collapse" listener="#{treeView.onNodeCollapse}"
+							update="tree" />
+						<p:ajax event="select" update=":myElement editElementForm"
+							listener="#{treeView.onNodeSelect}" />
 						<p:treeNode>
-							<h:outputText value="#{element.getName()}" />
+							<h:outputText value="#{element.getLongName()}" />
 						</p:treeNode>
 					</p:tree>
 				</h:form>
 			</div>
-			<div>
-				<h:outputText id="myElement" value="#{elementController.theElement}" />
-			</div>
-		</div>
-		<div class="ui-g">
-			<div class="ui-g-6"></div>
 			<div class="ui-g-6">
-				<p:commandButton value="Modifier élément"
-					onclick="PF('modifieElementDialog').show();">
-				</p:commandButton>
+				<p:panelGrid id="myElement" columns="1" layout="grid">
+					<h:outputText value="Code : #{elementController.theElement.code}" />
+					<h:outputText value="Nom : #{elementController.theElement.name}" />
+					<h:outputText
+						value="Nature : #{elementController.theElement.nature.name}" />
+					<h:outputText
+						value="Crédits : #{elementController.theElement.credits}" />
+					<h:outputText
+						value="Seuil CM : #{elementController.theElement.thresholdLM}" />
+					<h:outputText
+						value="Seuil TD : #{elementController.theElement.thresholdTC}" />
+					<h:outputText
+						value="Seuil TP : #{elementController.theElement.thresholdPW}" />
+					<h:outputText
+						value="Heures CM : #{elementController.theElement.hoursLM}" />
+					<h:outputText
+						value="Heures TD : #{elementController.theElement.hoursTC}" />
+					<h:outputText
+						value="Heures TP : #{elementController.theElement.hoursPW}" />
+				</p:panelGrid>
 			</div>
 		</div>
-		<p:dialog header="Modifier élément" widgetVar="modifieElementDialog"
+		<div class="ui-g"></div>
+		<p:dialog header="Modifier élément" widgetVar="editElementDialog"
 			modal="true" resizable="false" responsive="true" draggable="false"
 			width="50%">
+			<h:form id="editElementForm">
+				<p:panelGrid style="width: 100%;"
+					columnClasses="ui-grid-col-3, ui-grid-col-6, ui-grid-col-3">
+					<p:row>
+						<p:column>
+							<h:outputText value="Nature :" />
+						</p:column>
+
+						<p:column>
+							<h:panelGrid columns="2" style="margin-bottom:10px"
+								cellpadding="5">
+								<p:outputLabel for="nature" value="" />
+								<p:selectOneMenu id="nature" value="" style="width:125px">
+									<f:selectItem
+										itemLabel="#{elementController.theElement.nature.name}"
+										itemValue="#{elementController.theElement.nature}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+						</p:column>
+						<p:column>
+							<p:message for="nature" display="both">
+								<p:autoUpdate />
+							</p:message>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputText value="Nom : " />
+						</p:column>
+						<p:column>
+							<p:inputText type="text"
+								value="#{elementController.theElement.name}" id="inputName"
+								placeholder="Nom" required="true" requiredMessage="Nom requis" />
+						</p:column>
+						<p:column>
+							<p:message for="inputName" display="both">
+								<p:autoUpdate />
+							</p:message>
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<h:outputText value="Code :" />
+						</p:column>
+						<p:column>
+							<p:inputText type="text"
+								value="#{elementController.theElement.code}" id="inputCode"
+								placeholder="Code" required="true" requiredMessage="Code requis" disabled="true"/>
+						</p:column>
+						<p:column>
+							<p:message for="inputCode" display="both">
+								<p:autoUpdate />
+							</p:message>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputText value="Crédits :" />
+						</p:column>
+						<p:column>
+							<p:inputNumber value="#{elementController.theElement.credits}"
+								id="inputCredits" placeholder="Crédits" required="true"
+								requiredMessage="Crédits requis" minValue="0" />
+						</p:column>
+						<p:column>
+							<p:message for="inputCredits" display="both">
+								<p:autoUpdate />
+							</p:message>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Seuil CM" />
+						</p:column>
+						<p:column>
+							<p:inputNumber
+								value="#{elementController.theElement.thresholdLM}"
+								id="inputThresholdLM" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Seuil TD" />
+						</p:column>
+						<p:column>
+							<p:inputNumber
+								value="#{elementController.theElement.thresholdTC}"
+								id="inputThresholdTC" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Seuil TP" />
+						</p:column>
+						<p:column>
+							<p:inputNumber
+								value="#{elementController.theElement.thresholdPW}"
+								id="inputThresholdPW" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<p:panelGrid id="optional">
+					<p:row id="sites"
+						rendered="#{elementController.selectedNatureEqualAnnee}">
+						<p:column>
+							<p:outputLabel value="Sites : " />
+						</p:column>
+						<p:column>
+							<p:repeat id="formSites" value="#{elementController.siteFields}"
+								var="siteField">
+								<p:selectOneMenu value="#{siteField.siteCode}">
+									<f:selectItem itemLabel="Selection" itemValue="" />
+									<f:selectItems value="#{elementController.findAllSites()}"
+										var="site" itemLabel="#{site.name}" itemValue="#{site.code}" />
+								</p:selectOneMenu>
+								<p:spinner value="siteField.effectif" />
+								<p:commandButton value="-"
+									rendered="#{elementController.siteFields.size() > 1}">
+									<p:ajax event="click" update="addElementForm:optional"
+										listener="#{elementController.onButtonRemoveFieldClick(siteField)}" />
+								</p:commandButton>
+							</p:repeat>
+							<p:commandButton value="+">
+								<p:ajax event="click" update="addElementForm:optional"
+									listener="#{elementController.onButtonAddFieldClick}" />
+							</p:commandButton>
+						</p:column>
+					</p:row>
+					<p:row id="hoursLM"
+						rendered="#{elementController.theElement.nature.code == 'UE'}">
+						<p:column>
+							<p:outputLabel value="Heures CM" />
+						</p:column>
+						<p:column>
+							<p:inputNumber value="#{elementController.theElement.hoursLM}"
+								id="inputHoursLM" />
+						</p:column>
+					</p:row>
+					<p:row id="hoursTC"
+						rendered="#{elementController.theElement.nature.code == 'UE'}">
+						<p:column>
+							<p:outputLabel value="Heures TD" />
+						</p:column>
+						<p:column>
+							<p:inputNumber value="#{elementController.theElement.hoursTC}"
+								id="inputHoursTC" />
+						</p:column>
+					</p:row>
+					<p:row id="hoursPW"
+						rendered="#{elementController.theElement.nature.code == 'UE'}">
+						<p:column>
+							<p:outputLabel value="Heures TP" />
+						</p:column>
+						<p:column>
+							<p:inputNumber value="#{elementController.theElement.hoursPW}"
+								id="inputHoursPW" />
+						</p:column>
+					</p:row>
+					<p:row
+						rendered="#{elementController.theElement.nature.code != 'FR'}">
+						<p:column>
+							<h:outputText value="Père :" />
+						</p:column>
+
+						<p:column>
+							<h:panelGrid columns="2" style="margin-bottom:10px"
+								cellpadding="5">
+								<p:selectCheckboxMenu id="fathers"
+									value="#{elementController.codesFathersEdit}"
+									style="width:125px" label="Pères" filter="true"
+									filterMatchMode="startsWith">
+									<f:selectItems
+										value="#{elementController.findPotentialFathers(elementController.theElement.nature.code)}"
+										var="father" itemLabel="#{father.name}"
+										itemValue="#{father.code}" />
+								</p:selectCheckboxMenu>
+							</h:panelGrid>
+						</p:column>
+					</p:row>
+					<p:row
+						rendered="#{elementController.theElement.nature.code != 'UE'}">
+						<p:column>
+							<h:outputText value="Fils :" />
+						</p:column>
+
+						<p:column>
+							<p:selectCheckboxMenu id="children"
+								value="#{elementController.codesChildrenEdit}"
+								style="width:125px" label="Fils" filter="true"
+								filterMatchMode="startsWith">
+								<f:selectItems
+									value="#{elementController.findPotentialChildren(elementController.theElement.nature.code)}"
+									var="child" itemLabel="#{child.name}" itemValue="#{child.code}" />
+							</p:selectCheckboxMenu>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:commandButton value="Accepter" icon="fa fa-check"
+								action="#{elementController.editElement(personController.user)}"
+								update="editElementForm treeForm :myElement" >
+								</p:commandButton>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+			</h:form>
 		</p:dialog>
 
-		<p:dialog header="Ajout Element" widgetVar="addElementDialog"
+		<p:dialog header="Ajout élément" widgetVar="addElementDialog"
 			modal="true" resizable="false" responsive="true" draggable="false"
 			width="50%">
-			<p:ajax event="close" update="addElementForm"
-				listener="#{signUpView.handleClose}" />
-
 			<h:form id="addElementForm">
-				<c:set var="element" value="#{signUpView.element}" />
-
-				<p:messages />
-				<p:panelGrid columns="3" layout="grid"
+				<p:panelGrid style="width: 100%;"
 					columnClasses="ui-grid-col-3, ui-grid-col-6, ui-grid-col-3">
+					<p:row>
+						<p:column>
+							<h:outputText value="Nature :" />
+						</p:column>
 
+						<p:column>
+							<h:panelGrid columns="2" style="margin-bottom:10px"
+								cellpadding="5">
+								<p:outputLabel for="nature" value="" />
+								<p:selectOneMenu id="nature"
+									value="#{elementController.selectedNature}" required="true"
+									style="width:125px" requiredMessage="Nature requise">
+									<p:ajax event="change" update="fathers" />
+									<p:ajax event="change" update="children" />
+									<p:ajax event="change" update="optional" />
+									<f:selectItem itemLabel="Selection" itemValue="" />
+									<f:selectItems value="#{elementController.findAllNature()}"
+										var="nature" itemValue="#{nature.code}"
+										itemLabel="#{nature.name}" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+						</p:column>
+						<p:column>
+							<p:message for="nature" display="both">
+								<p:autoUpdate />
+							</p:message>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputText value="Nom : " />
+						</p:column>
+						<p:column>
+							<p:inputText type="text"
+								value="#{elementController.newElement.name}" id="inputName"
+								placeholder="Nom" required="true" requiredMessage="Nom requis" />
+						</p:column>
+						<p:column>
+							<p:message for="inputName" display="both">
+								<p:autoUpdate />
+							</p:message>
+						</p:column>
+					</p:row>
 
-					<h:outputText value="Nom : " />
-					<p:inputText type="text" value="" class="form-control"
-						id="inputName" placeholder="Nom" required="true"
-						requiredMessage="Nom requis" />
-					<p:message for="inputName" showDetail="false" display="icon">
-						<p:autoUpdate />
-					</p:message>
+					<p:row>
+						<p:column>
+							<h:outputText value="Code :" />
+						</p:column>
+						<p:column>
+							<p:inputText type="text"
+								value="#{elementController.newElement.code}" id="inputCode"
+								placeholder="Code" required="true" requiredMessage="Code requis" />
+						</p:column>
+						<p:column>
+							<p:message for="inputCode" display="both">
+								<p:autoUpdate />
+							</p:message>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputText value="Crédits :" />
+						</p:column>
+						<p:column>
+							<p:inputNumber value="#{elementController.newElement.credits}"
+								id="inputCredits" placeholder="Crédits" required="true"
+								requiredMessage="Crédits requis" minValue="0" />
+						</p:column>
+						<p:column>
+							<p:message for="inputCredits" display="both">
+								<p:autoUpdate />
+							</p:message>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Seuil CM" />
+						</p:column>
+						<p:column>
+							<p:inputNumber
+								value="#{elementController.newElement.thresholdLM}"
+								id="inputThresholdLM" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Seuil TD" />
+						</p:column>
+						<p:column>
+							<p:inputNumber
+								value="#{elementController.newElement.thresholdTC}"
+								id="inputThresholdTC" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Seuil TP" />
+						</p:column>
+						<p:column>
+							<p:inputNumber
+								value="#{elementController.newElement.thresholdPW}"
+								id="inputThresholdPW" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<p:panelGrid id="optional">
+					<p:row id="sites"
+						rendered="#{elementController.selectedNatureEqualAnnee}">
+						<p:column>
+							<p:outputLabel value="Sites : " />
+						</p:column>
+						<p:column>
+							<p:repeat id="formSites" value="#{elementController.siteFields}"
+								var="siteField">
+								<p:selectOneMenu value="#{siteField.siteCode}">
+									<f:selectItem itemLabel="Selection" itemValue="" />
+									<f:selectItems value="#{elementController.findAllSites()}"
+										var="site" itemLabel="#{site.name}" itemValue="#{site.code}" />
+								</p:selectOneMenu>
+								<p:spinner value="siteField.effectif" />
+								<p:commandButton value="-"
+									rendered="#{elementController.siteFields.size() > 1}">
+									<p:ajax event="click" update="addElementForm:optional"
+										listener="#{elementController.onButtonRemoveFieldClick(siteField)}" />
+								</p:commandButton>
+							</p:repeat>
+							<p:commandButton value="+">
+								<p:ajax event="click" update="addElementForm:optional"
+									listener="#{elementController.onButtonAddFieldClick}" />
+							</p:commandButton>
+						</p:column>
+					</p:row>
+					<p:row id="hoursLM"
+						rendered="#{elementController.selectedNatureEqualUE}">
+						<p:column>
+							<p:outputLabel value="Heures CM" />
+						</p:column>
+						<p:column>
+							<p:inputNumber value="#{elementController.newElement.hoursLM}"
+								id="inputHoursLM" />
+						</p:column>
+					</p:row>
+					<p:row id="hoursTC"
+						rendered="#{elementController.selectedNatureEqualUE}">
+						<p:column>
+							<p:outputLabel value="Heures TD" />
+						</p:column>
+						<p:column>
+							<p:inputNumber value="#{elementController.newElement.hoursTC}"
+								id="inputHoursTC" />
+						</p:column>
+					</p:row>
+					<p:row id="hoursPW"
+						rendered="#{elementController.selectedNatureEqualUE}">
+						<p:column>
+							<p:outputLabel value="Heures TP" />
+						</p:column>
+						<p:column>
+							<p:inputNumber value="#{elementController.newElement.hoursPW}"
+								id="inputHoursPW" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputText value="Père :" />
+						</p:column>
 
+						<p:column>
+							<h:panelGrid columns="2" style="margin-bottom:10px"
+								cellpadding="5">
+								<p:selectCheckboxMenu id="fathers"
+									value="#{elementController.codesFathers}" style="width:125px"
+									label="Pères" filter="true" filterMatchMode="startsWith">
+									<f:selectItems
+										value="#{elementController.findPotentialFathers(elementController.selectedNature)}"
+										var="father" itemLabel="#{father.name}"
+										itemValue="#{father.code}" />
+								</p:selectCheckboxMenu>
+							</h:panelGrid>
+						</p:column>
+					</p:row>
+					<p:row rendered="#{!elementController.selectedNatureEqualUE}">
+						<p:column>
+							<h:outputText value="Fils :" />
+						</p:column>
 
-					<h:outputText value="Code :" />
-					<p:inputText type="text" value="" class="form-control"
-						id="inputCode" placeholder="Code" required="true"
-						requiredMessage="Code requis" />
-					<p:message for="inputCode" showDetail="false" display="icon">
-						<p:autoUpdate />
-					</p:message>
-
-					<h:outputText value="Crédits :" />
-					<p:inputText type="text" value="" class="form-control"
-						id="inputCrédits" placeholder="Crédits" required="true"
-						requiredMessage="Crédits requis" />
-					<p:message for="inputCode" showDetail="false" display="icon">
-						<p:autoUpdate />
-					</p:message>
-
-					<h:outputText value="Père :" />
-
-					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-						<p:outputLabel for="responsable" value="" />
-						<p:selectOneMenu id="responsable" value="" style="width:125px">
-							<f:selectItem itemLabel="Select One" itemValue="" />
-							<f:selectItem itemLabel="Semestre 1" itemValue="Semestre 1" />
-							<f:selectItem itemLabel="Smestre 2" itemValue="Semestre 2" />
-						</p:selectOneMenu>
-					</h:panelGrid>
-					<br />
-					<h:outputText value="Nature :" />
-
-					<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-						<p:outputLabel for="nature" value="" />
-						<p:selectOneMenu id="nature" value="" style="width:125px">
-							<f:selectItem itemLabel="Select One" itemValue="" />
-							<f:selectItem itemLabel="Formation" itemValue="Formation" />
-							<f:selectItem itemLabel="Semestre" itemValue="Semestre" />
-						</p:selectOneMenu>
-					</h:panelGrid>
-
-
-					<p:commandButton value="Accepter" update="" icon="fa fa-check">
-					</p:commandButton>
+						<p:column>
+							<p:selectCheckboxMenu id="children"
+								value="#{elementController.codesChildren}" style="width:125px"
+								label="Fils" filter="true" filterMatchMode="startsWith">
+								<f:selectItems
+									value="#{elementController.findPotentialChildren(elementController.selectedNature)}"
+									var="child" itemLabel="#{child.name}" itemValue="#{child.code}" />
+							</p:selectCheckboxMenu>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<p:commandButton value="Accepter" icon="fa fa-check"
+								action="#{elementController.createElement(personController.user)}"
+								update="addElementForm treeForm" />
+						</p:column>
+					</p:row>
 				</p:panelGrid>
 
 			</h:form>
