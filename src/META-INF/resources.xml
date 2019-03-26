@@ -3,7 +3,7 @@
 <resources>
 	<Resource id="decofoDatabase" type="DataSource">
 		JdbcDriver org.hsqldb.jdbcDriver
-		JdbcUrl jdbc:hsqldb:file:/data/decofo
+		JdbcUrl jdbc:hsqldb:file:/tmp/decofo
 		UserName sa
 		Password
 		JtaManaged true

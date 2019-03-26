@@ -1,4 +1,3 @@
-
 package decofo.services;
 
 import java.util.List;
@@ -8,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import decofo.entities.Nature;
 import decofo.entities.Person;
 
 @Stateful
@@ -73,20 +71,18 @@ public class PersonManager {
 	if (p != null)
 	    em.remove(p);
     }
-    
-    public Person findPersonByLogin(String login)
-    {
+
+    public Person findPersonByLogin(String login) {
 	return em.find(Person.class, login);
     }
-    
-    public List<Person> findPersonsByName(String name)
-    {
-	TypedQuery<Person> q = em.createQuery("FROM Activity WHERE lower(name) LIKE lower(:name)", Person.class);
+
+    public List<Person> findPersonsByName(String name) {
+	TypedQuery<Person> q = em.createQuery("FROM Person WHERE lower(name) LIKE lower(:name)", Person.class);
 	q.setParameter("name", name + "%");
 	return q.getResultList();
     }
-    
+
     public List<Person> findAllPersons() {
 	return em.createQuery("From Person", Person.class).getResultList();
-}
+    }
 }

@@ -47,7 +47,7 @@ public class ModelAndElementLoader {
 	private void lunch() {
 		/*List<Model> allModels = mm.findAllModel();
 		if (allModels == null)*/
-			readXML("/un-exemple-de-fichier.xml");
+			readXML("/elements.xml");
 	}
 
 	public void readXML(String file) {

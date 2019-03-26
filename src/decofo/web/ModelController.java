@@ -1,5 +1,6 @@
 package decofo.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -28,16 +29,19 @@ public class ModelController {
      */
     @EJB
     private ModelManager modelmanager;
-    
+
     @EJB
     private PersonManager pm;
-    
+
+    private Model newModel;
     private Model theModel;
     private String responsible;
     private List<Model> models;
+    private boolean myModels;
 
     @PostConstruct
     public void init() {
+	newModel = new Model();
 	theModel = new Model();
 	this.models = modelmanager.findAllModel();
 	System.out.println("Create " + this);
@@ -51,12 +55,12 @@ public class ModelController {
 	this.models = models;
     }
 
-    public ModelManager getModelmanager() {
-	return modelmanager;
+    public Model getNewModel() {
+	return newModel;
     }
 
-    public void setModelmanager(ModelManager modelmanager) {
-	this.modelmanager = modelmanager;
+    public void setNewModel(Model newModel) {
+	this.newModel = newModel;
     }
 
     public Model getTheModel() {
@@ -75,15 +79,13 @@ public class ModelController {
      * 
      * @return theModel
      */
-    public void newModel(Person user) {
-	System.out.println(theModel);
+    public void createModel(Person user) {
 	Person p = pm.findPersonByLogin(responsible);
-	theModel.getResponsibles().add(p);
-	modelmanager.createModel(theModel, user);
+	newModel.getResponsibles().add(p);
+	modelmanager.createModel(newModel, user);
 	models = modelmanager.findAllModel();
-	theModel = new Model();
-	PrimeFaces.current().executeScript("PF('addMaquetteDialog').hide();");
-	
+	newModel = new Model();
+	PrimeFaces.current().executeScript("PF('addModelDialog').hide();");
     }
 
     /**
@@ -126,5 +128,17 @@ public class ModelController {
 
     public void setResponsible(String responsible) {
 	this.responsible = responsible;
+    }
+
+    public boolean isMyModels() {
+	return myModels;
+    }
+
+    public void setMyModels(boolean myModels) {
+	this.myModels = myModels;
+    }
+
+    public List<Person> findResponsibles(String code) {
+	return modelmanager.findResponsibles(code);
     }
 }
