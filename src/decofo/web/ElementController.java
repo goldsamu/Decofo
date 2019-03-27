@@ -1,5 +1,6 @@
 package decofo.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,9 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.PrimeFaces;
 
@@ -254,6 +258,13 @@ public class ElementController {
     public void removeElement(Person user) {
 	if (theElement != null) {
 	    elementManager.removeElement(theElement, user);
+	    ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+	    try {
+		ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+	    } catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
 	}
     }
 }

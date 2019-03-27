@@ -102,6 +102,11 @@ public class ElementManager {
 	    Element element = em.find(Element.class, e.getCode());
 	    element.getModel().getElements().remove(element);
 	    em.merge(element.getModel());
+	    element.setChildren(null);
+	    for (Element father : element.getFathers()) {
+		father.getChildren().remove(element);
+		em.merge(father);
+	    }
 	    em.remove(element);
 	}
     }

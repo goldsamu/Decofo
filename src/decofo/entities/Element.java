@@ -60,7 +60,7 @@ public class Element implements Serializable {
     @JoinTable(name = "father_child", joinColumns = {
 	    @JoinColumn(name = "father", referencedColumnName = "code") }, inverseJoinColumns = {
 		    @JoinColumn(name = "child", referencedColumnName = "code") })
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Element> children;
 
     @ManyToMany(mappedBy = "children", fetch = FetchType.LAZY)

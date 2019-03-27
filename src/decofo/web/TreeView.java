@@ -44,11 +44,6 @@ public class TreeView {
 	elementController.setTheElement((Element) node.getData());
 	elementController.initEdit();
     }
-    
-    public void collapse()
-    {
-	root.getChildren().get(0).setExpanded(false);
-    }
 
     public TreeNode getRoot() {
 	return root;
@@ -112,4 +107,5 @@ public class TreeView {
 	elementController.setTheElement((Element) selectedElement.getData());
 	elementController.initEdit();
     }
+    
 }
