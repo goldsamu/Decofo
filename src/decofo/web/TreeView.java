@@ -107,5 +107,5 @@ public class TreeView {
 	elementController.setTheElement((Element) selectedElement.getData());
 	elementController.initEdit();
     }
-    
+
 }

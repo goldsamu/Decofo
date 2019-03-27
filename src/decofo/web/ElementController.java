@@ -104,20 +104,22 @@ public class ElementController {
 		newElement.getSites().put(siteManager.findSite(field.getSiteCode()), field.getEffectif());
 	    }
 	}
-	System.out.println("Les sites : " + newElement.getSites());
-	for (String father : codesFathers) {
-	    newElement.getFathers().add(elementManager.findElementWithChildren(father));
-	}
+
 	for (String child : codesChildren) {
 	    newElement.getChildren().add(elementManager.findElement(child));
 	}
+	
 	elementManager.createElement(newElement, user);
-
+	
+	for (String father : codesFathers) {
+	    newElement.getFathers().add(elementManager.findElementWithChildren(father));
+	}
+	
 	for (Element father : newElement.getFathers()) {
 	    father.getChildren().add(newElement);
 	    elementManager.updateElement(father, user);
 	}
-
+	
 	newElement = new Element();
 	selectedNature = "";
 	codesFathers = new ArrayList<String>();
@@ -125,6 +127,7 @@ public class ElementController {
 	siteFields = new ArrayList<SiteField>();
 	siteFields.add(new SiteField());
 	PrimeFaces.current().executeScript("PF('addElementDialog').hide();");
+	
     }
 
     public void editElement(Person user) {
