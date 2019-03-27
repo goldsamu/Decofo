@@ -19,5 +19,10 @@ public class SiteField {
     public void setEffectif(int effectif) {
 	this.effectif = effectif;
     }
+    
+    @Override
+    public String toString() {
+        return siteCode + " " + effectif;
+    }
 
 }

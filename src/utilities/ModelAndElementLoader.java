@@ -45,9 +45,11 @@ public class ModelAndElementLoader {
 
 	@PostConstruct
 	private void lunch() {
-		/*List<Model> allModels = mm.findAllModel();
-		if (allModels == null)*/
-			readXML("/elements.xml");
+		/*
+		 * List<Model> allModels = mm.findAllModel(); if (allModels == null)
+		 */
+		// readXML("/elements.xml");
+		readXML("/master_info.xml");
 	}
 
 	public void readXML(String file) {
@@ -161,8 +163,10 @@ public class ModelAndElementLoader {
 					Element fatherElement = em.findElement(codeFather);
 					Element childElement = em.findElement(codeChild);
 
-					fatherElement.getChildren().add(childElement);
-					em.updateElement(fatherElement, person);
+					if (fatherElement != null && childElement != null) {
+						fatherElement.getChildren().add(childElement);
+						em.updateElement(fatherElement, person);
+					}
 
 				}
 			}

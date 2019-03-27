@@ -32,6 +32,7 @@ public class ElementController {
     private List<String> codesFathersEdit;
     private List<String> codesChildrenEdit;
     private List<SiteField> siteFields;
+    private List<SiteField> siteFieldsEdit;
 
     @ManagedProperty(value = "#{modelView}")
     private ModelController modelController;
@@ -56,6 +57,8 @@ public class ElementController {
 	codesChildrenEdit = new ArrayList<String>();
 	siteFields = new ArrayList<SiteField>();
 	siteFields.add(new SiteField());
+	siteFieldsEdit = new ArrayList<SiteField>();
+	siteFieldsEdit.add(new SiteField());
 	System.out.println("Create " + this);
     }
 
@@ -122,8 +125,7 @@ public class ElementController {
     public void editElement(Person user) {
 	System.out.println("theElement : " + theElement);
 	if (theElement.getNature().getCode().equals("AN")) {
-	    for (SiteField field : siteFields) {
-		System.out.println("Sites : " + field.getSiteCode() + " " + field.getEffectif());
+	    for (SiteField field : siteFieldsEdit) {
 		theElement.getSites().put(siteManager.findSite(field.getSiteCode()), field.getEffectif());
 	    }
 	}
@@ -223,15 +225,33 @@ public class ElementController {
 	this.siteFields = siteFields;
     }
 
+    public List<SiteField> getSiteFieldsEdit() {
+	return siteFieldsEdit;
+    }
+
+    public void setSiteFieldsEdit(List<SiteField> siteFieldsEdit) {
+	this.siteFieldsEdit = siteFieldsEdit;
+    }
+
     public List<Site> findAllSites() {
 	return siteManager.findAllSite();
     }
 
-    public void onButtonRemoveFieldClick(SiteField siteField) {
-	siteFields.remove(siteField);
+    public void onButtonRemoveFieldClick(SiteField siteField, List<SiteField> fields) {
+	fields.remove(siteField);
     }
 
-    public void onButtonAddFieldClick(AjaxBehaviorEvent event) {
-	siteFields.add(new SiteField());
+    public void onButtonAddFieldClick(List<SiteField> fields) {
+	fields.add(new SiteField());
+    }
+
+    public boolean isResponsible(Person user) {
+	return elementManager.isResponsible(modelController.getTheModel(), user);
+    }
+
+    public void removeElement(Person user) {
+	if (theElement != null) {
+	    elementManager.removeElement(theElement, user);
+	}
     }
 }

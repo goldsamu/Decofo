@@ -51,7 +51,7 @@ public class Element implements Serializable {
     private Integer thresholdTC;
     private Integer thresholdPW;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "sites_effectifs")
     @MapKeyColumn(name = "SITE_ID")
     private Map<Site, Integer> sites;

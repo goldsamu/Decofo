@@ -14,12 +14,21 @@
 		<div class="ui-g">
 			<DIV class="ui-g-3">
 				<p:commandButton value="Ajout élément"
+					rendered="#{elementController.isResponsible(personController.user)}"
 					onclick="PF('addElementDialog').show();">
 				</p:commandButton>
 			</DIV>
 			<div class="ui-g-3">
 				<p:commandButton value="Modifier élément"
+					rendered="#{elementController.isResponsible(personController.user)}"
 					onclick="PF('editElementDialog').show();">
+				</p:commandButton>
+			</div>
+			<div class="ui-g-3">
+				<p:commandButton id="remove" value="Supprimer élément"
+					rendered="#{elementController.isResponsible(personController.user)}"
+					action="#{elementController.removeElement(personController.user)}"
+					disabled="#{theElement.nature.code == 'FR'}">
 				</p:commandButton>
 			</div>
 		</div>
@@ -29,7 +38,8 @@
 					<h3 style="margin-top: 0">Éléments</h3>
 					<p:tree id="tree" value="#{treeView.root}" var="element"
 						dynamic="true" selectionMode="single"
-						selection="#{treeView.selectedElement}">
+						selection="#{treeView.selectedElement}"
+						style="width: 70%;max-height: 300px; overflow: auto;">
 						<p:ajax event="expand" listener="#{treeView.onNodeExpand}" />
 						<p:ajax event="collapse" listener="#{treeView.onNodeCollapse}"
 							update="tree" />
@@ -49,6 +59,9 @@
 						value="Nature : #{elementController.theElement.nature.name}" />
 					<h:outputText
 						value="Crédits : #{elementController.theElement.credits}" />
+					<c:forEach var="item" items="#{elementController.theElement.sites}">
+						<h:outputText value="#{item.key.name} : #{item.value}" />
+					</c:forEach>
 					<h:outputText
 						value="Seuil CM : #{elementController.theElement.thresholdLM}" />
 					<h:outputText
@@ -56,10 +69,13 @@
 					<h:outputText
 						value="Seuil TP : #{elementController.theElement.thresholdPW}" />
 					<h:outputText
+						rendered="#{elementController.theElement.nature.code == 'UE'}"
 						value="Heures CM : #{elementController.theElement.hoursLM}" />
 					<h:outputText
+						rendered="#{elementController.theElement.nature.code == 'UE'}"
 						value="Heures TD : #{elementController.theElement.hoursTC}" />
 					<h:outputText
+						rendered="#{elementController.theElement.nature.code == 'UE'}"
 						value="Heures TP : #{elementController.theElement.hoursPW}" />
 				</p:panelGrid>
 			</div>
@@ -116,7 +132,8 @@
 						<p:column>
 							<p:inputText type="text"
 								value="#{elementController.theElement.code}" id="inputCode"
-								placeholder="Code" required="true" requiredMessage="Code requis" disabled="true"/>
+								placeholder="Code" required="true" requiredMessage="Code requis"
+								disabled="true" />
 						</p:column>
 						<p:column>
 							<p:message for="inputCode" display="both">
@@ -172,13 +189,13 @@
 				</p:panelGrid>
 				<p:panelGrid id="optional">
 					<p:row id="sites"
-						rendered="#{elementController.selectedNatureEqualAnnee}">
+						rendered="#{elementController.theElement.nature.code == 'AN'}">
 						<p:column>
 							<p:outputLabel value="Sites : " />
 						</p:column>
 						<p:column>
-							<p:repeat id="formSites" value="#{elementController.siteFields}"
-								var="siteField">
+							<p:repeat id="formSites"
+								value="#{elementController.siteFieldsEdit}" var="siteField">
 								<p:selectOneMenu value="#{siteField.siteCode}">
 									<f:selectItem itemLabel="Selection" itemValue="" />
 									<f:selectItems value="#{elementController.findAllSites()}"
@@ -187,13 +204,13 @@
 								<p:spinner value="siteField.effectif" />
 								<p:commandButton value="-"
 									rendered="#{elementController.siteFields.size() > 1}">
-									<p:ajax event="click" update="addElementForm:optional"
-										listener="#{elementController.onButtonRemoveFieldClick(siteField)}" />
+									<p:ajax event="click" update="editElementForm:optional"
+										listener="#{elementController.onButtonRemoveFieldClick(siteField, elementController.siteFieldsEdit)}" />
 								</p:commandButton>
 							</p:repeat>
 							<p:commandButton value="+">
-								<p:ajax event="click" update="addElementForm:optional"
-									listener="#{elementController.onButtonAddFieldClick}" />
+								<p:ajax event="click" update="editElementForm:optional"
+									listener="#{elementController.onButtonAddFieldClick(elementController.siteFieldsEdit)}" />
 							</p:commandButton>
 						</p:column>
 					</p:row>
@@ -269,8 +286,8 @@
 						<p:column>
 							<p:commandButton value="Accepter" icon="fa fa-check"
 								action="#{elementController.editElement(personController.user)}"
-								update="editElementForm treeForm :myElement" >
-								</p:commandButton>
+								update="editElementForm treeForm :myElement">
+							</p:commandButton>
 						</p:column>
 					</p:row>
 				</p:panelGrid>
@@ -407,12 +424,12 @@
 								<p:commandButton value="-"
 									rendered="#{elementController.siteFields.size() > 1}">
 									<p:ajax event="click" update="addElementForm:optional"
-										listener="#{elementController.onButtonRemoveFieldClick(siteField)}" />
+										listener="#{elementController.onButtonRemoveFieldClick(siteField, elementController.siteFields)}" />
 								</p:commandButton>
 							</p:repeat>
 							<p:commandButton value="+">
 								<p:ajax event="click" update="addElementForm:optional"
-									listener="#{elementController.onButtonAddFieldClick}" />
+									listener="#{elementController.onButtonAddFieldClick(elementController.siteFields)}" />
 							</p:commandButton>
 						</p:column>
 					</p:row>
