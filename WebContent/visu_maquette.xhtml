@@ -28,22 +28,22 @@
 				<p:commandButton id="remove" value="Supprimer élément"
 					rendered="#{elementController.isResponsible(personController.user)}"
 					action="#{elementController.removeElement(personController.user)}"
-					disabled="#{theElement.nature.code == 'FR'}">
+					disabled="#{elementController.theElement.nature.code == 'FR'}">
 				</p:commandButton>
 			</div>
 		</div>
 		<div class="ui-g">
-			<div class="ui-g-6">
+			<div class="ui-g-8">
 				<h:form id="treeForm">
 					<h3 style="margin-top: 0">Éléments</h3>
 					<p:tree id="tree" value="#{treeView.root}" var="element"
 						dynamic="true" selectionMode="single"
 						selection="#{treeView.selectedElement}"
-						style="width: 70%;max-height: 300px; overflow: auto;">
+						style="width: 100%;max-height: 300px; overflow: auto;">
 						<p:ajax event="expand" listener="#{treeView.onNodeExpand}" />
 						<p:ajax event="collapse" listener="#{treeView.onNodeCollapse}"
 							update="tree" />
-						<p:ajax event="select" update=":myElement editElementForm"
+						<p:ajax event="select" update=":myElement editElementForm remove"
 							listener="#{treeView.onNodeSelect}" />
 						<p:treeNode>
 							<h:outputText value="#{element.getLongName()}" />
@@ -51,7 +51,7 @@
 					</p:tree>
 				</h:form>
 			</div>
-			<div class="ui-g-6">
+			<div class="ui-g-4">
 				<p:panelGrid id="myElement" columns="1" layout="grid">
 					<h:outputText value="Code : #{elementController.theElement.code}" />
 					<h:outputText value="Nom : #{elementController.theElement.name}" />

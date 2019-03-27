@@ -1,6 +1,7 @@
 package decofo.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,7 +9,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.event.AjaxBehaviorEvent;
 
 import org.primefaces.PrimeFaces;
 
@@ -93,13 +93,14 @@ public class ElementController {
     public void createElement(Person user) {
 	newElement.setModel(modelController.getTheModel());
 	newElement.setNature(natureManager.findNature(selectedNature));
+	newElement.setSites(new HashMap<Site, Integer>());
 	if (selectedNature.equals("AN")) {
 	    for (SiteField field : siteFields) {
 		System.out.println("Sites : " + field.getSiteCode() + " " + field.getEffectif());
 		newElement.getSites().put(siteManager.findSite(field.getSiteCode()), field.getEffectif());
 	    }
 	}
-
+	System.out.println("Les sites : " + newElement.getSites());
 	for (String father : codesFathers) {
 	    newElement.getFathers().add(elementManager.findElementWithChildren(father));
 	}
@@ -124,6 +125,7 @@ public class ElementController {
 
     public void editElement(Person user) {
 	System.out.println("theElement : " + theElement);
+	theElement.setSites(new HashMap<Site, Integer>());
 	if (theElement.getNature().getCode().equals("AN")) {
 	    for (SiteField field : siteFieldsEdit) {
 		theElement.getSites().put(siteManager.findSite(field.getSiteCode()), field.getEffectif());

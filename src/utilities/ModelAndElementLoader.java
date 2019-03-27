@@ -2,7 +2,9 @@ package utilities;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.DependsOn;
@@ -45,9 +47,11 @@ public class ModelAndElementLoader {
 
 	@PostConstruct
 	private void lunch() {
-		/*List<Model> allModels = mm.findAllModel();
-		if (allModels == null)*/
-			readXML("/un-exemple-de-fichier.xml");
+		/*
+		 * List<Model> allModels = mm.findAllModel(); if (allModels == null)
+		 */
+		readXML("/un-exemple-de-fichier.xml");
+		readXML("/master_info.xml");
 	}
 
 	public void readXML(String file) {
@@ -68,6 +72,7 @@ public class ModelAndElementLoader {
 
 			Person person = pm.findPersonByLogin("g13017841");
 			Model model = null;
+			Set<CodesFatherChild> setOfLinkFatherChild = new HashSet<>();
 			for (Node node = iterator.nextNode(); node != null; node = iterator.nextNode()) {
 				Model m = model;
 				if (node.getNodeName().equals("mention")) {
@@ -158,12 +163,18 @@ public class ModelAndElementLoader {
 							}
 						}
 					}
-					Element fatherElement = em.findElement(codeFather);
-					Element childElement = em.findElement(codeChild);
+					CodesFatherChild codesFatherChild = new CodesFatherChild(codeFather, codeChild);
+					setOfLinkFatherChild.add(codesFatherChild);
+				}
 
+			}
+
+			for (CodesFatherChild object : setOfLinkFatherChild) {
+				Element fatherElement = em.findElement(object.getCodeFather());
+				Element childElement = em.findElement(object.getCodeChild());
+				if (fatherElement != null && childElement != null) {
 					fatherElement.getChildren().add(childElement);
 					em.updateElement(fatherElement, person);
-
 				}
 			}
 

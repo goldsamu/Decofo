@@ -8,4 +8,12 @@
 		<code>S2</code>
 		<name>Saint Charles</name>
 	</site>
+	<site>
+		<code>S3</code>
+		<name>Aix-Montperrin</name>
+	</site>
+	<site>
+		<code>S4</code>
+		<name>Luminy</name>
+	</site>
 </sites>

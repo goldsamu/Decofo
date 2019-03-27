@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -59,7 +60,7 @@ public class Element implements Serializable {
     @JoinTable(name = "father_child", joinColumns = {
 	    @JoinColumn(name = "father", referencedColumnName = "code") }, inverseJoinColumns = {
 		    @JoinColumn(name = "child", referencedColumnName = "code") })
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private List<Element> children;
 
     @ManyToMany(mappedBy = "children", fetch = FetchType.LAZY)

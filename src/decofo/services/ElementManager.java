@@ -24,8 +24,12 @@ public class ElementManager {
     private NatureManager nm;
 
     public Element createElement(Element e, Person user) {
-	if (isResponsible(e.getModel(), user))
+	if (isResponsible(e.getModel(), user)) {
 	    em.persist(e);
+	    Model m = em.find(Model.class, e.getModel().getCode());
+	    m.getElements().add(e);
+	    em.merge(m);
+	}
 	return e;
     }
 
@@ -96,6 +100,8 @@ public class ElementManager {
     public void removeElement(Element e, Person user) {
 	if (isResponsible(e.getModel(), user)) {
 	    Element element = em.find(Element.class, e.getCode());
+	    element.getModel().getElements().remove(element);
+	    em.merge(element.getModel());
 	    em.remove(element);
 	}
     }

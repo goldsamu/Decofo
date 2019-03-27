@@ -33,7 +33,6 @@ public class ModelController {
     private Model theModel;
     private List<String> responsibles;
     private List<String> responsiblesEdit;
-    private List<Model> models;
     private boolean myModels;
 
     @PostConstruct
@@ -42,16 +41,11 @@ public class ModelController {
 	theModel = new Model();
 	responsibles = new ArrayList<String>();
 	responsiblesEdit = new ArrayList<String>();
-	this.models = modelmanager.findAllModel();
 	System.out.println("Create " + this);
     }
 
     public List<Model> getModels() {
-	return models;
-    }
-
-    public void setModels(List<Model> models) {
-	this.models = models;
+	return modelmanager.findAllModel();
     }
 
     public Model getNewModel() {
@@ -81,7 +75,6 @@ public class ModelController {
 	    newModel.getResponsibles().add(p);
 	}
 	modelmanager.createModel(newModel, user);
-	models = modelmanager.findAllModel();
 	newModel = new Model();
 	responsibles = new ArrayList<String>();
 	PrimeFaces.current().executeScript("PF('addModelDialog').hide();");
